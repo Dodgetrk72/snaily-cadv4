@@ -1,18 +1,20 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import { useAuth } from "context/AuthContext";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { classNames } from "lib/classNames";
-import { CitizenDropdown } from "./dropdowns/CitizenDropdown";
-import { OfficerDropdown } from "./dropdowns/OfficerDropdown";
+import { CitizenDropdown } from "./dropdowns/citizen-dropdown";
+import { OfficerDropdown } from "./dropdowns/officer-dropdown";
 import { EmsFdDropdown } from "./dropdowns/ems-fd-dropdown";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
-import { TowDropdown } from "./dropdowns/TowDropdown";
-import { DispatchDropdown } from "./dropdowns/DispatchDropdown";
+import { TowDropdown } from "./dropdowns/tow-dropdown";
+import { DispatchDropdown } from "./dropdowns/dispatch-dropdown";
 import { useTranslations } from "next-intl";
 import { useImageUrl } from "hooks/useImageUrl";
 import { useViewport } from "@casper124578/useful/hooks/useViewport";
-import { AccountDropdown } from "./dropdowns/AccountDropdown";
+import { AccountDropdown } from "./dropdowns/account-dropdown";
 import Head from "next/head";
 import { usePermission } from "hooks/usePermission";
 import { defaultPermissions, Permissions } from "@snailycad/permissions";
@@ -28,9 +30,10 @@ export function Nav({ maxWidth }: Props) {
 
   const { user, cad } = useAuth();
   const { TOW, COURTHOUSE } = useFeatureEnabled();
-  const router = useRouter();
+  const pathname = usePathname();
+
   const t = useTranslations("Nav");
-  const isActive = (route: string) => router.pathname.startsWith(route);
+  const isActive = (route: string) => pathname?.startsWith(route);
   const { hasPermissions } = usePermission();
 
   const { makeImageUrl } = useImageUrl();
@@ -39,7 +42,7 @@ export function Nav({ maxWidth }: Props) {
 
   React.useEffect(() => {
     setMenuOpen(false);
-  }, [router.asPath]);
+  }, [pathname]);
 
   React.useEffect(() => {
     if (viewport > 900) {

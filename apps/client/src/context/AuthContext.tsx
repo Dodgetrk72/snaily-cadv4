@@ -1,5 +1,7 @@
+"use client";
+
 import * as React from "react";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { type cad as CAD, type User, WhitelistStatus } from "@snailycad/types";
 import { useIsRouteFeatureEnabled } from "../hooks/auth/useIsRouteFeatureEnabled";
 import { useListener } from "@casper124578/use-socket.io";
@@ -41,6 +43,7 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
     initialData.cad ?? initialData.session?.cad ?? null,
   );
 
+  const pathname = usePathname();
   const router = useRouter();
   const isEnabled = useIsRouteFeatureEnabled(cad ?? {});
 
@@ -54,7 +57,8 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
 
     if (
       user?.whitelistStatus === WhitelistStatus.PENDING &&
-      !NO_LOADING_ROUTES.includes(router.pathname)
+      pathname &&
+      !NO_LOADING_ROUTES.includes(pathname)
     ) {
       router.push("/auth/pending");
 
@@ -62,30 +66,31 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
       return;
     }
 
-    if (!user && !NO_LOADING_ROUTES.includes(router.pathname)) {
-      const from = router.asPath;
+    if (!user && pathname && !NO_LOADING_ROUTES.includes(pathname)) {
+      const from = pathname;
       router.push(`/auth/login?from=${from}`);
     }
 
     const isForceAccountPassword =
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       (cad?.features?.FORCE_ACCOUNT_PASSWORD ?? false) && !user?.hasPassword;
-    if (user && !NO_LOADING_ROUTES.includes(router.pathname) && isForceAccountPassword) {
-      const from = router.asPath;
+    if (user && pathname && !NO_LOADING_ROUTES.includes(pathname) && isForceAccountPassword) {
+      const from = pathname;
       router.push(`/auth/account-password?from=${from}`);
     }
 
     if (
       user &&
-      !NO_LOADING_ROUTES.includes(router.pathname) &&
+      pathname &&
+      !NO_LOADING_ROUTES.includes(pathname) &&
       !doesUserHaveAllRequiredConnections({ user, features: cad?.features })
     ) {
-      const from = router.asPath;
+      const from = pathname;
       router.push(`/auth/connections?from=${from}`);
     }
 
     setUser(user);
-  }, [router, cad]);
+  }, [pathname, router, cad]);
 
   React.useEffect(() => {
     const savedDarkTheme = initialData.userSavedIsDarkTheme
@@ -130,7 +135,7 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
 
   const value = { user, cad, setCad, setUser };
 
-  if (!NO_LOADING_ROUTES.includes(router.pathname) && !user) {
+  if (pathname && !NO_LOADING_ROUTES.includes(pathname) && !user) {
     return (
       <div id="unauthorized" className="fixed inset-0 grid bg-transparent place-items-center">
         <span aria-label="loading...">{/* <Loader className="w-14 h-14 border-[3px]" /> */}</span>

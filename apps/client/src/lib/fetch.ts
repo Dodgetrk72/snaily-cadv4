@@ -8,7 +8,7 @@ export type RequestData = Record<string, unknown>;
 
 interface Options extends Omit<AxiosRequestConfig, "headers"> {
   headers?: any;
-  req?: IncomingMessage & { cookies?: NextApiRequestCookies };
+  req?: Partial<IncomingMessage> & { cookies?: NextApiRequestCookies };
   method?: Method | string;
   data?: RequestData;
   isSsr?: boolean;
@@ -25,7 +25,7 @@ export async function handleRequest<T = any>(
   const isDispatchUrl = ["/dispatch", "/dispatch/map"].includes(
     String(location?.pathname ?? req?.url),
   );
-  const parsedCookie = req?.headers.cookie;
+  const parsedCookie = req?.headers?.cookie;
 
   let contentType = options?.headers?.["content-type"] ?? "application/json";
   const formData = data as unknown as FormData | undefined;

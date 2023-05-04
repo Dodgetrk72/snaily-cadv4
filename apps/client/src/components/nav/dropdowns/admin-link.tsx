@@ -1,13 +1,15 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { classNames } from "lib/classNames";
 import useFetch from "lib/useFetch";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "use-intl";
 
 export function AdminLink() {
   const { execute } = useFetch();
-  const { pathname } = useRouter();
+  const pathname = usePathname();
   const t = useTranslations("Nav");
 
   const { data, isLoading } = useQuery({

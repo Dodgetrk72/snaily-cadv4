@@ -1,8 +1,10 @@
+"use client";
+
 import * as React from "react";
 import { PersonCircle } from "react-bootstrap-icons";
 import { logout } from "lib/auth";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useAuth } from "context/AuthContext";
 import { classNames } from "lib/classNames";
 import { Dropdown } from "components/Dropdown";
@@ -78,6 +80,7 @@ export function AccountDropdown() {
         ) : null}
       </Dropdown>
 
+      {/* @ts-expect-error this is a React type bug.  */}
       {cad?.version ? <ChangelogModal /> : null}
     </>
   );

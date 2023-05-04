@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { usePathname } from "next/navigation";
 import { ChevronDown } from "react-bootstrap-icons";
 import { useTranslations } from "next-intl";
 import { Dropdown } from "components/Dropdown";
@@ -7,9 +9,9 @@ import { classNames } from "lib/classNames";
 import { usePermission, Permissions } from "hooks/usePermission";
 
 export function TowDropdown() {
-  const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations("Nav");
-  const isActive = (route: string) => router.pathname.startsWith(route);
+  const isActive = (route: string) => pathname?.startsWith(route);
   const { hasPermissions } = usePermission();
 
   return (

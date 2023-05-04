@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import type { cad as CAD, Feature } from "@snailycad/types";
 
 const featuresRoute: Partial<Record<Feature, string>> = {
@@ -14,7 +14,7 @@ const featuresRoute: Partial<Record<Feature, string>> = {
 
 export function useIsRouteFeatureEnabled(cad: Partial<Pick<CAD, "features">>) {
   const [isEnabled, setIsEnabled] = React.useState(true);
-  const router = useRouter();
+  const pathname = usePathname();
 
   const checkEnabled = React.useCallback(() => {
     const features = cad.features;
@@ -25,7 +25,7 @@ export function useIsRouteFeatureEnabled(cad: Partial<Pick<CAD, "features">>) {
 
       const route = key in featuresRoute && featuresRoute[key as keyof typeof featuresRoute];
 
-      if (route && !feature && router.pathname.includes(route)) {
+      if (route && !feature && pathname && pathname.includes(route)) {
         isEnabled = false;
         break;
       } else {
@@ -34,11 +34,11 @@ export function useIsRouteFeatureEnabled(cad: Partial<Pick<CAD, "features">>) {
     }
 
     return isEnabled;
-  }, [cad.features, router.pathname]);
+  }, [cad.features, pathname]);
 
   React.useEffect(() => {
     setIsEnabled(checkEnabled());
-  }, [checkEnabled, router]);
+  }, [checkEnabled]);
 
   return isEnabled;
 }

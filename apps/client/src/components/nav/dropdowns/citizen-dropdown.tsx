@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { ChevronDown } from "react-bootstrap-icons";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import type { Feature } from "@snailycad/types";
@@ -11,8 +11,8 @@ import { usePermission, Permissions } from "hooks/usePermission";
 
 export function CitizenDropdown() {
   const enabled = useFeatureEnabled();
-  const router = useRouter();
-  const isActive = (route: string) => router.pathname.startsWith(route);
+  const pathname = usePathname();
+  const isActive = (route: string) => pathname?.startsWith(route);
   const t = useTranslations("Nav");
   const { user } = useAuth();
   const { hasPermissions } = usePermission();
