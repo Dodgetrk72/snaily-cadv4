@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { FormField } from "components/form/FormField";

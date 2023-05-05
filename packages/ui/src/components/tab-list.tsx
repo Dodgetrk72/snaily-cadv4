@@ -1,5 +1,7 @@
 import * as React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
+import Link from "next/link";
+import { useLocale } from "next-intl";
 
 interface TabListStore {
   upsertTabTitle(value: string, name?: string): void;
@@ -18,22 +20,26 @@ function useTabList() {
 interface Tab {
   value: string;
   name: string;
+  href?: string;
 }
 
 interface Props<Tabs extends Tab[]> {
   tabs: Tabs;
   defaultValue?: Tabs[number]["value"];
   children: React.ReactNode;
+  activeTab?: Tabs[number]["value"];
   onValueChange?(value: string): void;
 }
 
 export function TabList<Tabs extends Tab[]>({
   children,
   tabs,
-  defaultValue = tabs[0]?.value,
+  defaultValue,
   onValueChange,
+  activeTab,
 }: Props<Tabs>) {
   const [titles, setTitles] = React.useState<Record<string, string>>({});
+  const locale = useLocale();
 
   function upsertTabTitle(value: string, name?: string) {
     if (!name) return;
@@ -43,6 +49,7 @@ export function TabList<Tabs extends Tab[]>({
   return (
     <TabListContext.Provider value={{ upsertTabTitle }}>
       <Tabs.Root
+        value={activeTab}
         onValueChange={onValueChange}
         defaultValue={defaultValue}
         className="w-full px-2 sm:px-0"
@@ -50,6 +57,21 @@ export function TabList<Tabs extends Tab[]>({
         <Tabs.List className="relative flex p-1 pl-0 pb-0 gap-x-5 overflow-y-auto thin-scrollbar">
           {tabs.map((tab) => {
             const tabTitle = titles[tab.value] || tab.name;
+
+            if (tab.href) {
+              return (
+                <Tabs.Trigger value={tab.value} key={tab.value} asChild>
+                  <Link
+                    className={
+                      "z-20 tabs-list py-1.5 pb-2 border-b-2 border-transparent text-gray-800 dark:text-gray-200 transition-border duration-100 min-w-fit"
+                    }
+                    href={`/${locale}/${tab.href}`}
+                  >
+                    {tabTitle}
+                  </Link>
+                </Tabs.Trigger>
+              );
+            }
 
             return (
               <Tabs.Trigger

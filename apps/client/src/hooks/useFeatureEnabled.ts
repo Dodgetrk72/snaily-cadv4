@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Feature } from "@snailycad/types";
 import { useAuth } from "context/AuthContext";
