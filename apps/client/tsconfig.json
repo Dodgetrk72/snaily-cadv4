@@ -17,6 +17,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+      "~/*": ["./src/*"],
       "lib/*": ["./src/lib/*"],
       "styles/*": ["./src/styles/*"],
       "components/*": ["./src/components/*"],

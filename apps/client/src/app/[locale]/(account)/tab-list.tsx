@@ -24,20 +24,19 @@ export function AccountTabList(props: AccountTabListProps) {
     { name: t("accountInfo"), value: "accountInfo", href: "/account" },
     { name: t("accountSettings"), value: "accountSettings", href: "/account/settings" },
     { name: t("appearanceSettings"), value: "appearanceSettings", href: "/account/appearance" },
-  ];
-
-  if (showConnectionsTab) {
-    TABS_TITLES[3] = { name: t("connections"), value: "connections", href: "/account/connections" };
-  }
-
-  if (USER_API_TOKENS && hasApiTokenPermissions) {
-    const idx = showConnectionsTab ? 4 : 3;
-    TABS_TITLES[idx] = {
+    {
+      name: t("connections"),
+      value: "connections",
+      href: "/account/connections",
+      isHidden: !showConnectionsTab,
+    },
+    {
       href: "/account/api-token",
       name: t("userApiToken"),
       value: "userApiToken",
-    };
-  }
+      isHidden: !USER_API_TOKENS || !hasApiTokenPermissions,
+    },
+  ];
 
   const activeTab = TABS_TITLES.findLast((v) => pathname?.endsWith(v.href));
 

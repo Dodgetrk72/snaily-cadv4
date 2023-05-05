@@ -157,7 +157,7 @@ export function LoginForm({ onFormSubmitted, isWithinModal }: Props) {
                     label="Password"
                     value={values.password}
                     onChange={(value) => setFieldValue("password", value)}
-                    autoComplete="current-password"
+                    autoComplete="given-password"
                   />
 
                   <Button

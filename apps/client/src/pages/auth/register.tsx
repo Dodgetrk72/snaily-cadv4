@@ -138,6 +138,7 @@ function Register({ cad }: Props) {
                 label={t("Auth.username")}
                 name="username"
                 onChange={(value) => setFieldValue("username", value)}
+                autoComplete="username"
               />
 
               <TextField
@@ -146,6 +147,7 @@ function Register({ cad }: Props) {
                 label={t("Auth.password")}
                 name="password"
                 onChange={(value) => setFieldValue("password", value)}
+                autoComplete="new-password"
               />
 
               <TextField
@@ -154,6 +156,7 @@ function Register({ cad }: Props) {
                 label={t("Auth.confirmPassword")}
                 name="confirmPassword"
                 onChange={(value) => setFieldValue("confirmPassword", value)}
+                autoComplete="new-password"
               />
 
               {cad.registrationCode ? (

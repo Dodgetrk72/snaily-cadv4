@@ -8,8 +8,9 @@ import { ErrorBoundary } from "@sentry/nextjs";
 import { ValuesProvider } from "context/ValuesContext";
 import { SSRProvider } from "@react-aria/ssr";
 
-// only load in client
+// todo: only load in client
 import { Toaster } from "react-hot-toast";
+import { SocketProvider } from "@casper124578/use-socket.io";
 
 export function Providers({ messages, children, user }: any) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -19,16 +20,19 @@ export function Providers({ messages, children, user }: any) {
       <ValuesProvider initialData={{ values: [] }}>
         <ErrorBoundary fallback={<p>An error occurred.</p>}>
           <QueryClientProvider client={queryClient}>
-            <NextIntlClientProvider
-              now={new Date()}
-              onError={console.warn}
-              messages={messages}
-              locale={user?.locale ?? "en"}
-            >
-              <Toaster position="top-right" />
+            {/* todo: API url */}
+            <SocketProvider uri="http://localhost:8080">
+              <NextIntlClientProvider
+                now={new Date()}
+                onError={console.warn}
+                messages={messages}
+                locale={user?.locale ?? "en"}
+              >
+                <Toaster position="top-right" />
 
-              <AuthProvider initialData={{ session: user }}>{children}</AuthProvider>
-            </NextIntlClientProvider>
+                <AuthProvider initialData={{ session: user }}>{children}</AuthProvider>
+              </NextIntlClientProvider>
+            </SocketProvider>
           </QueryClientProvider>
         </ErrorBoundary>
       </ValuesProvider>

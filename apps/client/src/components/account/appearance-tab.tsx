@@ -102,53 +102,55 @@ export function AppearanceTab({ availableSounds }: Props) {
         <Formik onSubmit={onSubmit} initialValues={INITIAL_VALUES}>
           {({ handleChange, setFieldValue, values, errors }) => (
             <Form className="mt-3">
-              <SwitchField
-                isSelected={values.developerMode}
-                onChange={(isSelected) => setFieldValue("developerMode", isSelected)}
-              >
-                {t("developerMode")}
-              </SwitchField>
+              <section className="mb-7">
+                <SwitchField
+                  isSelected={values.developerMode}
+                  onChange={(isSelected) => setFieldValue("developerMode", isSelected)}
+                >
+                  {t("developerMode")}
+                </SwitchField>
 
-              <SwitchField
-                isSelected={values.isDarkTheme}
-                onChange={(isSelected) => setFieldValue("isDarkTheme", isSelected)}
-              >
-                {t("darkTheme")}
-              </SwitchField>
+                <SwitchField
+                  isSelected={values.isDarkTheme}
+                  onChange={(isSelected) => setFieldValue("isDarkTheme", isSelected)}
+                >
+                  {t("darkTheme")}
+                </SwitchField>
 
-              <SelectField
-                errorMessage={errors.locale}
-                selectedKey={values.locale}
-                onSelectionChange={(value) => setFieldValue("locale", value)}
-                label={t("locale")}
-                options={availableLanguages.map((v) => ({ value: v, label: v }))}
-              />
+                <SelectField
+                  errorMessage={errors.locale}
+                  selectedKey={values.locale}
+                  onSelectionChange={(value) => setFieldValue("locale", value)}
+                  label={t("locale")}
+                  options={availableLanguages.map((v) => ({ value: v, label: v }))}
+                />
 
-              <SelectField
-                errorMessage={errors.statusViewMode}
-                label={t("statusView")}
-                options={Object.values(StatusViewMode).map((v) => ({
-                  value: v,
-                  label: STATUS_VIEW_MODE_LABELS[v],
-                }))}
-                selectedKey={values.statusViewMode}
-                onSelectionChange={(value) => setFieldValue("statusViewMode", value)}
-                name="statusViewMode"
-              />
+                <SelectField
+                  errorMessage={errors.statusViewMode}
+                  label={t("statusView")}
+                  options={Object.values(StatusViewMode).map((v) => ({
+                    value: v,
+                    label: STATUS_VIEW_MODE_LABELS[v],
+                  }))}
+                  selectedKey={values.statusViewMode}
+                  onSelectionChange={(value) => setFieldValue("statusViewMode", value)}
+                  name="statusViewMode"
+                />
 
-              <SelectField
-                errorMessage={errors.tableActionsAlignment}
-                label={t("tableAlignment")}
-                options={Object.values(TableActionsAlignment).map((v) => ({
-                  value: v,
-                  label: TABLE_ALIGNMENT_LABELS[v],
-                }))}
-                selectedKey={values.tableActionsAlignment}
-                onSelectionChange={(value) => setFieldValue("tableActionsAlignment", value)}
-                name="tableActionsAlignment"
-              />
+                <SelectField
+                  errorMessage={errors.tableActionsAlignment}
+                  label={t("tableAlignment")}
+                  options={Object.values(TableActionsAlignment).map((v) => ({
+                    value: v,
+                    label: TABLE_ALIGNMENT_LABELS[v],
+                  }))}
+                  selectedKey={values.tableActionsAlignment}
+                  onSelectionChange={(value) => setFieldValue("tableActionsAlignment", value)}
+                  name="tableActionsAlignment"
+                />
+              </section>
 
-              <div className="mb-5">
+              <section className="mb-7">
                 <h2 className="text-2xl font-semibold mb-3">{t("sounds")}</h2>
 
                 {voices ? (
@@ -177,7 +179,7 @@ export function AppearanceTab({ availableSounds }: Props) {
                   </section>
                 ) : null}
 
-                <section>
+                <section className="mb-7">
                   <h3 className="text-xl font-semibold mb-3">{t("otherSounds")}</h3>
 
                   {availableSoundsArr.map((_name) => {
@@ -251,7 +253,7 @@ export function AppearanceTab({ availableSounds }: Props) {
                     </Accordion.Root>
                   )}
                 </section>
-              </div>
+              </section>
 
               <Button
                 className="flex items-center gap-2"

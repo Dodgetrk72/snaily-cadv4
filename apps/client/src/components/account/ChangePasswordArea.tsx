@@ -53,6 +53,7 @@ export function ChangePasswordArea() {
               onChange={(value) => setFieldValue("currentPassword", value)}
               errorMessage={errors.currentPassword}
               label={t("currentPassword")}
+              autoComplete="current-password"
             />
 
             <TextField
@@ -60,6 +61,7 @@ export function ChangePasswordArea() {
               name="newPassword"
               value={values.newPassword}
               onChange={(value) => setFieldValue("newPassword", value)}
+              autoComplete="new-password"
               errorMessage={errors.newPassword}
               label={t("newPassword")}
             />
@@ -69,6 +71,7 @@ export function ChangePasswordArea() {
               name="confirmPassword"
               value={values.confirmPassword}
               onChange={(value) => setFieldValue("confirmPassword", value)}
+              autoComplete="new-password"
               errorMessage={errors.confirmPassword}
               label={t("confirmNewPassword")}
             />

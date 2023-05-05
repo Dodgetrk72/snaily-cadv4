@@ -1,21 +1,18 @@
-import { useRouter } from "next/router";
-import { useTranslations } from "use-intl";
-import { Layout } from "components/Layout";
-import useFetch from "lib/useFetch";
-import type { GetServerSideProps } from "next";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { ManageCitizenForm } from "components/citizen/ManageCitizenForm";
-import type { SelectValue } from "components/form/Select";
-import type { PostCitizenImageByIdData, PostCitizensData } from "@snailycad/types/api";
-import { BreadcrumbItem, Breadcrumbs } from "@snailycad/ui";
+"use client";
 
-export default function CreateCitizen() {
+import { PostCitizenImageByIdData, PostCitizensData } from "@snailycad/types/api";
+import { BreadcrumbItem, Breadcrumbs } from "@snailycad/ui";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "use-intl";
+import { ManageCitizenForm } from "~/components/citizen/ManageCitizenForm";
+import { SelectValue } from "~/components/form/Select";
+import { Title } from "~/components/shared/Title";
+import useFetch from "~/lib/useFetch";
+
+export function InnerCreateCitizenPage() {
+  const t = useTranslations("Citizen");
   const { state, execute } = useFetch();
   const router = useRouter();
-  const t = useTranslations("Citizen");
 
   async function onSubmit({
     formData,
@@ -71,7 +68,7 @@ export default function CreateCitizen() {
   }
 
   return (
-    <Layout className="dark:text-white">
+    <>
       <Breadcrumbs>
         <BreadcrumbItem href="/citizen">{t("citizen")}</BreadcrumbItem>
         <BreadcrumbItem>{t("createCitizen")}</BreadcrumbItem>
@@ -90,23 +87,6 @@ export default function CreateCitizen() {
           "previous-records": true,
         }}
       />
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [values] = await requestAll(req, [
-    ["/admin/values/gender?paths=ethnicity,license,driverslicense_category", []],
-  ]);
-
-  return {
-    props: {
-      values,
-      session: user,
-      messages: {
-        ...(await getTranslations(["citizen", "leo", "ems-fd", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};

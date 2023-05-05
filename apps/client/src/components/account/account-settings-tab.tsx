@@ -54,6 +54,7 @@ export function AccountSettingsTab() {
               defaultValue={values.username}
               name="username"
               onChange={(value) => setFieldValue("username", value)}
+              autoComplete="username"
             />
 
             <div className="flex items-center gap-2">

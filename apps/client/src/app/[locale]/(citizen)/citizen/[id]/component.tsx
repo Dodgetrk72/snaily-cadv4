@@ -1,43 +1,41 @@
+"use client";
+
 import * as React from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "use-intl";
 import { PersonFill, ThreeDots } from "react-bootstrap-icons";
-import type { GetServerSideProps } from "next";
-import { getSessionUser } from "lib/auth";
-import { Layout } from "components/Layout";
-import { useModal } from "state/modalState";
+import { useModal } from "~/state/modalState";
 import { BreadcrumbItem, Breadcrumbs, Button } from "@snailycad/ui";
-import useFetch from "lib/useFetch";
-import { getTranslations } from "lib/getTranslation";
-import { VehiclesCard } from "components/citizen/vehicles/vehicles-card";
-import { LicensesCard } from "components/citizen/licenses/LicensesCard";
+import useFetch from "~/lib/useFetch";
+import { VehiclesCard } from "~/components/citizen/vehicles/vehicles-card";
+import { LicensesCard } from "~/components/citizen/licenses/LicensesCard";
 import { MedicalRecords } from "components/citizen/medical-records/medical-records";
-import { calculateAge, formatCitizenAddress, requestAll } from "lib/utils";
+import { calculateAge, formatCitizenAddress } from "~/lib/utils";
 import { useCitizen } from "context/CitizenContext";
 import dynamic from "next/dynamic";
-import { useImageUrl } from "hooks/useImageUrl";
-import { useAuth } from "context/AuthContext";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
-import { Infofield } from "components/shared/Infofield";
-import { Title } from "components/shared/Title";
+import { useImageUrl } from "~/hooks/useImageUrl";
+import { useAuth } from "~/context/AuthContext";
+import { useFeatureEnabled } from "~/hooks/useFeatureEnabled";
+import { Infofield } from "~/components/shared/Infofield";
+import { Title } from "~/components/shared/Title";
 import { ModalIds } from "types/ModalIds";
-import { FullDate } from "components/shared/FullDate";
+import { FullDate } from "~/components/shared/FullDate";
 import type { DeleteCitizenByIdData } from "@snailycad/types/api";
-import { Dropdown } from "components/Dropdown";
-import { ImageWrapper } from "components/shared/image-wrapper";
-import { useLoadValuesClientSide } from "hooks/useLoadValuesClientSide";
+import { Dropdown } from "~/components/Dropdown";
+import { ImageWrapper } from "~/components/shared/image-wrapper";
+import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
 import { ValueType } from "@snailycad/types";
-import { CitizenRecordsCard } from "components/citizen/records/citizen-records-card";
+import { CitizenRecordsCard } from "~/components/citizen/records/citizen-records-card";
 
-const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal);
+const AlertModal = dynamic(async () => (await import("~/components/modal/AlertModal")).AlertModal);
 const CitizenImageModal = dynamic(
-  async () => (await import("components/citizen/modals/CitizenImageModal")).CitizenImageModal,
+  async () => (await import("~/components/citizen/modals/CitizenImageModal")).CitizenImageModal,
 );
 const WeaponsCard = dynamic(
-  async () => (await import("components/citizen/weapons/weapons-card")).WeaponsCard,
+  async () => (await import("~/components/citizen/weapons/weapons-card")).WeaponsCard,
 );
 
-export default function CitizenId() {
+export function InnerUserCitizenPage() {
   useLoadValuesClientSide({
     valueTypes: [ValueType.LICENSE, ValueType.DRIVERSLICENSE_CATEGORY, ValueType.BLOOD_GROUP],
   });
@@ -47,7 +45,7 @@ export default function CitizenId() {
   const t = useTranslations("Citizen");
   const common = useTranslations("Common");
   const router = useRouter();
-  const { citizen, setCurrentCitizen } = useCitizen();
+  const { citizen, setCurrentCitizen } = useCitizen(false);
   const { makeImageUrl } = useImageUrl();
   const { cad } = useAuth();
   const { SOCIAL_SECURITY_NUMBERS, WEAPON_REGISTRATION, ALLOW_CITIZEN_DELETION_BY_NON_ADMIN } =
@@ -79,24 +77,8 @@ export default function CitizenId() {
     }
   }
 
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!citizen?.id) {
-        router.push("/404");
-      }
-    }, 100);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [router, citizen]);
-
-  if (!citizen) {
-    return null;
-  }
-
   return (
-    <Layout className="dark:text-white">
+    <>
       <Breadcrumbs>
         <BreadcrumbItem href="/citizen">{t("citizen")}</BreadcrumbItem>
         <BreadcrumbItem>
@@ -254,6 +236,7 @@ export default function CitizenId() {
             title={t("deleteCitizen")}
             description={t.rich("alert_deleteCitizen", {
               citizen: `${citizen.name} ${citizen.surname}`,
+              span: (children) => <span className="font-semibold">{children}</span>,
             })}
             id={ModalIds.AlertDeleteCitizen}
             state={state}
@@ -266,6 +249,7 @@ export default function CitizenId() {
               title={t("markCitizenDeceased")}
               description={t.rich("alert_markCitizenDeceased", {
                 citizen: `${citizen.name} ${citizen.surname}`,
+                span: (children) => <span className="font-semibold">{children}</span>,
               })}
               id={ModalIds.AlertMarkDeceased}
               state={state}
@@ -273,21 +257,6 @@ export default function CitizenId() {
           ) : null}
         </>
       ) : null}
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ locale, query, req }) => {
-  const user = await getSessionUser(req);
-  const [data] = await requestAll(req, [[`/citizen/${query.id}`, null]]);
-
-  return {
-    props: {
-      session: user,
-      citizen: data,
-      messages: {
-        ...(await getTranslations(["citizen", "leo", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};

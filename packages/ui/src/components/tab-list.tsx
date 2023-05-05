@@ -21,6 +21,7 @@ interface Tab {
   value: string;
   name: string;
   href?: string;
+  isHidden?: boolean;
 }
 
 interface Props<Tabs extends Tab[]> {
@@ -42,6 +43,10 @@ export function TabList<Tabs extends Tab[]>({
   const locale = useLocale();
   const _defaultValue = activeTab ? undefined : defaultValue ?? tabs[0]?.value;
 
+  const visibleTabs = React.useMemo(() => {
+    return tabs.filter((tab) => !tab.isHidden);
+  }, [tabs]);
+
   function upsertTabTitle(value: string, name?: string) {
     if (!name) return;
     setTitles((prev) => ({ ...prev, [value]: name }));
@@ -56,7 +61,7 @@ export function TabList<Tabs extends Tab[]>({
         className="w-full px-2 sm:px-0"
       >
         <Tabs.List className="relative flex p-1 pl-0 pb-0 gap-x-5 overflow-y-auto thin-scrollbar">
-          {tabs.map((tab) => {
+          {visibleTabs.map((tab) => {
             const tabTitle = titles[tab.value] || tab.name;
 
             if (tab.href) {

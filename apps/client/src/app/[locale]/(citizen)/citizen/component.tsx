@@ -11,7 +11,7 @@ import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import Link from "next/link";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
-import { useTranslations } from "use-intl";
+import { useLocale, useTranslations } from "use-intl";
 import dynamic from "next/dynamic";
 
 interface UserCitizensPageProps {
@@ -48,6 +48,7 @@ export function UserCitizensPageInner(props: UserCitizensPageProps) {
   const signal100 = useSignal100();
   const areaOfPlay = useAreaOfPlay();
   const { SIGNAL_100_CITIZEN, TOW, TAXI, WEAPON_REGISTRATION, CALLS_911 } = useFeatureEnabled();
+  const locale = useLocale();
 
   return (
     <>
@@ -63,6 +64,7 @@ export function UserCitizensPageInner(props: UserCitizensPageProps) {
       <ul className="grid grid-cols-1 gap-2 mb-3 sm:grid-cols-2 md:grid-cols-3">
         <li>
           <Link
+            locale={locale}
             href="/citizen/create"
             className={`rounded-md transition-all p-1 px-4 ${buttonVariants.default} block w-full`}
           >
