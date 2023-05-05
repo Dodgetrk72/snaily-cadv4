@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import type { Citizen, MedicalRecord, Record, RegisteredVehicle, Weapon } from "@snailycad/types";
 
@@ -11,16 +13,13 @@ export type CitizenWithVehAndWep = Citizen & {
 interface Context<CitizenNull extends boolean = true> {
   citizen: CitizenNull extends true ? CitizenWithVehAndWep | null : CitizenWithVehAndWep;
   setCurrentCitizen: React.Dispatch<React.SetStateAction<CitizenWithVehAndWep | null>>;
-
-  citizens: Citizen[];
-  setCitizens: React.Dispatch<React.SetStateAction<Citizen[]>>;
 }
 
 const CitizenContext = React.createContext<Context | undefined>(undefined);
 
 interface ProviderProps {
   children: React.ReactNode;
-  initialData?: Partial<Pick<Context, "citizen" | "citizens">>;
+  initialData?: Partial<Pick<Context, "citizen">>;
 }
 
 export function CitizenProvider({ initialData, children }: ProviderProps) {
@@ -31,10 +30,6 @@ export function CitizenProvider({ initialData, children }: ProviderProps) {
 
   React.useEffect(() => {
     if (initialData) {
-      if (initialData.citizens) {
-        setCitizens(initialData.citizens);
-      }
-
       if (initialData.citizen) {
         setCurrentCitizen(initialData.citizen);
       } else {

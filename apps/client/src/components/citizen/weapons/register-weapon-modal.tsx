@@ -1,6 +1,6 @@
 import { useTranslations } from "use-intl";
 import { Form, Formik, FormikHelpers } from "formik";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { WEAPON_SCHEMA } from "@snailycad/schemas";
 import { FormField } from "components/form/FormField";
 import { Loader, Input, Button, Item, AsyncListSearchField, SwitchField } from "@snailycad/ui";
@@ -35,7 +35,7 @@ interface Props {
 export function RegisterWeaponModal({ weapon, onClose, onCreate, onUpdate }: Props) {
   const { state, execute } = useFetch();
   const { isOpen, closeModal } = useModal();
-  const { pathname } = useRouter();
+  const pathname = usePathname();
   const { CUSTOM_TEXTFIELD_VALUES } = useFeatureEnabled();
 
   const t = useTranslations("Citizen");
@@ -47,7 +47,7 @@ export function RegisterWeaponModal({ weapon, onClose, onCreate, onUpdate }: Pro
   const { weapon: weapons, license } = useValues();
   const validate = handleValidate(WEAPON_SCHEMA);
   const isDisabled = pathname === "/citizen/[id]";
-  const isLeo = pathname.includes("/officer");
+  const isLeo = pathname?.includes("/officer");
 
   function handleClose() {
     closeModal(ModalIds.RegisterWeapon);

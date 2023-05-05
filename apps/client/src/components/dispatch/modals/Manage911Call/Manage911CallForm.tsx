@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import type { Post911CallsData, Put911CallByIdData } from "@snailycad/types/api";
 import { StatusValueType, ValueType, WhitelistStatus } from "@snailycad/types";
 import { FormRow } from "components/form/FormRow";
@@ -32,7 +32,7 @@ interface Props {
 }
 
 export function Manage911CallForm({ call, isDisabled, setShowAlert, handleClose }: Props) {
-  const router = useRouter();
+  const pathname = usePathname();
   const { department, division, codes10, callType } = useValues();
   const common = useTranslations("Common");
   const t = useTranslations("Calls");
@@ -50,7 +50,7 @@ export function Manage911CallForm({ call, isDisabled, setShowAlert, handleClose 
   const { invalidateQuery } = useInvalidateQuery(["/911-calls"]);
 
   const validate = handleValidate(CALL_911_SCHEMA);
-  const isCitizen = router.pathname.includes("/citizen");
+  const isCitizen = pathname?.includes("/citizen");
 
   function handleEndClick() {
     if (!call || isDisabled) return;
@@ -153,7 +153,7 @@ export function Manage911CallForm({ call, isDisabled, setShowAlert, handleClose 
           />
 
           <AddressPostalSelect isDisabled={isDisabled} addressLabel="location" />
-          {router.pathname.includes("/citizen") ? (
+          {pathname?.includes("/citizen") ? (
             <FormField errorMessage={errors.description} label={common("description")}>
               <Editor
                 value={values.descriptionData}

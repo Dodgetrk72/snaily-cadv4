@@ -1,12 +1,19 @@
-import { requestAll } from "lib/utils";
-import { headers } from "next/headers";
+import { GetCitizensData } from "@snailycad/types/api";
+import { handleServerRequest } from "lib/fetch/server";
+import { UserCitizensPageInner } from "./component";
+import { CitizenProvider } from "context/CitizenContext";
+
+// todo: localized metadata
+export const metadata = {
+  title: "Citizens",
+};
 
 export default async function UserCitizensPage() {
-  const [data] = await requestAll({ headers: Object.fromEntries(headers().entries()) }, [
-    ["/citizen", { citizens: [], totalCount: 0 }],
-  ]);
+  const citizens = await handleServerRequest<GetCitizensData>({ path: "/citizen" });
 
-  console.log({ data });
-
-  return <div>hello world</div>;
+  return (
+    <CitizenProvider>
+      <UserCitizensPageInner data={citizens.data} />
+    </CitizenProvider>
+  );
 }

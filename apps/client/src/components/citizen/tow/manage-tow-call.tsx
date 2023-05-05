@@ -8,7 +8,7 @@ import { useModal } from "state/modalState";
 import { Form, Formik } from "formik";
 import { handleValidate } from "lib/handleValidate";
 import useFetch from "lib/useFetch";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { toastMessage } from "lib/toastMessage";
 import { ModalIds } from "types/ModalIds";
 import { useTranslations } from "use-intl";
@@ -40,9 +40,9 @@ export function ManageCallModal(props: Props) {
   const t = useTranslations("Calls");
   const { isOpen, closeModal, openModal } = useModal();
   const { state, execute } = useFetch();
-  const router = useRouter();
+  const pathname = usePathname();
 
-  const isTowPath = router.pathname === "/tow";
+  const isTowPath = pathname === "/tow";
   const isTow = typeof props.isTow === "undefined" ? isTowPath : props.isTow;
   const title = isTow
     ? props.call

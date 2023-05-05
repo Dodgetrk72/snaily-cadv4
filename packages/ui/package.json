@@ -72,6 +72,7 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.2.0",
+    "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.3",
     "@react-aria/breadcrumbs": "^3.5.1",
     "@react-aria/button": "^3.7.1",
@@ -107,6 +108,7 @@
     "@react-types/select": "^3.8.0",
     "@react-types/shared": "^3.18.0",
     "@snailycad/utils": "1.56.0",
+    "clsx": "^1.2.1",
     "react-bootstrap-icons": "^1.10.3",
     "react-dnd": "16.0.1",
     "react-dnd-html5-backend": "16.0.1",

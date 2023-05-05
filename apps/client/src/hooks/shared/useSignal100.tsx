@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { useAuth } from "context/AuthContext";
 import { useListener } from "@casper124578/use-socket.io";

@@ -26,7 +26,7 @@ import {
 } from "@snailycad/types";
 import { handleValidate } from "lib/handleValidate";
 import { useCitizen } from "context/CitizenContext";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useAuth } from "context/AuthContext";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { useBusinessState } from "state/business-state";
@@ -54,7 +54,7 @@ export function RegisterVehicleModal({ vehicle, onClose, onCreate, onUpdate }: P
   const tVehicle = useTranslations("Vehicles");
   const common = useTranslations("Common");
   const { citizen } = useCitizen(false);
-  const router = useRouter();
+  const pathname = usePathname();
   const { cad } = useAuth();
   const { CUSTOM_TEXTFIELD_VALUES, EDITABLE_VIN } = useFeatureEnabled();
   const { currentBusiness, currentEmployee } = useBusinessState(
@@ -69,9 +69,9 @@ export function RegisterVehicleModal({ vehicle, onClose, onCreate, onUpdate }: P
 
   const { vehicle: vehicles, license } = useValues();
 
-  const isDisabled = router.pathname === "/citizen/[id]";
+  const isDisabled = pathname === "/citizen/[id]";
   const maxPlateLength = cad?.miscCadSettings?.maxPlateLength ?? 8;
-  const isLeo = router.pathname.includes("/officer");
+  const isLeo = pathname?.includes("/officer");
 
   const schema = isLeo ? LEO_VEHICLE_SCHEMA : VEHICLE_SCHEMA;
   const validate = handleValidate(schema);

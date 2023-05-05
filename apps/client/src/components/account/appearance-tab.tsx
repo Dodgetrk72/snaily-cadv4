@@ -12,7 +12,7 @@ import { i18n } from "../../../i18n.config.mjs";
 import type { Sounds } from "lib/server/getAvailableSounds.server";
 import { soundCamelCaseToKebabCase } from "lib/utils";
 import { CaretDownFill } from "react-bootstrap-icons";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import type { PatchUserData } from "@snailycad/types/api";
 import { useAudio } from "react-use";
 
@@ -77,7 +77,7 @@ export function AppearanceTab({ availableSounds }: Props) {
     });
 
     if (data.locale !== user?.locale) {
-      return router.reload();
+      return router.refresh();
     }
 
     if (json.id) {

@@ -15,9 +15,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    appDir: true,
-  },
   // prettier-ignore
   images: { // start images
     formats: ["image/avif", "image/webp"],

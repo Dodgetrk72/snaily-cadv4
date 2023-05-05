@@ -19,7 +19,7 @@ export const metadata = {
   description: "Welcome to Next.js",
 };
 
-export default async function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout(props: RootLayoutProps) {
   const _headers = headers();
   const _cookies = cookies();
 
@@ -34,13 +34,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html lang={lang}>
-      <body className={classNames("antialiased", darkMode && "dark")}>
+      <body
+        className={classNames("antialiased", darkMode && "min-h-screen bg-primary text-white dark")}
+      >
         <Providers messages={defaultMessages} user={user}>
           <Nav />
 
-          <main className="mt-5 px-4 md:px-6 pb-5 container max-w-[100rem] mx-auto">
-            {children}
-          </main>
+          {props.children}
         </Providers>
       </body>
     </html>

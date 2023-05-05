@@ -1,3 +1,5 @@
+"use client";
+
 import { useAuth } from "context/AuthContext";
 import { classNames } from "lib/classNames";
 import Head from "next/head";

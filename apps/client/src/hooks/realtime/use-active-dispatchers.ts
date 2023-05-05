@@ -3,7 +3,7 @@ import { SocketEvents } from "@snailycad/config";
 import useFetch from "lib/useFetch";
 import { useDispatchState } from "state/dispatch/dispatch-state";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import type { GetDispatchData } from "@snailycad/types/api";
 import { useActiveDispatcherState } from "state/dispatch/active-dispatcher-state";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -14,8 +14,8 @@ export function useActiveDispatchers() {
   const { state, execute } = useFetch();
   const queryClient = useQueryClient();
 
-  const router = useRouter();
-  const isCitizen = router.pathname.includes("/citizen");
+  const pathname = usePathname();
+  const isCitizen = pathname?.includes("/citizen");
 
   const dispatchState = useDispatchState();
   const activeDispatcherState = useActiveDispatcherState();

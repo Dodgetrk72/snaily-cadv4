@@ -5,7 +5,7 @@ import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import useFetch from "lib/useFetch";
 import type { Full911Call } from "state/dispatch/dispatch-state";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { AlertModal } from "components/modal/AlertModal";
 import { CallEventsArea } from "../events/EventsArea";
 
@@ -48,7 +48,7 @@ export function Manage911CallModal({ setCall, forceDisabled, forceOpen, call, on
     shallow,
   );
 
-  const router = useRouter();
+  const pathname = usePathname();
   const { hasPermissions } = usePermission();
   const { generateCallsign } = useGenerateCallsign();
 
@@ -60,8 +60,8 @@ export function Manage911CallModal({ setCall, forceDisabled, forceOpen, call, on
 
   const hasDispatchPermissions = hasPermissions(defaultPermissions.defaultDispatchPermissions);
 
-  const activeUnit = router.pathname.includes("/officer") ? activeOfficer : activeDeputy;
-  const isDispatch = router.pathname.includes("/dispatch") && hasDispatchPermissions;
+  const activeUnit = pathname?.includes("/officer") ? activeOfficer : activeDeputy;
+  const isDispatch = pathname?.includes("/dispatch") && hasDispatchPermissions;
 
   const isDisabled = forceDisabled
     ? true
