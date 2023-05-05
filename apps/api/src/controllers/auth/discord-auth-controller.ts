@@ -144,10 +144,10 @@ export class DiscordAuth {
         const updatedWithRoles = await updateMemberRolesLogin(updated, discordRolesId);
         validateUser(updatedWithRoles ?? updated);
 
-        return res.redirect(`${redirectURL}/account?tab=discord&success`);
+        return res.redirect(`${redirectURL}/account/connections?success=true`);
       }
 
-      return res.redirect(`${redirectURL}/account?tab=discord&error=discordAccountAlreadyLinked`);
+      return res.redirect(`${redirectURL}/account/connections?error=discordAccountAlreadyLinked`);
     }
 
     if (authUser && !user) {
@@ -163,7 +163,7 @@ export class DiscordAuth {
       const updatedWithRoles = await updateMemberRolesLogin(updated, discordRolesId);
       validateUser(updatedWithRoles ?? updated);
 
-      return res.redirect(`${redirectURL}/account?tab=discord&success`);
+      return res.redirect(`${redirectURL}/account/connections?success=true`);
     }
 
     function validateUser(user: User) {

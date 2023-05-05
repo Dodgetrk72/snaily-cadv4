@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslations } from "use-intl";
 import { Form, Formik, FormikHelpers } from "formik";
 import { CHANGE_USER_SCHEMA } from "@snailycad/schemas";

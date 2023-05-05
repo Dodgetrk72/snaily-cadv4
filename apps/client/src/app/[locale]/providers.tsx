@@ -23,7 +23,7 @@ export function Providers({ messages, children, user }: any) {
               now={new Date()}
               onError={console.warn}
               messages={messages}
-              locale={user.locale ?? "en"}
+              locale={user?.locale ?? "en"}
             >
               <Toaster position="top-right" />
 

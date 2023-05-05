@@ -1,18 +1,26 @@
+"use client";
+
 import { useTranslations } from "use-intl";
 import { Button, TabsContent } from "@snailycad/ui";
 import { useAuth } from "context/AuthContext";
 import { getAPIUrl } from "@snailycad/utils/api-url";
 import useFetch from "lib/useFetch";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { ExclamationCircleFill } from "react-bootstrap-icons";
 
 enum ConnectionKeys {
   Discord = "discord",
   Steam = "steam",
 }
 
-export function ConnectionsTab() {
+interface ConnectionsTabProps {
+  searchParams?: { success?: "true" | "false"; error?: string };
+}
+
+export function ConnectionsTab(props: ConnectionsTabProps) {
   const { user, setUser } = useAuth();
   const t = useTranslations("Account");
+  const errorT = useTranslations("Errors");
   const { state, execute } = useFetch();
   const { ALLOW_REGULAR_LOGIN, FORCE_DISCORD_AUTH, FORCE_STEAM_AUTH, STEAM_OAUTH, DISCORD_AUTH } =
     useFeatureEnabled();
@@ -38,6 +46,12 @@ export function ConnectionsTab() {
     },
   ];
 
+  const errors = {
+    discordAccountAlreadyLinked: errorT("discordAccountAlreadyLinked"),
+    steamAccountAlreadyLinked: errorT("steamAccountAlreadyLinked"),
+  };
+  const error = errors[props.searchParams?.error as keyof typeof errors];
+
   function handleConnectClick(type: ConnectionKeys) {
     const url = getAPIUrl();
 
@@ -61,6 +75,16 @@ export function ConnectionsTab() {
   return (
     <TabsContent aria-label={t("connections")} value="connections">
       <h1 className="text-2xl font-semibold">{t("connections")}</h1>
+
+      {error ? (
+        <div
+          role="alert"
+          className="w-full my-3 mb-5 flex items-center gap-3 p-2 px-4 text-black rounded-md shadow bg-red-400 border border-red-500/80"
+        >
+          <ExclamationCircleFill />
+          <h5 className="font-semibold text-lg">{error}</h5>
+        </div>
+      ) : null}
 
       <ul className="flex flex-col mt-3 gap-y-4">
         {CONNECTIONS.map((connection) => {

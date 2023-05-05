@@ -6,7 +6,11 @@ import { useAuth } from "context/AuthContext";
 import { usePathname } from "next/navigation";
 import { classNames } from "lib/classNames";
 import { CitizenDropdown } from "./dropdowns/citizen-dropdown";
+import { OfficerDropdown } from "./dropdowns/officer-dropdown";
+import { EmsFdDropdown } from "./dropdowns/ems-fd-dropdown";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { TowDropdown } from "./dropdowns/tow-dropdown";
+import { DispatchDropdown } from "./dropdowns/dispatch-dropdown";
 import { useTranslations } from "next-intl";
 import { useImageUrl } from "hooks/useImageUrl";
 import { useViewport } from "@casper124578/useful/hooks/useViewport";
@@ -16,14 +20,6 @@ import { usePermission } from "hooks/usePermission";
 import { defaultPermissions, Permissions } from "@snailycad/permissions";
 import { ImageWrapper } from "components/shared/image-wrapper";
 import { AdminLink } from "./dropdowns/admin-link";
-import dynamic from "next/dynamic";
-
-const dropdowns = {
-  Tow: dynamic(async () => (await import("./dropdowns/tow-dropdown")).TowDropdown),
-  Officer: dynamic(async () => (await import("./dropdowns/officer-dropdown")).OfficerDropdown),
-  EmsFd: dynamic(async () => (await import("./dropdowns/ems-fd-dropdown")).EmsFdDropdown),
-  Dispatch: dynamic(async () => (await import("./dropdowns/dispatch-dropdown")).DispatchDropdown),
-};
 
 interface Props {
   maxWidth?: string;
@@ -108,17 +104,17 @@ export function Nav({ maxWidth }: Props) {
               <CitizenDropdown />
 
               {hasPermissions([Permissions.ViewTowCalls, Permissions.ManageTowCalls]) && TOW ? (
-                <dropdowns.Tow />
+                <TowDropdown />
               ) : null}
 
               {hasPermissions(defaultPermissions.defaultLeoPermissions) ? (
-                <dropdowns.Officer />
+                <OfficerDropdown />
               ) : null}
 
-              {hasPermissions([Permissions.EmsFd]) ? <dropdowns.EmsFd /> : null}
+              {hasPermissions([Permissions.EmsFd]) ? <EmsFdDropdown /> : null}
 
               {hasPermissions([Permissions.LiveMap, Permissions.Dispatch]) ? (
-                <dropdowns.Dispatch />
+                <DispatchDropdown />
               ) : null}
 
               {user && COURTHOUSE ? (

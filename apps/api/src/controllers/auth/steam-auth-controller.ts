@@ -124,10 +124,10 @@ export class SteamOAuthController {
 
         validateUser(updated);
 
-        return res.redirect(`${redirectURL}/account?tab=discord&success`);
+        return res.redirect(`${redirectURL}/account/connections?success=true`);
       }
 
-      return res.redirect(`${redirectURL}/account?tab=discord&error=steamAccountAlreadyLinked`);
+      return res.redirect(`${redirectURL}/account/connections?error=steamAccountAlreadyLinked`);
     }
 
     if (authUser && !user) {
@@ -138,7 +138,7 @@ export class SteamOAuthController {
 
       validateUser(updated);
 
-      return res.redirect(`${redirectURL}/account?tab=discord&success`);
+      return res.redirect(`${redirectURL}/account/connections?success=true`);
     }
 
     return steamData;

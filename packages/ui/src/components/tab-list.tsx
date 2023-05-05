@@ -40,6 +40,7 @@ export function TabList<Tabs extends Tab[]>({
 }: Props<Tabs>) {
   const [titles, setTitles] = React.useState<Record<string, string>>({});
   const locale = useLocale();
+  const _defaultValue = activeTab ? undefined : defaultValue ?? tabs[0]?.value;
 
   function upsertTabTitle(value: string, name?: string) {
     if (!name) return;
@@ -51,7 +52,7 @@ export function TabList<Tabs extends Tab[]>({
       <Tabs.Root
         value={activeTab}
         onValueChange={onValueChange}
-        defaultValue={defaultValue}
+        defaultValue={_defaultValue}
         className="w-full px-2 sm:px-0"
       >
         <Tabs.List className="relative flex p-1 pl-0 pb-0 gap-x-5 overflow-y-auto thin-scrollbar">
@@ -65,7 +66,7 @@ export function TabList<Tabs extends Tab[]>({
                     className={
                       "z-20 tabs-list py-1.5 pb-2 border-b-2 border-transparent text-gray-800 dark:text-gray-200 transition-border duration-100 min-w-fit"
                     }
-                    href={`/${locale}/${tab.href}`}
+                    href={`/${locale}${tab.href}`}
                   >
                     {tabTitle}
                   </Link>

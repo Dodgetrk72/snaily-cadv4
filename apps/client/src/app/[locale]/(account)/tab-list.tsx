@@ -26,10 +26,8 @@ export function AccountTabList(props: AccountTabListProps) {
     { name: t("appearanceSettings"), value: "appearanceSettings", href: "/account/appearance" },
   ];
 
-  const activeTab = TABS_TITLES.findLast((v) => pathname?.endsWith(v.href));
-
   if (showConnectionsTab) {
-    TABS_TITLES[3] = { href: "/account/connections", name: t("connections"), value: "connections" };
+    TABS_TITLES[3] = { name: t("connections"), value: "connections", href: "/account/connections" };
   }
 
   if (USER_API_TOKENS && hasApiTokenPermissions) {
@@ -40,6 +38,8 @@ export function AccountTabList(props: AccountTabListProps) {
       value: "userApiToken",
     };
   }
+
+  const activeTab = TABS_TITLES.findLast((v) => pathname?.endsWith(v.href));
 
   return (
     <TabList activeTab={activeTab?.value} tabs={TABS_TITLES}>
