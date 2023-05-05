@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "context/AuthContext";
 import { getSessionUser } from "lib/auth";
 import { getTranslations } from "lib/getTranslation";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { useMounted } from "@casper124578/useful";
@@ -15,34 +14,10 @@ import { Title } from "components/shared/Title";
 import { toastMessage } from "lib/toastMessage";
 import { canUseThirdPartyConnections } from "lib/utils";
 import { usePermission, Permissions } from "hooks/usePermission";
-import { getAvailableSounds, Sounds } from "lib/server/getAvailableSounds.server";
+import { getAvailableSounds } from "lib/server/getAvailableSounds.server";
 import { AccountInfoTab } from "components/account/account-info-tab";
 
-const AccountSettingsTab = dynamic(
-  async () => (await import("components/account/account-settings-tab")).AccountSettingsTab,
-  { ssr: false },
-);
-
-const AppearanceTab = dynamic(
-  async () => (await import("components/account/appearance-tab")).AppearanceTab,
-  { ssr: false },
-);
-
-const ConnectionsTab = dynamic(
-  async () => (await import("components/account/ConnectionsTab")).ConnectionsTab,
-  { ssr: false },
-);
-
-const UserApiTokenTab = dynamic(
-  async () => (await import("components/account/UserApiToken")).UserApiTokenTab,
-  { ssr: false },
-);
-
-interface Props {
-  availableSounds: Record<Sounds, boolean>;
-}
-
-export default function Account({ availableSounds }: Props) {
+export default function Account() {
   const mounted = useMounted();
   const { user } = useAuth();
   const t = useTranslations("Account");
@@ -95,10 +70,6 @@ export default function Account({ availableSounds }: Props) {
         <div className="w-full max-w-4xl">
           <TabList defaultValue={discordValue} tabs={TABS_TITLES}>
             <AccountInfoTab />
-            <AccountSettingsTab />
-            <AppearanceTab availableSounds={availableSounds} />
-            {showConnectionsTab ? <ConnectionsTab /> : null}
-            {USER_API_TOKENS && hasApiTokenPermissions ? <UserApiTokenTab /> : null}
           </TabList>
         </div>
       </div>
