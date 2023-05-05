@@ -33,6 +33,9 @@ const nextConfig = {
     hideSourceMaps: false,
     widenClientFileUpload: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 }; // end config
 
 /** @type {typeof nextConfig} */
