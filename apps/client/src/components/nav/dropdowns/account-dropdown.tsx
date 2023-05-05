@@ -80,7 +80,6 @@ export function AccountDropdown() {
         ) : null}
       </Dropdown>
 
-      {/* @ts-expect-error this is a React type bug.  */}
       {cad?.version ? <ChangelogModal /> : null}
     </>
   );

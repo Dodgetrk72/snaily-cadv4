@@ -92,7 +92,7 @@ export default function App({ Component, router, pageProps, ...rest }: AppProps)
               now={new Date()}
             >
               <DndProviderWrapper>
-                <ValuesProvider router={router} initialData={pageProps}>
+                <ValuesProvider initialData={pageProps}>
                   <CitizenProvider initialData={pageProps}>
                     <Head>
                       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
