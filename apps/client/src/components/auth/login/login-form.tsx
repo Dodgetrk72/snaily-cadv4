@@ -1,10 +1,9 @@
 import { Form, Formik, FormikHelpers } from "formik";
-import Link from "next/link";
 import { Discord, Steam } from "react-bootstrap-icons";
 import { Button, Loader, TextField } from "@snailycad/ui";
 import { TwoFactorAuthScreen } from "components/auth/TwoFactorAuthScreen";
 import { getAPIUrl } from "@snailycad/utils/api-url";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";
 import { useAuth } from "~/context/auth-context";
@@ -14,6 +13,7 @@ import { AUTH_SCHEMA } from "@snailycad/schemas";
 import type { PostLoginUserData } from "@snailycad/types/api";
 import { canUseThirdPartyConnections } from "lib/utils";
 import { classNames } from "lib/classNames";
+import { Link } from "~/components/shared/link";
 
 const INITIAL_VALUES = {
   username: "",
@@ -28,6 +28,9 @@ interface Props {
 
 export function LoginForm({ onFormSubmitted, isWithinModal }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchError = searchParams?.get("error");
+
   const { state, execute } = useFetch();
   const t = useTranslations("Auth");
   const tError = useTranslations("Errors");
@@ -46,7 +49,7 @@ export function LoginForm({ onFormSubmitted, isWithinModal }: Props) {
     whitelistDeclined: tError("whitelistDeclined"),
   } as const;
 
-  const errorMessage = authMessages[router.query.error as keyof typeof authMessages];
+  const errorMessage = authMessages[searchError as keyof typeof authMessages];
   const validate = handleValidate(AUTH_SCHEMA);
 
   async function onSubmit(
@@ -67,12 +70,12 @@ export function LoginForm({ onFormSubmitted, isWithinModal }: Props) {
     }
 
     if (json.hasTempPassword) {
-      router.push({
-        pathname: "/auth/temp-password",
-        query: { tp: values.password },
-      });
+      router.push(
+        `/auth/temp-password?from=${encodeURIComponent(searchParams?.get("from") ?? "/")}`,
+      );
     } else if (json?.userId) {
-      const from = typeof router.query.from === "string" ? router.query.from : "/citizen";
+      const searchFrom = searchParams?.get("from");
+      const from = typeof searchFrom === "string" ? searchFrom : "/citizen";
       onFormSubmitted({ from });
     }
   }
@@ -92,7 +95,9 @@ export function LoginForm({ onFormSubmitted, isWithinModal }: Props) {
   }
 
   function handleContinueAs() {
-    const from = typeof router.query.from === "string" ? router.query.from : "/citizen";
+    const searchFrom = searchParams?.get("from");
+    const from = typeof searchFrom === "string" ? searchFrom : "/citizen";
+
     router.push(from);
   }
 

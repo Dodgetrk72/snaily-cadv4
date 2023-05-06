@@ -27,14 +27,14 @@ interface ProviderProps {
 }
 
 const NO_LOADING_ROUTES = [
-  "/403",
-  "/404",
-  "/auth/login",
-  "/auth/register",
-  "/auth/pending",
-  "/auth/temp-password",
-  "/auth/connections",
-  "/auth/account-password",
+  "/en/403",
+  "/en/404",
+  "/en/auth/login",
+  "/en/auth/register",
+  "/en/auth/pending",
+  "/en/auth/temp-password",
+  "/en/auth/connections",
+  "/en/auth/account-password",
 ];
 
 export function AuthProvider({ initialData, children }: ProviderProps) {

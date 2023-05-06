@@ -7,7 +7,6 @@ import { classNames } from "lib/classNames";
 import { getTranslations } from "lib/getTranslation";
 import { cookies, headers } from "next/headers";
 import { Providers } from "./providers";
-import { Nav } from "components/nav/Nav";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -38,8 +37,6 @@ export default async function RootLayout(props: RootLayoutProps) {
         className={classNames("antialiased", darkMode && "min-h-screen bg-primary text-white dark")}
       >
         <Providers messages={defaultMessages} user={user}>
-          <Nav />
-
           {props.children}
         </Providers>
       </body>
