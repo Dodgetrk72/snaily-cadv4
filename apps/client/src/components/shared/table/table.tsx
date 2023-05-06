@@ -13,7 +13,7 @@ import { TableRow } from "./table-row";
 import { TablePagination } from "./table-pagination";
 import { classNames } from "lib/classNames";
 import { TableHeader } from "./table-header";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { TableActionsAlignment } from "@snailycad/types";
 import { orderColumnsByTableActionsAlignment } from "lib/table/orderColumnsByTableActionsAlignment";
 import type { useTableState } from "hooks/shared/table/use-table-state";

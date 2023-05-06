@@ -3,7 +3,7 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { useTranslations } from "use-intl";
 
 import { Textarea, Loader, Input, Button, TabsContent } from "@snailycad/ui";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import useFetch from "lib/useFetch";
 import { JailTimeScale, MiscCadSettings } from "@snailycad/types";
 import { ImageSelectInput, validateFile } from "components/form/inputs/ImageSelectInput";

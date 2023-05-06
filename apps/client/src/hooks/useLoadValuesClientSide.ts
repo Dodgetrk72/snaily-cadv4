@@ -1,6 +1,6 @@
 import type { ValueType } from "@snailycad/types";
 import useFetch from "lib/useFetch";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import type { GetValuesData } from "@snailycad/types/api";
 import { useQuery } from "@tanstack/react-query";
 

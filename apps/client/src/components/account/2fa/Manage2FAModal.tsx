@@ -6,7 +6,7 @@ import { Form, Formik, FormikHelpers } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";
 import { ModalIds } from "types/ModalIds";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { toastMessage } from "lib/toastMessage";
 import type {
   DeleteDisable2FAData,

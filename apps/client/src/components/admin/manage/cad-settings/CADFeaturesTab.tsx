@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Form, Formik } from "formik";
 import { useTranslations } from "use-intl";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import useFetch from "lib/useFetch";
 import { Toggle } from "components/form/Toggle";
 import { CadFeature, Feature } from "@snailycad/types";

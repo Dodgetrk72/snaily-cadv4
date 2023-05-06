@@ -14,7 +14,7 @@ import {
 
 import { Eyedropper } from "react-bootstrap-icons";
 import { Input, Button, SelectField, RadioGroupField, Radio } from "@snailycad/ui";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 
 const HexColorPicker = dynamic(async () => (await import("react-colorful")).HexColorPicker);
 

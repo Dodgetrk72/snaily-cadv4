@@ -10,5 +10,5 @@ export const metadata = {
 export default async function UserCitizensPage() {
   const citizens = await handleServerRequest<GetCitizensData>({ path: "/citizen" });
 
-  return <UserCitizensPageInner data={citizens.data} />;
+  return <UserCitizensPageInner data={citizens.data ?? { citizens: [], totalCount: 0 }} />;
 }

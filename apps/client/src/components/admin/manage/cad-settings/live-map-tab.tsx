@@ -1,5 +1,5 @@
 import { Button, Input, Loader, TabsContent } from "@snailycad/ui";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { Form, Formik, FormikHelpers } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "use-intl";

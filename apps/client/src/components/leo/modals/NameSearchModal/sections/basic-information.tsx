@@ -1,6 +1,6 @@
 import { FullDate } from "components/shared/FullDate";
 import { Infofield } from "components/shared/Infofield";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { calculateAge, formatCitizenAddress } from "lib/utils";
 import { useNameSearch } from "state/search/name-search-state";

@@ -1,4 +1,4 @@
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { formatCaseNumber, type _Record } from "@snailycad/utils/case-number";
 
 export function useFormatCaseNumber() {

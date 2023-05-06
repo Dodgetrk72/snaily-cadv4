@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Feature } from "@snailycad/types";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 
 export const DEFAULT_DISABLED_FEATURES = {
   CUSTOM_TEXTFIELD_VALUES: { isEnabled: false },

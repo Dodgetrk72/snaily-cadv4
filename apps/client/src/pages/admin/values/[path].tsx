@@ -41,7 +41,7 @@ import { useLoadValuesClientSide } from "hooks/useLoadValuesClientSide";
 import { toastMessage } from "lib/toastMessage";
 import Link from "next/link";
 import { BoxArrowUpRight, InfoCircle } from "react-bootstrap-icons";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 
 const ManageValueModal = dynamic(
   async () => (await import("components/admin/values/ManageValueModal")).ManageValueModal,

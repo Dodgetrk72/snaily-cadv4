@@ -3,7 +3,7 @@ import { Button } from "@snailycad/ui";
 import { ModalIds } from "types/ModalIds";
 import { useModal } from "state/modalState";
 import { LicenseInitialValues, ManageLicensesModal } from "./manage-licenses-modal";
-import { CitizenWithVehAndWep, useCitizen } from "context/CitizenContext";
+import { CitizenWithVehAndWep, useCitizen } from "~/context/citizen-context";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { Infofield } from "components/shared/Infofield";
 import { Citizen, DriversLicenseCategoryType, SuspendedCitizenLicenses } from "@snailycad/types";

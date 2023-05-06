@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useImageUrl } from "hooks/useImageUrl";
 import { ContextMenu } from "components/shared/ContextMenu";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import { useUnitStatusChange } from "hooks/shared/useUnitsStatusChange";
 import { Draggable } from "@snailycad/ui";
 import { DndActions } from "types/DndActions";

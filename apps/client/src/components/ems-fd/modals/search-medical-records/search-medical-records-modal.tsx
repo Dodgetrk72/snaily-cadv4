@@ -11,7 +11,7 @@ import { PersonFill } from "react-bootstrap-icons";
 import { Infofield } from "components/shared/Infofield";
 import { FullDate } from "components/shared/FullDate";
 import { calculateAge, formatCitizenAddress } from "lib/utils";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { CitizenImageModal } from "components/citizen/modals/CitizenImageModal";
 import type {
   PostEmsFdDeclareCitizenById,

@@ -4,7 +4,7 @@ import { PostCitizenImageByIdData, PostCitizensData } from "@snailycad/types/api
 import { BreadcrumbItem, Breadcrumbs } from "@snailycad/ui";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "use-intl";
-import { ManageCitizenForm } from "~/components/citizen/ManageCitizenForm";
+import { ManageCitizenForm } from "~/components/citizen/manage-citizen-form";
 import { SelectValue } from "~/components/form/Select";
 import { Title } from "~/components/shared/Title";
 import useFetch from "~/lib/useFetch";

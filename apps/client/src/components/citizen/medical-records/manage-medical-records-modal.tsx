@@ -7,7 +7,8 @@ import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import { BaseCitizen, MedicalRecord, ValueType } from "@snailycad/types";
 import { handleValidate } from "lib/handleValidate";
-import { useValues } from "context/ValuesContext";
+import { useCitizen } from "~/context/citizen-context";
+import { useValues } from "~/context/values-context";
 import type {
   PostCitizenMedicalRecordsData,
   PutCitizenMedicalRecordsData,

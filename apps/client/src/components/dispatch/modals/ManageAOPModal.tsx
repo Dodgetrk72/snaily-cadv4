@@ -1,6 +1,6 @@
 import { Loader, Button, TextField } from "@snailycad/ui";
 import { Modal } from "components/modal/Modal";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useModal } from "state/modalState";
 import { Form, Formik } from "formik";
 import useFetch from "lib/useFetch";

@@ -2,7 +2,7 @@
 
 import { Permissions, hasPermission, getPermissions, PartialUser } from "@snailycad/permissions";
 import type { User } from "@snailycad/types";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 
 export type PermissionsFallback = (user: PartialUser) => boolean | undefined;
 export { Permissions };

@@ -1,6 +1,6 @@
 import { getTranslations } from "lib/getTranslation";
 import { NextIntlClientProvider } from "next-intl";
-import { CitizenProvider } from "context/CitizenContext";
+import { CitizenProvider } from "~/context/citizen-context";
 
 interface LayoutProps {
   children: React.ReactNode;

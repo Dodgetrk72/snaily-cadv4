@@ -2,7 +2,7 @@
 
 import { useTranslations } from "use-intl";
 import { Button, TabsContent } from "@snailycad/ui";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { getAPIUrl } from "@snailycad/utils/api-url";
 import useFetch from "lib/useFetch";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";

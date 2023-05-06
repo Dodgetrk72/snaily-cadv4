@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AddressValue, ValueType } from "@snailycad/types";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import { useFormikContext } from "formik";
 import { useLoadValuesClientSide } from "hooks/useLoadValuesClientSide";
 import { useTranslations } from "use-intl";

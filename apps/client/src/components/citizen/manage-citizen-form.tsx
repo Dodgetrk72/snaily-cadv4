@@ -1,5 +1,4 @@
 import * as React from "react";
-import Link from "next/link";
 import {
   Button,
   DatePickerField,
@@ -14,11 +13,11 @@ import { FormRow } from "components/form/FormRow";
 import type { SelectValue } from "components/form/Select";
 import { ImageSelectInput, validateFile } from "components/form/inputs/ImageSelectInput";
 import { CREATE_CITIZEN_SCHEMA, CREATE_CITIZEN_WITH_OFFICER_SCHEMA } from "@snailycad/schemas";
-import { useAuth } from "context/AuthContext";
-import { useValues } from "context/ValuesContext";
+import { useAuth } from "~/context/auth-context";
+import { useValues } from "~/context/values-context";
 import { handleValidate } from "lib/handleValidate";
 import type { FormikHelpers } from "formik";
-import { User, Citizen, PenalCode, ValueType } from "@snailycad/types";
+import { User, Citizen, PenalCode, ValueType, Feature } from "@snailycad/types";
 import { useTranslations } from "next-intl";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import {
@@ -32,6 +31,16 @@ import { CreateOfficerStep } from "./manage-citizen-form/create-officer-step";
 import { CreatePreviousRecordsStep } from "./manage-citizen-form/create-previous-records-step";
 import { Permissions, usePermission } from "hooks/usePermission";
 import { ValueSelectField } from "components/form/inputs/value-select-field";
+import { Link } from "../shared/link";
+
+export interface ManageCitizenFormSubmitHandlerData {
+  formData?: FormData;
+  data: ReturnType<typeof createInitialValues>;
+  helpers: FormikHelpers<any>;
+}
+export type ManageCitizenFormSubmitHandler = (
+  data: ManageCitizenFormSubmitHandlerData,
+) => void | Promise<void>;
 
 type FormFeatures =
   | "officer-creation"
@@ -39,16 +48,52 @@ type FormFeatures =
   | "edit-name"
   | "license-fields"
   | "previous-records";
+
 interface Props {
   citizen: (Citizen & { user?: User | null }) | null;
   state: "error" | "loading" | null;
   formFeatures?: Partial<Record<FormFeatures, boolean>>;
   cancelURL?: string;
-  onSubmit(arg0: {
-    data: any;
-    formData?: FormData;
-    helpers: FormikHelpers<any>;
-  }): void | Promise<void>;
+  onSubmit: ManageCitizenFormSubmitHandler;
+}
+
+interface CreateInitialValuesOptions {
+  citizen: Citizen | null;
+  features: Record<Feature, boolean>;
+  user?: User | null;
+  formFeatures?: Partial<Record<FormFeatures, boolean>>;
+}
+
+function createInitialValues(options: CreateInitialValuesOptions) {
+  return {
+    ...getManageOfficerFieldsDefaults({ features: options.features, officer: null }),
+    userId: options.citizen?.userId ?? "",
+    username: options.user?.username ?? "",
+    name: options.citizen?.name ?? "",
+    surname: options.citizen?.surname ?? "",
+    dateOfBirth:
+      typeof options.citizen?.dateOfBirth === "string"
+        ? parseISO(options.citizen.dateOfBirth)
+        : undefined,
+    gender: options.citizen?.genderId ?? "",
+    ethnicity: options.citizen?.ethnicityId ?? "",
+    weight: options.citizen?.weight ?? "",
+    height: options.citizen?.height ?? "",
+    hairColor: options.citizen?.hairColor ?? "",
+    eyeColor: options.citizen?.eyeColor ?? "",
+    address: options.citizen?.address ?? "",
+    image: undefined,
+    phoneNumber: options.citizen?.phoneNumber ?? "",
+    postal: options.citizen?.postal ?? "",
+    occupation: options.citizen?.occupation ?? "",
+    additionalInfo: options.citizen?.additionalInfo ?? "",
+    socialSecurityNumber: options.citizen?.socialSecurityNumber ?? "",
+    violations: [] as SelectValue<PenalCode>[],
+    records: [],
+    ...(options.formFeatures?.["license-fields"]
+      ? createDefaultLicensesValues(options.citizen)
+      : {}),
+  };
 }
 
 export function ManageCitizenForm({
@@ -79,31 +124,12 @@ export function ManageCitizenForm({
     ? `(${cad.miscCadSettings.heightPrefix})`
     : "";
 
-  const INITIAL_VALUES = {
-    ...getManageOfficerFieldsDefaults({ features, officer: null }),
-    userId: citizen?.userId ?? "",
-    username: citizen?.user?.username ?? "",
-    name: citizen?.name ?? "",
-    surname: citizen?.surname ?? "",
-    dateOfBirth:
-      typeof citizen?.dateOfBirth === "string" ? parseISO(citizen.dateOfBirth) : undefined,
-    gender: citizen?.genderId ?? "",
-    ethnicity: citizen?.ethnicityId ?? "",
-    weight: citizen?.weight ?? "",
-    height: citizen?.height ?? "",
-    hairColor: citizen?.hairColor ?? "",
-    eyeColor: citizen?.eyeColor ?? "",
-    address: citizen?.address ?? "",
-    image: undefined,
-    phoneNumber: citizen?.phoneNumber ?? "",
-    postal: citizen?.postal ?? "",
-    occupation: citizen?.occupation ?? "",
-    additionalInfo: citizen?.additionalInfo ?? "",
-    socialSecurityNumber: citizen?.socialSecurityNumber ?? "",
-    violations: [] as SelectValue<PenalCode>[],
-    records: [],
-    ...(formFeatures?.["license-fields"] ? createDefaultLicensesValues(citizen) : {}),
-  };
+  const INITIAL_VALUES = createInitialValues({
+    citizen,
+    features,
+    user: citizen?.user,
+    formFeatures,
+  });
 
   async function handleSubmit(
     data: typeof INITIAL_VALUES,

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useTranslations } from "use-intl";
 import { PasswordInput } from "components/form/inputs/Input";
 import { Toggle } from "components/form/Toggle";

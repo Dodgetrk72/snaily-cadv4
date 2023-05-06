@@ -4,7 +4,7 @@ import { Button, Loader, TabsContent } from "@snailycad/ui";
 import { Form, Formik, useFormikContext } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import type { DiscordRole, DiscordRoles } from "@snailycad/types";
 import { SettingsFormField } from "components/form/SettingsFormField";
 import { FormField } from "components/form/FormField";

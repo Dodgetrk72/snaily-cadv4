@@ -5,7 +5,7 @@ import { PersonCircle } from "react-bootstrap-icons";
 import { logout } from "lib/auth";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { classNames } from "lib/classNames";
 import { Dropdown } from "components/Dropdown";
 import { Button } from "@snailycad/ui";

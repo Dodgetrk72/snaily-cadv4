@@ -5,13 +5,14 @@ import axios, { AxiosResponse } from "axios";
 import { headers } from "next/headers";
 import { getErrorObj } from "./errors";
 
-interface HandleServerRequestOptions {
+interface HandleServerRequestOptions<T> {
   path: string;
+  defaultData?: T;
 }
 
 export async function handleServerRequest<T = any>(
-  options: HandleServerRequestOptions,
-): Promise<AxiosResponse<T, T>> {
+  options: HandleServerRequestOptions<T>,
+): Promise<AxiosResponse<T | undefined>> {
   const apiUrl = getAPIUrl();
   const isDispatchUrl = ["/dispatch", "/dispatch/map"].includes(String());
 
@@ -28,13 +29,19 @@ export async function handleServerRequest<T = any>(
       },
     });
 
-    return makeReturn(response);
+    const responseObj = makeReturn<T>(response);
+
+    if (!responseObj.data && options.defaultData) {
+      responseObj.data = options.defaultData;
+    }
+
+    return responseObj;
   } catch (e) {
-    return makeReturn(e);
+    return makeReturn<T>(e);
   }
 }
 
-function makeReturn<T>(v: any): Omit<AxiosResponse<T>, "request"> {
+function makeReturn<T>(v: any): Omit<AxiosResponse<T, T>, "request"> {
   const errorObj = getErrorObj(v);
 
   return {

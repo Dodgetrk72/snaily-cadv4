@@ -7,7 +7,7 @@ import { makeUnitName } from "lib/utils";
 import type { CombinedLeoUnit, EmsFdDeputy, Officer } from "@snailycad/types";
 import { isUnitCombined, isUnitCombinedEmsFd } from "@snailycad/utils";
 import { useAudio } from "react-use";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 
 const PANIC_BUTTON_SRC = "/sounds/panic-button.mp3" as const;
 

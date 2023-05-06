@@ -2,7 +2,7 @@ import { useListener } from "@casper124578/use-socket.io";
 import { SocketEvents } from "@snailycad/config";
 import { Button } from "@snailycad/ui";
 import { useModal } from "state/modalState";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import { classNames } from "lib/classNames";
 import useFetch from "lib/useFetch";
 import { useRouter } from "next/router";
@@ -19,7 +19,7 @@ import {
   type StatusValue,
 } from "@snailycad/types";
 import { useAudio } from "react-use";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import type { PutDispatchStatusByUnitId } from "@snailycad/types/api";
 import { useMounted } from "@casper124578/useful";
 

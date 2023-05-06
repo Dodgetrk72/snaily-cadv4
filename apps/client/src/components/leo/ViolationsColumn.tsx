@@ -2,7 +2,7 @@ import * as React from "react";
 import type { Record } from "@snailycad/types";
 import { dataToSlate, Editor } from "components/editor/editor";
 import { HoverCard } from "components/shared/HoverCard";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import { useTranslations } from "next-intl";
 
 interface Props {

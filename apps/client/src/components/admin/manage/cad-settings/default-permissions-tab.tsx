@@ -2,7 +2,7 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { useTranslations } from "use-intl";
 
 import { Button, Loader, SwitchField, TabsContent, TextField } from "@snailycad/ui";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import useFetch from "lib/useFetch";
 import type { cad } from "@snailycad/types";
 import { SettingsTabs } from "src/pages/admin/manage/cad-settings";

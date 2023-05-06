@@ -2,8 +2,8 @@ import * as React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { classNames } from "lib/classNames";
 import { Button, ButtonProps, buttonSizes, buttonVariants } from "@snailycad/ui";
-import Link from "next/link";
 import { useLocale } from "use-intl";
+import { Link } from "./shared/link";
 
 interface Props extends DropdownMenu.MenuContentProps, DropdownMenu.DropdownMenuProps {
   trigger: any;

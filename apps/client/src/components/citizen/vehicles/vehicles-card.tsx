@@ -11,7 +11,7 @@ import { FullDate } from "components/shared/FullDate";
 import { Status } from "components/shared/Status";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { useAsyncTable } from "hooks/shared/table/use-async-table";
-import { useCitizen } from "context/CitizenContext";
+import { useCitizen } from "~/context/citizen-context";
 import type { DeleteCitizenVehicleData, GetCitizenVehiclesData } from "@snailycad/types/api";
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
 import { SearchArea } from "components/shared/search/search-area";

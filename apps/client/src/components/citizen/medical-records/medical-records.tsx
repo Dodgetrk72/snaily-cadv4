@@ -6,7 +6,7 @@ import { useModal } from "state/modalState";
 import { AlertModal } from "components/modal/AlertModal";
 import useFetch from "lib/useFetch";
 import { Table, useTableState } from "components/shared/Table";
-import { useCitizen } from "context/CitizenContext";
+import { useCitizen } from "~/context/citizen-context";
 import type { DeleteCitizenMedicalRecordsData } from "@snailycad/types/api";
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
 import { FullDate } from "components/shared/FullDate";
@@ -26,7 +26,8 @@ export function MedicalRecords() {
   const tableState = useTableState();
   const { MEDICAL_RECORDS_CITIZEN_MANAGEABLE } = useFeatureEnabled();
 
-  const [tempRecord, recordState] = useTemporaryItem(citizen.medicalRecords);
+  const medicalRecords = citizen.medicalRecords ?? [];
+  const [tempRecord, recordState] = useTemporaryItem(medicalRecords);
 
   async function handleDelete() {
     if (!tempRecord) return;
@@ -39,7 +40,7 @@ export function MedicalRecords() {
     if (json) {
       setCurrentCitizen({
         ...citizen,
-        medicalRecords: citizen.medicalRecords.filter((v) => v.id !== tempRecord.id),
+        medicalRecords: medicalRecords?.filter((v) => v.id !== tempRecord.id),
       });
       closeModal(ModalIds.AlertDeleteMedicalRecord);
       recordState.setTempId(null);
@@ -77,13 +78,13 @@ export function MedicalRecords() {
           ) : null}
         </header>
 
-        {citizen.medicalRecords.length <= 0 ? (
+        {medicalRecords.length <= 0 ? (
           <p className="text-neutral-700 dark:text-gray-400">{t("noMedicalRecords")}</p>
         ) : (
           <Table
             tableState={tableState}
             features={{ isWithinCardOrModal: true }}
-            data={citizen.medicalRecords.map((record) => ({
+            data={medicalRecords.map((record) => ({
               id: record.id,
               diseases: record.type,
               bloodGroup: record.bloodGroup?.value ?? common("none"),
@@ -126,7 +127,7 @@ export function MedicalRecords() {
               setCurrentCitizen({
                 ...citizen,
                 medicalRecords: [
-                  ...handleBloodgroupStateChange(citizen.medicalRecords, record.bloodGroup),
+                  ...handleBloodgroupStateChange(medicalRecords, record.bloodGroup),
                   record,
                 ],
               });
@@ -134,7 +135,7 @@ export function MedicalRecords() {
               closeModal(ModalIds.ManageMedicalRecords);
             }}
             onUpdate={(old, newR) => {
-              const copy = [...citizen.medicalRecords];
+              const copy = [...medicalRecords];
               const idx = copy.indexOf(old);
               copy[idx] = newR;
 

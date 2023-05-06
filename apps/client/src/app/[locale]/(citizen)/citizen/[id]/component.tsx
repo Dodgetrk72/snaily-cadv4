@@ -11,10 +11,10 @@ import { VehiclesCard } from "~/components/citizen/vehicles/vehicles-card";
 import { LicensesCard } from "~/components/citizen/licenses/LicensesCard";
 import { MedicalRecords } from "components/citizen/medical-records/medical-records";
 import { calculateAge, formatCitizenAddress } from "~/lib/utils";
-import { useCitizen } from "context/CitizenContext";
+import { useCitizen } from "~/context/citizen-context";
 import dynamic from "next/dynamic";
 import { useImageUrl } from "~/hooks/useImageUrl";
-import { useAuth } from "~/context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useFeatureEnabled } from "~/hooks/useFeatureEnabled";
 import { Infofield } from "~/components/shared/Infofield";
 import { Title } from "~/components/shared/Title";
@@ -221,8 +221,8 @@ export function InnerUserCitizenPage() {
       </div>
 
       <div className="mt-3 space-y-3">
-        <VehiclesCard vehicles={citizen.vehicles} />
-        {WEAPON_REGISTRATION ? <WeaponsCard weapons={citizen.weapons} /> : null}
+        <VehiclesCard vehicles={citizen.vehicles ?? []} />
+        {WEAPON_REGISTRATION ? <WeaponsCard weapons={citizen.weapons ?? []} /> : null}
 
         <CitizenRecordsCard />
       </div>

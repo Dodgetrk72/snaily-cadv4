@@ -7,7 +7,7 @@ import { getAPIUrl } from "@snailycad/utils/api-url";
 import { useRouter } from "next/router";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { handleValidate } from "lib/handleValidate";
 import { AUTH_SCHEMA } from "@snailycad/schemas";

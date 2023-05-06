@@ -3,7 +3,7 @@ import { Button, Loader, TabsContent } from "@snailycad/ui";
 import { Form, Formik } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { cad, DiscordWebhookType } from "@snailycad/types";
 import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
 import { WebhookSettingsField } from "./WebhookSettingsField";

@@ -7,7 +7,7 @@ import { useModal } from "state/modalState";
 import { useRouter } from "next/router";
 import type { EmsFdDeputy } from "@snailycad/types";
 import type { ActiveOfficer } from "state/leo-state";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 
 type ButtonProps = Pick<JSX.IntrinsicElements["button"], "name" | "type" | "title" | "disabled">;
 interface Props extends ButtonProps {

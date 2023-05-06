@@ -14,7 +14,7 @@ import {
 import { FormField } from "components/form/FormField";
 import { Modal } from "components/modal/Modal";
 import useFetch from "lib/useFetch";
-import { useValues } from "src/context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import {
@@ -25,9 +25,9 @@ import {
   WhitelistStatus,
 } from "@snailycad/types";
 import { handleValidate } from "lib/handleValidate";
-import { useCitizen } from "context/CitizenContext";
+import { useCitizen } from "~/context/citizen-context";
 import { usePathname } from "next/navigation";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { useBusinessState } from "state/business-state";
 import { filterLicenseType, filterLicenseTypes } from "lib/utils";

@@ -3,6 +3,7 @@ import * as React from "react";
 import { classNames } from "../../utils/classNames";
 import Link from "next/link";
 import { ChevronRight } from "react-bootstrap-icons";
+import { useLocale } from "next-intl";
 
 interface Props extends AriaBreadcrumbItemProps {
   href?: string;
@@ -43,11 +44,13 @@ function SpanElement(props: Props) {
 function LinkElement(props: Props) {
   const ref = React.useRef<HTMLAnchorElement | null>(null);
   const { itemProps } = useBreadcrumbItem({ ...props, elementType: "a" }, ref);
+  const locale = useLocale();
 
   return (
     <Link
       {...itemProps}
       ref={ref}
+      locale={locale}
       className={classNames(
         props.isDisabled ? "text-gray-400" : "text-blue-500",
         !props.isCurrent && "hover:text-blue-600",
@@ -55,7 +58,7 @@ function LinkElement(props: Props) {
         props.isCurrent ? "font-semibold" : "font-normal",
         props.isCurrent || props.isDisabled ? "cursor-default" : "cursor-pointer",
       )}
-      href={props.href || "#"}
+      href={`/${locale}${props.href}` || "#"}
     >
       {props.children}
     </Link>

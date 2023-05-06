@@ -10,7 +10,7 @@ import type { GetServerSideProps } from "next";
 import { getTranslations } from "lib/getTranslation";
 import { Button, Loader, TextField } from "@snailycad/ui";
 import { getSessionUser } from "lib/auth";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { Title } from "components/shared/Title";
 import type { PostUserPasswordData } from "@snailycad/types/api";
 import { VersionDisplay } from "components/shared/VersionDisplay";

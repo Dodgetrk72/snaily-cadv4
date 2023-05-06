@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Dropdown } from "components/Dropdown";
 import { Button } from "@snailycad/ui";
 import { classNames } from "lib/classNames";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { usePermission, Permissions } from "hooks/usePermission";
 
 export function CitizenDropdown() {

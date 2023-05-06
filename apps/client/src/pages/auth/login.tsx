@@ -5,7 +5,7 @@ import { AuthScreenImages } from "components/auth/AuthScreenImages";
 import { LocalhostDetector } from "components/auth/LocalhostDetector";
 import { parseCookies } from "nookies";
 import { VersionDisplay } from "components/shared/VersionDisplay";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useTranslations } from "next-intl";
 import { LoginForm } from "components/auth/login/LoginForm";
 import { useRouter } from "next/router";

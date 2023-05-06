@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { FormField } from "components/form/FormField";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context.jsx";
 import { Form, Formik } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "use-intl";

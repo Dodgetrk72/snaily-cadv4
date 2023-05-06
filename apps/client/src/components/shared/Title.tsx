@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { classNames } from "lib/classNames";
 import Head from "next/head";
 

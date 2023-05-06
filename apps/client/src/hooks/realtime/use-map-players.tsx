@@ -7,7 +7,7 @@ import type {
   MapPlayer,
   PlayerDataEventPayload,
 } from "types/Map";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import useFetch from "lib/useFetch";
 import { toastMessage } from "lib/toastMessage";
 import type { cad } from "@snailycad/types";

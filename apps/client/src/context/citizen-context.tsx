@@ -4,10 +4,10 @@ import * as React from "react";
 import type { Citizen, MedicalRecord, Record, RegisteredVehicle, Weapon } from "@snailycad/types";
 
 export type CitizenWithVehAndWep = Citizen & {
-  weapons: Weapon[];
-  vehicles: RegisteredVehicle[];
-  medicalRecords: MedicalRecord[];
-  Record: Record[];
+  weapons?: Weapon[];
+  vehicles?: RegisteredVehicle[];
+  medicalRecords?: MedicalRecord[];
+  Record?: Record[];
 };
 
 interface Context<CitizenNull extends boolean = true> {
@@ -23,22 +23,19 @@ interface ProviderProps {
 }
 
 export function CitizenProvider({ initialData, children }: ProviderProps) {
-  const [citizens, setCitizens] = React.useState<Citizen[]>([]);
   const [citizen, setCurrentCitizen] = React.useState<CitizenWithVehAndWep | null>(
     initialData?.citizen ?? null,
   );
 
   React.useEffect(() => {
-    if (initialData) {
-      if (initialData.citizen) {
-        setCurrentCitizen(initialData.citizen);
-      } else {
-        setCurrentCitizen(null);
-      }
+    if (initialData?.citizen) {
+      setCurrentCitizen(initialData.citizen);
+    } else {
+      setCurrentCitizen(null);
     }
   }, [initialData]);
 
-  const value = { citizens, citizen, setCitizens, setCurrentCitizen };
+  const value = { citizen, setCurrentCitizen };
 
   return <CitizenContext.Provider value={value}>{children}</CitizenContext.Provider>;
 }

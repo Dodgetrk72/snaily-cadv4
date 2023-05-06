@@ -1,6 +1,6 @@
 import { useTranslations } from "use-intl";
 import { Form, Formik } from "formik";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { FormRow } from "components/form/FormRow";
 import { Button, TextField, TabsContent } from "@snailycad/ui";
 import { useModal } from "state/modalState";

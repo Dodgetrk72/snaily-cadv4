@@ -2,7 +2,7 @@ import type * as React from "react";
 import { PasswordInput } from "components/form/inputs/Input";
 import { Toggle } from "components/form/Toggle";
 import { Button, Loader, TabsContent } from "@snailycad/ui";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { Form, Formik, FormikHelpers } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "use-intl";

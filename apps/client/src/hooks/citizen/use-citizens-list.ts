@@ -4,7 +4,7 @@ import { useAsyncTable } from "components/shared/Table";
 
 interface UseCitizensListOptions {
   search?: string;
-  initialData: GetCitizensData;
+  initialData?: GetCitizensData;
 }
 
 export const MAX_CITIZENS_PER_PAGE = 35;
@@ -18,8 +18,8 @@ export function useCitizensList(options: UseCitizensListOptions) {
       path: "/citizen",
       onResponse: (json: GetCitizensData) => ({ totalCount: json.totalCount, data: json.citizens }),
     },
-    totalCount: options.initialData.totalCount,
-    initialData: options.initialData.citizens,
+    totalCount: options.initialData?.totalCount,
+    initialData: options.initialData?.citizens,
   });
 
   const PAGE_COUNT = Math.round(asyncTable.pagination.totalDataCount! / MAX_CITIZENS_PER_PAGE);

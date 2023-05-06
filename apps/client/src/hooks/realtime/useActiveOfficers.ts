@@ -3,7 +3,7 @@ import { useListener } from "@casper124578/use-socket.io";
 import { SocketEvents } from "@snailycad/config";
 import useFetch from "lib/useFetch";
 import { useDispatchState } from "state/dispatch/dispatch-state";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useLeoState } from "state/leo-state";
 import type { CombinedLeoUnit, Officer } from "@snailycad/types";
 import { isUnitCombined, isUnitOfficer } from "@snailycad/utils";

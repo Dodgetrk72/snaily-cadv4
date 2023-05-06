@@ -8,7 +8,7 @@ import { useActiveOfficers } from "hooks/realtime/useActiveOfficers";
 import { useRouter } from "next/router";
 import { formatUnitDivisions, makeUnitName } from "lib/utils";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { CombinedLeoUnit, StatusViewMode, Officer } from "@snailycad/types";
 import { Filter } from "react-bootstrap-icons";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Modal } from "components/modal/Modal";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import { Loader } from "@snailycad/ui";

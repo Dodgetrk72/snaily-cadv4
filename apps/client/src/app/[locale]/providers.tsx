@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "context/AuthContext";
+import { AuthProvider } from "~/context/auth-context";
 import { NextIntlClientProvider } from "next-intl";
 import { ErrorBoundary } from "@sentry/nextjs";
-import { ValuesProvider } from "context/ValuesContext";
+import { ValuesProvider } from "~/context/values-context";
 import { SSRProvider } from "@react-aria/ssr";
 
 // todo: only load in client

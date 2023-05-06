@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import * as React from "react";
 import { Layout } from "components/Layout";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { getSessionUser } from "lib/auth";
 import { getTranslations } from "lib/getTranslation";
 import { requestAll } from "lib/utils";

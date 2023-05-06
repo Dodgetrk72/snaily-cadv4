@@ -1,5 +1,5 @@
 import { Button } from "@snailycad/ui";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import Link from "next/link";
 import { WhitelistStatus } from "@snailycad/types";
 import { useTranslations } from "use-intl";

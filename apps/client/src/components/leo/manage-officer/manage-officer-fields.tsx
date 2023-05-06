@@ -13,7 +13,7 @@ import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { getUnitDepartment } from "lib/utils";
 import { useTranslations } from "use-intl";
 import { makeDivisionsObjectMap } from "../modals/ManageOfficerModal";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import { AdvancedSettings } from "../modals/AdvancedSettings";
 
 interface ManageOfficerFieldsProps {

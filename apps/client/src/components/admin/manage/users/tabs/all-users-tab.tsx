@@ -4,7 +4,7 @@ import Link from "next/link";
 import { yesOrNoText } from "lib/utils";
 import { Table, useTableState } from "components/shared/Table";
 import { Status } from "components/shared/Status";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { usePermission, Permissions } from "hooks/usePermission";
 import { defaultPermissions } from "@snailycad/permissions";
 import { classNames } from "lib/classNames";

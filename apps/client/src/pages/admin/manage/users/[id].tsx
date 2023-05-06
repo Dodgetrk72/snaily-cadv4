@@ -35,7 +35,7 @@ import type {
   PostManageUserAcceptDeclineData,
   PutManageUserByIdData,
 } from "@snailycad/types/api";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
 
 const DangerZone = dynamic(

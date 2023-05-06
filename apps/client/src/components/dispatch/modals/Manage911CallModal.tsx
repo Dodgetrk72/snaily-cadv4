@@ -24,7 +24,7 @@ import { shallow } from "zustand/shallow";
 import { isUnitCombined } from "@snailycad/utils";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
 import { useInvalidateQuery } from "hooks/use-invalidate-query";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 
 interface Props {
   call: Full911Call | null;

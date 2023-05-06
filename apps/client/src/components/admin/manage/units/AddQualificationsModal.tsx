@@ -7,7 +7,7 @@ import { Loader, Button } from "@snailycad/ui";
 import { FormField } from "components/form/FormField";
 import { Select } from "components/form/Select";
 import { Modal } from "components/modal/Modal";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import { Form, Formik } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";

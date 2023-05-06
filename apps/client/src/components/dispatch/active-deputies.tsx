@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { formatUnitDivisions, makeUnitName } from "lib/utils";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
 import { CombinedEmsFdUnit, EmsFdDeputy, StatusViewMode } from "@snailycad/types";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 
 import { Table, useTableState } from "components/shared/Table";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";

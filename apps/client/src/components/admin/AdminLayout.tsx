@@ -6,7 +6,7 @@ import { AdminSidebar } from "./Sidebar";
 import type { LayoutProps } from "components/Layout";
 import { useHasPermissionForLayout } from "hooks/auth/useHasPermissionForLayout";
 import { useSocketError } from "hooks/global/useSocketError";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useTranslations } from "next-intl";
 
 import dynamic from "next/dynamic";

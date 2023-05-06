@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useListener } from "@casper124578/use-socket.io";
 import { SocketEvents } from "@snailycad/config";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import useFetch from "lib/useFetch";
 import { useDispatchState } from "state/dispatch/dispatch-state";
 import { useEmsFdState } from "state/ems-fd-state";

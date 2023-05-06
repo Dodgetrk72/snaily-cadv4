@@ -6,8 +6,8 @@ import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { useImageUrl } from "hooks/useImageUrl";
 import { usePermission } from "hooks/usePermission";
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
 import { PersonFill } from "react-bootstrap-icons";
+import { Link } from "~/components/shared/link";
 
 interface Props {
   citizen: GetCitizensData["citizens"][number];

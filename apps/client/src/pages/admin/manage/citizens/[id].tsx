@@ -6,7 +6,7 @@ import { ValueType } from "@snailycad/types";
 import { AdminLayout } from "components/admin/AdminLayout";
 import { requestAll } from "lib/utils";
 import { Title } from "components/shared/Title";
-import { ManageCitizenForm } from "components/citizen/ManageCitizenForm";
+import { ManageCitizenForm } from "~/components/citizen/manage-citizen-form";
 import useFetch from "lib/useFetch";
 import { useRouter } from "next/router";
 import { Permissions } from "@snailycad/permissions";

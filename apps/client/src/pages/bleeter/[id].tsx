@@ -1,6 +1,6 @@
 import { BreadcrumbItem, Breadcrumbs, Button } from "@snailycad/ui";
 import { Layout } from "components/Layout";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { getSessionUser } from "lib/auth";
 import { handleRequest } from "lib/fetch";
 import { getTranslations } from "lib/getTranslation";

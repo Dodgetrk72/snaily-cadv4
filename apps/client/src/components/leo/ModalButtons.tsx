@@ -17,7 +17,7 @@ import { useImageUrl } from "hooks/useImageUrl";
 import { useMounted } from "@casper124578/useful";
 import { usePermission } from "hooks/usePermission";
 import { defaultPermissions } from "@snailycad/permissions";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import dynamic from "next/dynamic";
 import { ImageWrapper } from "components/shared/image-wrapper";
 

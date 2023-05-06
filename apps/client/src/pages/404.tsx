@@ -4,7 +4,7 @@ import type { GetStaticProps } from "next";
 import { getTranslations } from "lib/getTranslation";
 import { Title } from "components/shared/Title";
 import { handleRequest } from "lib/fetch";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useTranslations } from "next-intl";
 
 export default function FourOhFour() {

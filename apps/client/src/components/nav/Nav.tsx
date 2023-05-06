@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { usePathname } from "next/navigation";
 import { classNames } from "lib/classNames";
 import { CitizenDropdown } from "./dropdowns/citizen-dropdown";

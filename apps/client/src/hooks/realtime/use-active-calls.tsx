@@ -3,7 +3,7 @@ import { SocketEvents } from "@snailycad/config";
 import { Button } from "@snailycad/ui";
 import { isUnitOfficer } from "@snailycad/utils";
 import { getSynthesisVoices } from "components/account/appearance-tab";
-import { useAuth } from "context/AuthContext";
+import { useAuth } from "~/context/auth-context";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
 import { toastMessage } from "lib/toastMessage";
 import { makeUnitName } from "lib/utils";

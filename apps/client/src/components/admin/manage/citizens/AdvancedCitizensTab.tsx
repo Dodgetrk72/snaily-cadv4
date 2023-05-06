@@ -4,7 +4,7 @@ import { FormRow } from "components/form/FormRow";
 import { Button, Loader, TextField } from "@snailycad/ui";
 import { v4 } from "uuid";
 import { Select } from "components/form/Select";
-import { useValues } from "context/ValuesContext";
+import { useValues } from "~/context/values-context";
 import useFetch from "lib/useFetch";
 import { X } from "react-bootstrap-icons";
 import { ImportModal } from "components/admin/import/ImportModal";
