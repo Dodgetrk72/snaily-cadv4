@@ -1,4 +1,4 @@
-import { UserApiTokenTab } from "components/account/user-api-token";
+import { UserApiTokenTab } from "~/components/account/tabs/user-api-token-tab";
 
 export default function ApiTokenTabPage() {
   return <UserApiTokenTab />;

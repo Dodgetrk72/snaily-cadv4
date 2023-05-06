@@ -1,4 +1,4 @@
-import { ConnectionsTab } from "components/account/connections-tab";
+import { ConnectionsTab } from "components/account/tabs/connections-tab";
 
 interface ConnectionsTabPage {
   searchParams: { success?: "true" | "false"; error?: string };

@@ -1,4 +1,4 @@
-import { AppearanceTab } from "components/account/appearance-tab";
+import { AppearanceTab } from "components/account/tabs/appearance-tab";
 import { getAvailableSounds } from "lib/server/getAvailableSounds.server";
 
 export default async function AccountSettingsTabPage() {
