@@ -1,3 +1,5 @@
+"use client";
+
 import { Form, Formik, FormikHelpers } from "formik";
 import { useRouter } from "next/router";
 import { TEMP_PASSWORD_SCHEMA } from "@snailycad/schemas";
@@ -6,10 +8,7 @@ import { useTranslations } from "use-intl";
 import useFetch from "lib/useFetch";
 
 import { handleValidate } from "lib/handleValidate";
-import type { GetServerSideProps } from "next";
-import { getTranslations } from "lib/getTranslation";
 import { Button, Loader, TextField } from "@snailycad/ui";
-import { getSessionUser } from "lib/auth";
 import { useAuth } from "~/context/auth-context";
 import { Title } from "components/shared/Title";
 import type { PostUserPasswordData } from "@snailycad/types/api";
@@ -18,9 +17,10 @@ import { VersionDisplay } from "components/shared/VersionDisplay";
 const INITIAL_VALUES = {
   newPassword: "",
   confirmPassword: "",
+  currentPassword: null,
 };
 
-export default function TempPassword() {
+export function InnerAccountPasswordPage() {
   const router = useRouter();
   const { state, execute } = useFetch();
   const { user, cad } = useAuth();
@@ -38,10 +38,9 @@ export default function TempPassword() {
       return helpers.setFieldError("confirmPassword", "Passwords do not match");
     }
 
-    const tempPassword = String(router.query.tp);
     const { json } = await execute<PostUserPasswordData>({
       path: "/user/password",
-      data: { ...values, currentPassword: tempPassword },
+      data: values,
       method: "POST",
     });
 
@@ -50,7 +49,7 @@ export default function TempPassword() {
     }
   }
 
-  if (!user?.hasTempPassword) {
+  if (user?.hasPassword) {
     return <main className="flex justify-center pt-20">Whoops</main>;
   }
 
@@ -67,7 +66,7 @@ export default function TempPassword() {
               </h1>
 
               <p className="my-3 text-base text-gray-800 dark:text-white italic">
-                {t("savePasswordInfo")}
+                {t("forceAccountPassword")}
               </p>
 
               <TextField
@@ -114,13 +113,3 @@ export default function TempPassword() {
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ req, locale }) => {
-  const user = await getSessionUser(req);
-  return {
-    props: {
-      session: user,
-      messages: await getTranslations(["auth"], user?.locale ?? locale),
-    },
-  };
-};

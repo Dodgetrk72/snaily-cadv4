@@ -1,58 +1,38 @@
-import * as React from "react";
+"use client";
+
 import { useTranslations } from "use-intl";
-import type { GetServerSideProps } from "next";
-import { getTranslations } from "lib/getTranslation";
 import { Button } from "@snailycad/ui";
-import { getSessionUser } from "lib/auth";
 import { useAuth } from "~/context/auth-context";
 import { Title } from "components/shared/Title";
 import { VersionDisplay } from "components/shared/VersionDisplay";
+import { WhitelistStatus } from "@snailycad/types";
 import { canUseThirdPartyConnections } from "lib/utils";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { Discord, Steam } from "react-bootstrap-icons";
 import { getAPIUrl } from "@snailycad/utils/api-url";
 import { useRouter } from "next/router";
-import { doesUserHaveAllRequiredConnections } from "lib/validation/does-user-have-required-connections";
 
-export default function RequiredConnectionsPage() {
+export function InnerAccountPendingPage() {
   const { user, cad } = useAuth();
 
   const router = useRouter();
-  const t = useTranslations();
-  const { FORCE_DISCORD_AUTH, FORCE_STEAM_AUTH } = useFeatureEnabled();
+  const t = useTranslations("Auth");
+  const { DISCORD_AUTH, STEAM_OAUTH } = useFeatureEnabled();
 
-  const _doesUserHaveAllRequiredConnections =
-    user && doesUserHaveAllRequiredConnections({ user, features: cad?.features });
-
-  React.useEffect(() => {
-    const from = typeof router.query.from === "string" ? router.query.from : "/citizen";
-
-    if (_doesUserHaveAllRequiredConnections) {
-      router.push(from);
-    }
-  }, [_doesUserHaveAllRequiredConnections]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  if (_doesUserHaveAllRequiredConnections) {
-    return (
-      <main className="flex justify-center pt-20">
-        This account does not require more connections.
-      </main>
-    );
+  if (user?.whitelistStatus !== WhitelistStatus.PENDING) {
+    return <main className="flex justify-center pt-20">This account is not pending access.</main>;
   }
 
   const rawSuccessMessage = router.query.success as string | undefined;
   const successMessages = {
-    discord: t("Auth.discordSyncSuccess"),
-    steam: t("Auth.steamSyncSuccess"),
+    discord: t("discordSyncSuccess"),
+    steam: t("steamSyncSuccess"),
   } as Record<string, string>;
   const successMessage = rawSuccessMessage && successMessages[rawSuccessMessage];
 
   const useThirdPartyConnectionsAbility = canUseThirdPartyConnections();
-
-  const showSteamOAuth =
-    FORCE_STEAM_AUTH && useThirdPartyConnectionsAbility && !user?.steamId?.trim();
-  const showDiscordOAuth =
-    FORCE_DISCORD_AUTH && useThirdPartyConnectionsAbility && !user?.discordId?.trim();
+  const showSteamOAuth = STEAM_OAUTH && useThirdPartyConnectionsAbility;
+  const showDiscordOAuth = DISCORD_AUTH && useThirdPartyConnectionsAbility;
 
   function handleDiscordLogin() {
     const url = getAPIUrl();
@@ -70,7 +50,7 @@ export default function RequiredConnectionsPage() {
 
   return (
     <>
-      <Title renderLayoutTitle={false}>{t("Auth.connections")}</Title>
+      <Title renderLayoutTitle={false}>{t("accountPending")}</Title>
 
       <main className="flex flex-col items-center justify-center pt-20">
         <div className="w-full max-w-md p-6 bg-gray-100 rounded-lg shadow-md dark:bg-primary dark:border dark:border-secondary">
@@ -84,12 +64,10 @@ export default function RequiredConnectionsPage() {
           ) : null}
 
           <h1 className="text-2xl font-semibold text-gray-800 dark:text-white">
-            {t("Auth.connections")}
+            {t("accountPending")}
           </h1>
 
-          <p className="my-3 text-base text-gray-800 dark:text-white">
-            {t("Auth.connectionsText")}
-          </p>
+          <p className="my-3 text-base text-gray-800 dark:text-white">{t("accountPendingText")}</p>
 
           <div className="my-5 flex items-center gap-2">
             <span className="h-[2px] bg-secondary w-full rounded-md" />
@@ -102,7 +80,7 @@ export default function RequiredConnectionsPage() {
               className="flex items-center justify-center gap-3 w-full"
             >
               <Discord />
-              {t("Account.connectDiscord")}
+              {t("syncDiscord")}
             </Button>
           ) : null}
 
@@ -113,7 +91,7 @@ export default function RequiredConnectionsPage() {
               className="flex items-center justify-center gap-3 w-full mt-2"
             >
               <Steam />
-              {t("Account.connectSteam")}
+              {t("syncSteam")}
             </Button>
           ) : null}
         </div>
@@ -131,13 +109,3 @@ export default function RequiredConnectionsPage() {
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ req, locale }) => {
-  const user = await getSessionUser(req);
-  return {
-    props: {
-      session: user,
-      messages: await getTranslations(["auth", "account"], user?.locale ?? locale),
-    },
-  };
-};

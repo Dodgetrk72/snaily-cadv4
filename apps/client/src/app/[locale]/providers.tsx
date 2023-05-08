@@ -11,6 +11,7 @@ import { SSRProvider } from "@react-aria/ssr";
 // todo: only load in client
 import { Toaster } from "react-hot-toast";
 import { SocketProvider } from "@casper124578/use-socket.io";
+import { ErrorFallback } from "~/components/error-fallback";
 
 export function Providers({ messages, children, user }: any) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -18,7 +19,7 @@ export function Providers({ messages, children, user }: any) {
   return (
     <SSRProvider>
       <ValuesProvider initialData={{ values: [] }}>
-        <ErrorBoundary fallback={<p>An error occurred.</p>}>
+        <ErrorBoundary fallback={ErrorFallback}>
           <QueryClientProvider client={queryClient}>
             {/* todo: API url */}
             <SocketProvider uri="http://localhost:8080">
