@@ -87,5 +87,5 @@ export function makeDefaultWhatPages(
   if (!status) return [];
   const whatPages = status.whatPages ?? [];
 
-  return whatPages.length <= 0 ? DEFAULT_PAGES : status.whatPages;
+  return whatPages.length <= 0 ? DEFAULT_PAGES : status.whatPages ?? [];
 }

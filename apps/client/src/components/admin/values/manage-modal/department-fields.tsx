@@ -4,18 +4,19 @@ import { Select } from "components/form/Select";
 import { useFormikContext } from "formik";
 import { DepartmentType } from "@snailycad/types";
 import { useValues } from "~/context/values-context";
+import { ManageValueValues } from "../manage-value-modal";
 
 export const DEPARTMENT_LABELS = {
   [DepartmentType.LEO]: "LEO",
   [DepartmentType.EMS_FD]: "EMS/FD",
 };
 const DEPARTMENT_TYPES = Object.values(DepartmentType).map((v) => ({
-  label: DEPARTMENT_LABELS[v] as string,
+  label: DEPARTMENT_LABELS[v],
   value: v,
 }));
 
 export function DepartmentFields() {
-  const { values, errors, setFieldValue, handleChange } = useFormikContext<any>();
+  const { values, errors, setFieldValue, handleChange } = useFormikContext<ManageValueValues>();
   const { officerRank } = useValues();
 
   return (
@@ -36,7 +37,7 @@ export function DepartmentFields() {
         value={values.callsign}
       />
 
-      <FormField optional errorMessage={errors.defaultOfficerRankId as string} label="Default Rank">
+      <FormField optional errorMessage={errors.defaultOfficerRankId} label="Default Rank">
         <Select
           isClearable
           onChange={handleChange}
@@ -87,7 +88,7 @@ export function DepartmentFields() {
         description="Allows you to set a JSON value to be used for extra fields. This can be useful when using the Public API for doing custom things."
         isTextarea
         isOptional
-        errorMessage={errors.extraFields as string}
+        errorMessage={errors.extraFields}
         label="Extra Fields - JSON"
         name="extraFields"
         onChange={(value) => setFieldValue("extraFields", value)}

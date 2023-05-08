@@ -5,9 +5,10 @@ import { Select } from "components/form/Select";
 import { useValues } from "~/context/values-context";
 import { SelectField, Textarea } from "@snailycad/ui";
 import { QualificationValueType } from "@snailycad/types";
+import { ManageValueValues } from "../manage-value-modal";
 
 export function QualificationFields({ image, setImage }: any) {
-  const { values, errors, setFieldValue, handleChange } = useFormikContext<any>();
+  const { values, errors, setFieldValue, handleChange } = useFormikContext<ManageValueValues>();
   const { department } = useValues();
 
   const TYPES = [
@@ -18,7 +19,7 @@ export function QualificationFields({ image, setImage }: any) {
   return (
     <>
       <SelectField
-        errorMessage={errors.qualificationType as string}
+        errorMessage={errors.qualificationType}
         label="Type"
         name="qualificationType"
         options={TYPES}
@@ -27,7 +28,7 @@ export function QualificationFields({ image, setImage }: any) {
         selectedKey={values.qualificationType}
       />
 
-      <FormField errorMessage={errors.departments as string} label="Departments">
+      <FormField errorMessage={errors.departments} label="Departments">
         <Select
           isMulti
           isClearable={false}
@@ -42,7 +43,7 @@ export function QualificationFields({ image, setImage }: any) {
         />
       </FormField>
 
-      <FormField optional errorMessage={errors.description as string} label="Description">
+      <FormField optional errorMessage={errors.description} label="Description">
         <Textarea value={values.description} name="description" onChange={handleChange} />
       </FormField>
 

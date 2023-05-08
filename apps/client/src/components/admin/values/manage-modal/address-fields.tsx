@@ -1,8 +1,9 @@
 import { TextField } from "@snailycad/ui";
 import { useFormikContext } from "formik";
+import { ManageValueValues } from "../manage-value-modal";
 
 export function AddressFields() {
-  const { values, errors, setFieldValue } = useFormikContext<any>();
+  const { values, errors, setFieldValue } = useFormikContext<ManageValueValues>();
 
   return (
     <>

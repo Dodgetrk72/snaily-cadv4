@@ -1,6 +1,7 @@
 import { ValueLicenseType } from "@snailycad/types";
 import { SelectField, SwitchField } from "@snailycad/ui";
 import { useFormikContext } from "formik";
+import { ManageValueValues } from "../manage-value-modal";
 
 export const LICENSE_LABELS = {
   [ValueLicenseType.LICENSE]: "License",
@@ -9,18 +10,18 @@ export const LICENSE_LABELS = {
 };
 
 const LICENSE_TYPES = Object.values(ValueLicenseType).map((v) => ({
-  label: LICENSE_LABELS[v] as string,
+  label: LICENSE_LABELS[v],
   value: v,
 }));
 
 export function LicenseFields() {
-  const { values, errors, setFieldValue } = useFormikContext<any>();
+  const { values, errors, setFieldValue } = useFormikContext<ManageValueValues>();
 
   return (
     <>
       <SelectField
         isClearable
-        errorMessage={errors.licenseType as string}
+        errorMessage={errors.licenseType}
         label="Type"
         options={LICENSE_TYPES}
         name="licenseType"

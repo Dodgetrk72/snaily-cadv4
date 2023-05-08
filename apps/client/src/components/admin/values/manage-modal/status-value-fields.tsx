@@ -15,6 +15,7 @@ import {
 import { Eyedropper } from "react-bootstrap-icons";
 import { Input, Button, SelectField, RadioGroupField, Radio } from "@snailycad/ui";
 import { useValues } from "~/context/values-context";
+import { ManageValueValues } from "../manage-value-modal";
 
 const HexColorPicker = dynamic(async () => (await import("react-colorful")).HexColorPicker);
 
@@ -76,13 +77,13 @@ export function useDefaultDepartments() {
 }
 
 export function StatusValueFields() {
-  const { values, errors, setFieldValue, handleChange } = useFormikContext<any>();
+  const { values, errors, setFieldValue, handleChange } = useFormikContext<ManageValueValues>();
   const { department } = useValues();
 
   return (
     <>
       <SelectField
-        errorMessage={errors.shouldDo as string}
+        errorMessage={errors.shouldDo}
         label="Should Do"
         options={SHOULD_DO_VALUES}
         name="shouldDo"
@@ -91,7 +92,7 @@ export function StatusValueFields() {
       />
 
       <SelectField
-        errorMessage={errors.whatPages as string}
+        errorMessage={errors.whatPages}
         isClearable
         selectionMode="multiple"
         label="What Pages"
@@ -102,7 +103,7 @@ export function StatusValueFields() {
       />
 
       {values.shouldDo === ShouldDoType.SET_ON_DUTY ? null : (
-        <FormField errorMessage={errors.departments as string} label="Departments">
+        <FormField errorMessage={errors.departments} label="Departments">
           <Select
             closeMenuOnSelect={false}
             name="departments"
@@ -117,7 +118,7 @@ export function StatusValueFields() {
         </FormField>
       )}
 
-      <FormField errorMessage={errors.color as string} label="Color (#HEX)">
+      <FormField errorMessage={errors.color} label="Color (#HEX)">
         <div className={`flex ${values.showPicker ? "items-start" : ""}`}>
           {values.showPicker ? (
             <HexColorPicker

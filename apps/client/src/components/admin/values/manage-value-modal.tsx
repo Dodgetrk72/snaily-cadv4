@@ -8,28 +8,27 @@ import {
   BASE_VALUE_SCHEMA,
   CALL_TYPE_SCHEMA,
 } from "@snailycad/schemas";
-import { FormField } from "components/form/FormField";
+import { FormField } from "~/components/form/FormField";
 import { Loader, Button, SelectField, TextField, SwitchField } from "@snailycad/ui";
-import { Modal } from "components/modal/Modal";
+import { Modal } from "~/components/modal/Modal";
 import { Form, Formik, FormikHelpers } from "formik";
-import { handleValidate } from "lib/handleValidate";
-import useFetch from "lib/useFetch";
+import { handleValidate } from "~/lib/handleValidate";
+import useFetch from "~/lib/useFetch";
 import { useModal } from "state/modalState";
 import { useValues } from "~/context/values-context";
 import {
   AnyValue,
   DriversLicenseCategoryType,
   EmployeeAsEnum,
+  Feature,
   QualificationValueType,
   ValueType,
 } from "@snailycad/types";
 import { useTranslations } from "use-intl";
-import { Select } from "components/form/Select";
+import { Select } from "~/components/form/Select";
 import hexColor from "hex-color-regex";
-import { ModalIds } from "types/ModalIds";
-import { DepartmentFields } from "./manage-modal/DepartmentFields";
-import { StatusValueFields, useDefaultDepartments } from "./manage-modal/StatusValueFields";
-import { LicenseFields } from "./manage-modal/LicenseFields";
+import { ModalIds } from "~/types/ModalIds";
+import { LicenseFields } from "./manage-modal/license-fields";
 import {
   isEmployeeValue,
   isBaseValue,
@@ -45,18 +44,24 @@ import {
   isAddressValue,
   isEmergencyVehicleValue,
 } from "@snailycad/utils/typeguards";
-import { QualificationFields } from "./manage-modal/QualificationFields";
-import { ImageSelectInput, validateFile } from "components/form/inputs/ImageSelectInput";
+import { ImageSelectInput, validateFile } from "~/components/form/inputs/ImageSelectInput";
 import type { PatchValueByIdData, PostValuesData } from "@snailycad/types/api";
 import {
   getDisabledFromValue,
   getValueStrFromValue,
   makeDefaultWhatPages,
-} from "lib/admin/values/utils";
-import { DivisionFields } from "./manage-modal/DivisionFields";
-import { AddressFields } from "./manage-modal/AddressFields";
-import { EmergencyVehicleFields, useDefaultDivisions } from "./manage-modal/EmergencyVehicleFields";
+} from "~/lib/admin/values/utils";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+
+import { DivisionFields } from "./manage-modal/division-fields";
+import {
+  EmergencyVehicleFields,
+  useDefaultDivisions,
+} from "./manage-modal/emergency-vehicle-fields";
+import { AddressFields } from "./manage-modal/address-fields";
+import { QualificationFields } from "./manage-modal/qualification-fields";
+import { DepartmentFields } from "./manage-modal/department-fields";
+import { StatusValueFields, useDefaultDepartments } from "./manage-modal/status-value-fields";
 
 interface Props {
   type: ValueType;
@@ -91,6 +96,83 @@ const EXTRA_SCHEMAS: Partial<Record<ValueType, Zod.ZodObject<Zod.ZodRawShape>>> 
   CALL_TYPE: CALL_TYPE_SCHEMA,
 };
 
+interface GetManageValueInitialValuesOptions {
+  value: AnyValue | null;
+  features: Partial<Record<Feature, boolean>>;
+  defaultDivisions: ReturnType<typeof useDefaultDivisions>;
+  defaultDepartments: ReturnType<typeof useDefaultDepartments>;
+}
+
+export type ManageValueValues = ReturnType<typeof getManageValueInitialValues>;
+export function getManageValueInitialValues(options: GetManageValueInitialValuesOptions) {
+  const { value, defaultDepartments, defaultDivisions, features } = options;
+
+  return {
+    isDisabled: value ? getDisabledFromValue(value) : false,
+    value: value ? getValueStrFromValue(value) : "",
+
+    description:
+      value && (isUnitQualification(value) || isDLCategoryValue(value))
+        ? value.description ?? ""
+        : "",
+    qualificationType:
+      value && isUnitQualification(value)
+        ? value.qualificationType
+        : QualificationValueType.QUALIFICATION,
+
+    shouldDo: value && isStatusValue(value) ? value.shouldDo : "",
+    color: value && isStatusValue(value) ? value.color ?? "" : "",
+    type: value && (isStatusValue(value) || isDepartmentValue(value)) ? value.type : "STATUS_CODE",
+    departments:
+      value &&
+      (isStatusValue(value) || isUnitQualification(value) || isEmergencyVehicleValue(value))
+        ? defaultDepartments(value)
+        : [],
+    whatPages: value && isStatusValue(value) ? makeDefaultWhatPages(value) : [],
+
+    pairedUnitTemplate: value && isDivisionValue(value) ? value.pairedUnitTemplate ?? "" : "",
+    departmentId: value && isDivisionValue(value) ? value.departmentId : "",
+    isConfidential: value && isDepartmentValue(value) ? value.isConfidential : false,
+    whitelisted: value && isDepartmentValue(value) ? value.whitelisted : false,
+    defaultOfficerRankId: value && isDepartmentValue(value) ? value.defaultOfficerRankId : null,
+    isDefaultDepartment: value && isDepartmentValue(value) ? value.isDefaultDepartment : false,
+    callsign:
+      value && (isDepartmentValue(value) || isDivisionValue(value)) ? value.callsign ?? "" : "",
+
+    as: value && isEmployeeValue(value) ? value.as : "",
+    hash: value && (isVehicleValue(value) || isWeaponValue(value)) ? value.hash ?? "" : undefined,
+    trimLevels:
+      value && isVehicleValue(value)
+        ? value.trimLevels?.map((value) => ({
+            value: value.id,
+            label: value.value,
+          })) ?? []
+        : [],
+
+    licenseType: value && isBaseValue(value) ? value.licenseType : null,
+    isDefault: value && isBaseValue(value) ? value.isDefault : undefined,
+    priority: value && isCallTypeValue(value) ? value.priority ?? undefined : undefined,
+
+    officerRankImageId: "",
+    officerRankDepartments:
+      value && isOfficerRankValue(value) ? defaultDepartments(value) : undefined,
+
+    postal: value && isAddressValue(value) ? value.postal ?? "" : "",
+    county: value && isAddressValue(value) ? value.county ?? "" : "",
+
+    divisions:
+      value && isEmergencyVehicleValue(value) && features.DIVISIONS ? defaultDivisions(value) : [],
+
+    showPicker: false,
+    image: "",
+
+    extraFields:
+      value && (isDivisionValue(value) || isDepartmentValue(value))
+        ? JSON.stringify(value.extraFields)
+        : "null",
+  };
+}
+
 export function ManageValueModal({ onCreate, onUpdate, clType: dlType, type, value }: Props) {
   const [image, setImage] = React.useState<File | string | null>(null);
 
@@ -104,7 +186,7 @@ export function ManageValueModal({ onCreate, onUpdate, clType: dlType, type, val
   const title = !value ? t("ADD") : t("EDIT");
   const footerTitle = !value ? t("ADD") : common("save");
   const { vehicleTrimLevel, department } = useValues();
-  const { DIVISIONS } = useFeatureEnabled();
+  const features = useFeatureEnabled();
 
   async function onSubmit(
     values: typeof INITIAL_VALUES,
@@ -177,70 +259,12 @@ export function ManageValueModal({ onCreate, onUpdate, clType: dlType, type, val
     }
   }
 
-  const INITIAL_VALUES = {
-    isDisabled: value ? getDisabledFromValue(value) : false,
-    value: value ? getValueStrFromValue(value) : "",
-
-    description:
-      value && (isUnitQualification(value) || isDLCategoryValue(value))
-        ? value.description ?? ""
-        : "",
-    qualificationType:
-      value && isUnitQualification(value)
-        ? value.qualificationType
-        : QualificationValueType.QUALIFICATION,
-
-    shouldDo: value && isStatusValue(value) ? value.shouldDo : "",
-    color: value && isStatusValue(value) ? value.color ?? "" : "",
-    type: value && (isStatusValue(value) || isDepartmentValue(value)) ? value.type : "STATUS_CODE",
-    departments:
-      value &&
-      (isStatusValue(value) || isUnitQualification(value) || isEmergencyVehicleValue(value))
-        ? defaultDepartments(value)
-        : undefined,
-    whatPages: value && isStatusValue(value) ? makeDefaultWhatPages(value) : [],
-
-    pairedUnitTemplate: value && isDivisionValue(value) ? value.pairedUnitTemplate ?? "" : "",
-    departmentId: value && isDivisionValue(value) ? value.departmentId : "",
-    isConfidential: value && isDepartmentValue(value) ? value.isConfidential : false,
-    whitelisted: value && isDepartmentValue(value) ? value.whitelisted : false,
-    defaultOfficerRankId: value && isDepartmentValue(value) ? value.defaultOfficerRankId : null,
-    isDefaultDepartment: value && isDepartmentValue(value) ? value.isDefaultDepartment : false,
-    callsign:
-      value && (isDepartmentValue(value) || isDivisionValue(value)) ? value.callsign ?? "" : "",
-
-    as: value && isEmployeeValue(value) ? value.as : "",
-    hash: value && (isVehicleValue(value) || isWeaponValue(value)) ? value.hash ?? "" : undefined,
-    trimLevels:
-      value && isVehicleValue(value)
-        ? value.trimLevels?.map((value) => ({
-            value: value.id,
-            label: value.value,
-          })) ?? []
-        : [],
-
-    licenseType: value && isBaseValue(value) ? value.licenseType : null,
-    isDefault: value && isBaseValue(value) ? value.isDefault : undefined,
-    priority: value && isCallTypeValue(value) ? value.priority ?? undefined : undefined,
-
-    officerRankImageId: "",
-    officerRankDepartments:
-      value && isOfficerRankValue(value) ? defaultDepartments(value) : undefined,
-
-    postal: value && isAddressValue(value) ? value.postal ?? "" : "",
-    county: value && isAddressValue(value) ? value.county ?? "" : "",
-
-    divisions:
-      value && isEmergencyVehicleValue(value) && DIVISIONS ? defaultDivisions(value) : undefined,
-
-    showPicker: false,
-    image: "",
-
-    extraFields:
-      value && (isDivisionValue(value) || isDepartmentValue(value))
-        ? JSON.stringify(value.extraFields)
-        : "null",
-  };
+  const INITIAL_VALUES = getManageValueInitialValues({
+    defaultDepartments,
+    defaultDivisions,
+    features,
+    value,
+  });
 
   function validate(values: typeof INITIAL_VALUES) {
     if (type === ValueType.LICENSE) {

@@ -3,9 +3,10 @@ import { TextField } from "@snailycad/ui";
 import { Select } from "components/form/Select";
 import { useValues } from "~/context/values-context";
 import { useFormikContext } from "formik";
+import { ManageValueValues } from "../manage-value-modal";
 
 export function DivisionFields() {
-  const { values, errors, setFieldValue, handleChange } = useFormikContext<any>();
+  const { values, errors, setFieldValue, handleChange } = useFormikContext<ManageValueValues>();
   const { department } = useValues();
 
   return (
@@ -24,7 +25,7 @@ export function DivisionFields() {
       </FormField>
 
       <TextField
-        errorMessage={errors.value as string}
+        errorMessage={errors.value}
         label="Value"
         name="value"
         onChange={(value) => setFieldValue("value", value)}
@@ -33,7 +34,7 @@ export function DivisionFields() {
 
       <TextField
         isOptional
-        errorMessage={errors.callsign as string}
+        errorMessage={errors.callsign}
         label="Callsign Symbol"
         name="callsign"
         onChange={(value) => setFieldValue("callsign", value)}
@@ -42,7 +43,7 @@ export function DivisionFields() {
 
       <TextField
         isOptional
-        errorMessage={errors.pairedUnitTemplate as string}
+        errorMessage={errors.pairedUnitTemplate}
         label="Paired Unit Template"
         name="pairedUnitTemplate"
         onChange={(value) => setFieldValue("pairedUnitTemplate", value)}
@@ -53,7 +54,7 @@ export function DivisionFields() {
         description="Allows you to set a JSON value to be used for extra fields. This can be useful when using the Public API for doing custom things."
         isTextarea
         isOptional
-        errorMessage={errors.extraFields as string}
+        errorMessage={errors.extraFields}
         label="Extra Fields - JSON"
         name="extraFields"
         onChange={(value) => setFieldValue("extraFields", value)}

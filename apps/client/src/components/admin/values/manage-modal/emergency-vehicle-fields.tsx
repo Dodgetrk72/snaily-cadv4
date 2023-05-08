@@ -4,6 +4,7 @@ import { Select } from "components/form/Select";
 import { useValues } from "~/context/values-context";
 import { useFormikContext } from "formik";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { ManageValueValues } from "../manage-value-modal";
 
 export function useDefaultDivisions() {
   const { division } = useValues();
@@ -29,7 +30,7 @@ export function useDefaultDivisions() {
 }
 
 export function EmergencyVehicleFields() {
-  const { values, handleChange } = useFormikContext<any>();
+  const { values, handleChange } = useFormikContext<ManageValueValues>();
   const { division, department } = useValues();
   const { DIVISIONS } = useFeatureEnabled();
 

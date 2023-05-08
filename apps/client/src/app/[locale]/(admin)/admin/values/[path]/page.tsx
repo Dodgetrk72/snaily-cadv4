@@ -3,7 +3,7 @@ import { handleServerRequest } from "~/lib/fetch/server";
 import { InnerManageValuesPathPage } from "./component";
 import { GetValuesData } from "@snailycad/types/api";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
-import { valueRoutes } from "~/components/admin/Sidebar/routes";
+import { valueRoutes } from "~/components/admin/sidebar/routes";
 import { notFound } from "next/navigation";
 
 interface ManageValuesPageProps {
