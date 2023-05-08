@@ -3,20 +3,20 @@
 import * as React from "react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { FormField } from "components/form/FormField";
-import { useAuth } from "~/context/auth-context.jsx";
+import { useAuth } from "~/context/auth-context";
 import { Form, Formik } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "use-intl";
 import { StatusViewMode, TableActionsAlignment } from "@snailycad/types";
 import { Select } from "components/form/Select";
 import { Button, Loader, SelectField, TabsContent, SwitchField } from "@snailycad/ui";
-import { i18n } from "../../../i18n.config.mjs";
 import type { Sounds } from "lib/server/getAvailableSounds.server";
 import { soundCamelCaseToKebabCase } from "lib/utils";
 import { CaretDownFill } from "react-bootstrap-icons";
 import { useRouter } from "next/navigation";
 import type { PatchUserData } from "@snailycad/types/api";
 import { useAudio } from "react-use";
+import { i18n } from "i18n.config.mjs";
 
 interface Props {
   availableSounds: Record<Sounds, boolean>;

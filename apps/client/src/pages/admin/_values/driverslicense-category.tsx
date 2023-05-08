@@ -28,9 +28,9 @@ import {
 } from "lib/admin/values/utils";
 import { Table, useTableState } from "components/shared/Table";
 import { FullDate } from "components/shared/FullDate";
-import { createValueDocumentationURL } from "./[path]";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
 import Link from "next/link";
+import { createValueDocumentationURL } from "~/app/[locale]/(admin)/admin/values/[path]/component";
 
 const ManageValueModal = dynamic(async () => {
   return (await import("components/admin/values/ManageValueModal")).ManageValueModal;

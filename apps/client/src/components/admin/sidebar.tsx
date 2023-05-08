@@ -1,8 +1,9 @@
+"use client";
+
 import * as React from "react";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { classNames } from "lib/classNames";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "use-intl";
 import { useViewport } from "@casper124578/useful/hooks/useViewport";
 import { importRoutes, managementRoutes, SidebarRoute, valueRoutes } from "./Sidebar/routes";
@@ -11,6 +12,7 @@ import { defaultPermissions, Permissions } from "@snailycad/permissions";
 import { SidebarSection } from "./Sidebar/SidebarSection";
 import useFetch from "lib/useFetch";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "../shared/link";
 
 type AdminNotificationKeys =
   | "pendingUnitsForDepartments"
@@ -41,20 +43,20 @@ export function AdminSidebar() {
       } as Partial<Record<string, number | undefined>>)
     : {};
 
+  const pathname = usePathname();
   const t = useTranslations();
   const man = useTranslations("Management");
-  const router = useRouter();
 
   function isMActive(path: string) {
-    return router.pathname === path;
+    return pathname === path;
   }
 
   function isImportActive(type: string) {
-    return router.asPath.includes("import") && router.asPath.endsWith(type.toLowerCase());
+    return (pathname?.includes("import") && pathname.endsWith(type.toLowerCase())) ?? false;
   }
 
   function isValueActive(type: string) {
-    return router.asPath === `/admin/values/${type.toLowerCase()}`;
+    return pathname === `/admin/values/${type.toLowerCase()}`;
   }
 
   function makeType(t: string) {

@@ -5,11 +5,12 @@ import { useTranslations } from "use-intl";
 import { hasValueObj, isBaseValue } from "@snailycad/utils/typeguards";
 import type { DeleteValueByIdData } from "@snailycad/types/api";
 import { useModal } from "state/modalState";
-import type { AnyValue, ValueType } from "@snailycad/types";
+import { AnyValue, ValueType } from "@snailycad/types";
 import type { useAsyncTable } from "components/shared/Table";
 import type { useTemporaryItem } from "hooks/shared/useTemporaryItem";
 import { toastMessage } from "lib/toastMessage";
 import { getValueStrFromValue } from "lib/admin/values/utils";
+import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
 
 interface AlertDeleteValueModalProps<T extends AnyValue> {
   asyncTable: ReturnType<typeof useAsyncTable<T>>;
@@ -17,7 +18,21 @@ interface AlertDeleteValueModalProps<T extends AnyValue> {
   type: ValueType;
 }
 
+const pathsRecord: Partial<Record<ValueType, ValueType[]>> = {
+  [ValueType.DEPARTMENT]: [ValueType.OFFICER_RANK],
+  [ValueType.DIVISION]: [ValueType.DEPARTMENT],
+  [ValueType.QUALIFICATION]: [ValueType.DEPARTMENT],
+  [ValueType.CODES_10]: [ValueType.DEPARTMENT],
+  [ValueType.OFFICER_RANK]: [ValueType.DEPARTMENT],
+  [ValueType.EMERGENCY_VEHICLE]: [ValueType.DEPARTMENT, ValueType.DIVISION],
+  [ValueType.VEHICLE]: [ValueType.VEHICLE_TRIM_LEVEL],
+};
+
 export function AlertDeleteValueModal<T extends AnyValue>(props: AlertDeleteValueModalProps<T>) {
+  useLoadValuesClientSide({
+    valueTypes: pathsRecord[props.type] ? pathsRecord[props.type]! : [],
+  });
+
   const { state, execute } = useFetch();
   const t = useTranslations("Values");
   const typeT = useTranslations(props.type);
@@ -38,6 +53,7 @@ export function AlertDeleteValueModal<T extends AnyValue>(props: AlertDeleteValu
         title: "Delete Value",
         icon: "info",
         message: t.rich("failedDeleteValue", {
+          span: (children) => <span className="font-semibold">{children}</span>,
           value: getValueStrFromValue(_value),
         }),
       });
@@ -58,6 +74,7 @@ export function AlertDeleteValueModal<T extends AnyValue>(props: AlertDeleteValu
     <AlertModal
       id={ModalIds.AlertDeleteValue}
       description={t.rich("alert_deleteValue", {
+        span: (children) => <span className="font-semibold">{children}</span>,
         value:
           tempValue &&
           (isBaseValue(tempValue)

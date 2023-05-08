@@ -7,10 +7,10 @@ import { useAuth } from "~/context/auth-context";
 import useFetch from "lib/useFetch";
 import { Loader, Button, TextField, TabsContent } from "@snailycad/ui";
 import { ChangePasswordArea } from "components/account/ChangePasswordArea";
-import { Manage2FAModal } from "./2fa/Manage2FAModal";
-import { TwoFactorAuthArea } from "./2fa/TwoFactorAuthArea";
 import { handleValidate } from "lib/handleValidate";
 import type { PatchUserData } from "@snailycad/types/api";
+import { TwoFactorAuthArea } from "../2fa/TwoFactorAuthArea";
+import { Manage2FAModal } from "../2fa/Manage2FAModal";
 
 export function AccountSettingsTab() {
   const { user, setUser } = useAuth();

@@ -22,8 +22,8 @@ import useFetch from "lib/useFetch";
 import { hasTableDataChanged } from "lib/admin/values/utils";
 import { OptionsDropdown } from "components/admin/values/import/options-dropdown";
 import { useRouter } from "next/router";
-import { createValueDocumentationURL } from "../[path]";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
+import { createValueDocumentationURL } from "~/app/[locale]/(admin)/admin/values/[path]/component";
 
 const ManagePenalCodeGroup = dynamic(
   async () =>

@@ -27,7 +27,7 @@ import { useRouter } from "next/router";
 import { CallDescription } from "components/dispatch/active-calls/CallDescription";
 import { ArrowLeft, BoxArrowUpRight } from "react-bootstrap-icons";
 import { toastMessage } from "lib/toastMessage";
-import { createValueDocumentationURL } from "../[path]";
+import { createValueDocumentationURL } from "~/app/[locale]/(admin)/admin/values/[path]/component";
 
 const ManagePenalCode = dynamic(
   async () =>

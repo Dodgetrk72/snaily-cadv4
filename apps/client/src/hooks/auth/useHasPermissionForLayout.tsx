@@ -1,23 +1,28 @@
+"use client";
+
 import * as React from "react";
-import { usePermission } from "hooks/usePermission";
-import { useRouter } from "next/router";
-import type { LayoutProps } from "components/Layout";
+import { Permissions, usePermission } from "hooks/usePermission";
+import { useRouter } from "next/navigation";
 import { Loader } from "@snailycad/ui";
 
-export function useHasPermissionForLayout(permissions: LayoutProps["permissions"]) {
+interface UseHasPermissionForLayoutOptions {
+  permissions: Permissions[];
+}
+
+export function useHasPermissionForLayout(options: UseHasPermissionForLayoutOptions) {
   const [forbidden, setForbidden] = React.useState(false);
 
   const { hasPermissions } = usePermission();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (!permissions) return;
+    if (!options) return;
 
-    if (!hasPermissions(permissions.permissions)) {
+    if (!hasPermissions(options.permissions)) {
       router.push("/403");
       setForbidden(true);
     }
-  }, [hasPermissions, router, permissions]);
+  }, [hasPermissions, router, options]);
 
   return { forbidden, Loader: _Loader };
 }
