@@ -1,11 +1,8 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import { Button } from "@snailycad/ui";
-import { Layout } from "components/Layout";
 import { useModal } from "state/modalState";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import { requestAll } from "lib/utils";
-import type { GetServerSideProps } from "next";
 import { ModalIds } from "types/ModalIds";
 import { useTranslations } from "use-intl";
 import useFetch from "lib/useFetch";
@@ -13,6 +10,9 @@ import { Table, useAsyncTable, useTableState } from "components/shared/Table";
 import { Title } from "components/shared/Title";
 import type { DeleteTruckLogsData, GetTruckLogsData } from "@snailycad/types/api";
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
+interface InnerTruckLogsPageProps {
+  initialData: GetTruckLogsData;
+}
 
 const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal, {
   ssr: false,
@@ -22,7 +22,7 @@ const ManageTruckLogModal = dynamic(
   { ssr: false },
 );
 
-export default function TruckLogs({ logs: initialLogs, totalCount }: GetTruckLogsData) {
+export function InnerTruckLogsPage(props: InnerTruckLogsPageProps) {
   const { openModal, closeModal } = useModal();
 
   const asyncTable = useAsyncTable({
@@ -30,8 +30,8 @@ export default function TruckLogs({ logs: initialLogs, totalCount }: GetTruckLog
       onResponse: (json: GetTruckLogsData) => ({ data: json.logs, totalCount: json.totalCount }),
       path: "/truck-logs",
     },
-    totalCount,
-    initialData: initialLogs,
+    totalCount: props.initialData.totalCount,
+    initialData: props.initialData.logs,
   });
 
   const [tempLog, logState] = useTemporaryItem(asyncTable.items);
@@ -67,7 +67,7 @@ export default function TruckLogs({ logs: initialLogs, totalCount }: GetTruckLog
   }
 
   return (
-    <Layout className="dark:text-white">
+    <>
       <header className="flex items-center justify-between">
         <Title>{t("truckLogs")}</Title>
 
@@ -128,21 +128,6 @@ export default function TruckLogs({ logs: initialLogs, totalCount }: GetTruckLog
         onClose={() => logState.setTempId(null)}
         state={state}
       />
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<GetTruckLogsData> = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [logsData] = await requestAll(req, [["/truck-logs", { logs: [], totalCount: 0 }]]);
-
-  return {
-    props: {
-      ...logsData,
-      session: user,
-      messages: {
-        ...(await getTranslations(["truck-logs", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};

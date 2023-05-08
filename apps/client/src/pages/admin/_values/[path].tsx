@@ -19,7 +19,7 @@ import { Title } from "components/shared/Title";
 import { AlertModal } from "components/modal/AlertModal";
 import { ModalIds } from "types/ModalIds";
 import { FullDate } from "components/shared/FullDate";
-import { valueRoutes } from "components/admin/Sidebar/routes";
+import { valueRoutes } from "components/admin/sidebar/routes";
 import type {
   DeleteValuesBulkData,
   GetValuesData,
@@ -44,7 +44,7 @@ import { BoxArrowUpRight, InfoCircle } from "react-bootstrap-icons";
 import { useAuth } from "~/context/auth-context";
 
 const ManageValueModal = dynamic(
-  async () => (await import("components/admin/values/ManageValueModal")).ManageValueModal,
+  async () => (await import("components/admin/values/manage-value-modal")).ManageValueModal,
   { ssr: false },
 );
 

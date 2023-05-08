@@ -33,7 +33,7 @@ import Link from "next/link";
 import { createValueDocumentationURL } from "~/app/[locale]/(admin)/admin/values/[path]/component";
 
 const ManageValueModal = dynamic(async () => {
-  return (await import("components/admin/values/ManageValueModal")).ManageValueModal;
+  return (await import("components/admin/values/manage-value-modal")).ManageValueModal;
 });
 
 interface Props {

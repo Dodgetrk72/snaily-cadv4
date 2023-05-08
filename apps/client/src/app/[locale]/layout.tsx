@@ -14,7 +14,7 @@ interface RootLayoutProps {
 
 // fetch CAD configuration
 export const metadata = {
-  title: "Home",
+  title: "SnailyCAD",
   description: "Welcome to Next.js",
 };
 

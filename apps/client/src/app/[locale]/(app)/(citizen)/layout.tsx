@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export default async function CitizenLayout(props: LayoutProps) {
   const messages = await getTranslations(
-    ["citizen", "leo", "ems-fd", "calls"],
+    ["citizen", "truck-logs", "leo", "ems-fd", "calls"],
     props.params.locale,
   );
 
