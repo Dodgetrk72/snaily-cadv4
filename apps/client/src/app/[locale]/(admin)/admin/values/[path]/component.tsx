@@ -37,7 +37,7 @@ import useFetch from "~/lib/useFetch";
 import { toastMessage } from "~/lib/toastMessage";
 
 const ManageValueModal = dynamic(
-  async () => (await import("~/components/admin/values/ManageValueModal")).ManageValueModal,
+  async () => (await import("~/components/admin/values/manage-value-modal")).ManageValueModal,
   { ssr: false },
 );
 
