@@ -10,12 +10,12 @@ import { canUseThirdPartyConnections } from "lib/utils";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { Discord, Steam } from "react-bootstrap-icons";
 import { getAPIUrl } from "@snailycad/utils/api-url";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
 export function InnerAccountPendingPage() {
   const { user, cad } = useAuth();
 
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const t = useTranslations("Auth");
   const { DISCORD_AUTH, STEAM_OAUTH } = useFeatureEnabled();
 
@@ -23,7 +23,7 @@ export function InnerAccountPendingPage() {
     return <main className="flex justify-center pt-20">This account is not pending access.</main>;
   }
 
-  const rawSuccessMessage = router.query.success as string | undefined;
+  const rawSuccessMessage = searchParams?.get("success") as string | undefined;
   const successMessages = {
     discord: t("discordSyncSuccess"),
     steam: t("steamSyncSuccess"),

@@ -6,7 +6,7 @@ import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import { ActiveDeputy, useEmsFdState } from "state/ems-fd-state";
 import { useActiveDeputies } from "hooks/realtime/useActiveDeputies";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { formatUnitDivisions, makeUnitName } from "lib/utils";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
 import { CombinedEmsFdUnit, EmsFdDeputy, StatusViewMode } from "@snailycad/types";
@@ -51,11 +51,11 @@ function ActiveDeputies({ initialDeputies }: Props) {
     useFeatureEnabled();
 
   const isMounted = useMounted();
-  const router = useRouter();
+  const pathname = usePathname();
   const tableState = useTableState({ tableId: "active-deputies", pagination: { pageSize: 12 } });
 
   const activeDeputies = isMounted ? _activeDeputies : initialDeputies;
-  const isDispatch = router.pathname === "/dispatch";
+  const isDispatch = pathname === "/dispatch";
 
   const hasDispatchPerms = hasPermissions([Permissions.Dispatch]);
   const showCreateTemporaryUnitButton = isDispatch && hasDispatchPerms;

@@ -1,7 +1,7 @@
 "use client";
 
 import { Form, Formik, FormikHelpers } from "formik";
-import { useRouter } from "next/router";
+import { useSearchParams, useRouter } from "next/navigation";
 import { TEMP_PASSWORD_SCHEMA } from "@snailycad/schemas";
 import { useTranslations } from "use-intl";
 import useFetch from "lib/useFetch";
@@ -22,6 +22,7 @@ export function InnerAccountTempPassword() {
   const { state, execute } = useFetch();
   const { user, cad } = useAuth();
 
+  const searchParams = useSearchParams();
   const common = useTranslations("Common");
   const t = useTranslations("Auth");
 
@@ -35,7 +36,7 @@ export function InnerAccountTempPassword() {
       return helpers.setFieldError("confirmPassword", "Passwords do not match");
     }
 
-    const tempPassword = String(router.query.tp);
+    const tempPassword = searchParams?.get("tp")?.toString();
     const { json } = await execute<PostUserPasswordData>({
       path: "/user/password",
       data: { ...values, currentPassword: tempPassword },

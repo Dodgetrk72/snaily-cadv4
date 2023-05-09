@@ -10,12 +10,13 @@ import { canUseThirdPartyConnections } from "lib/utils";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { Discord, Steam } from "react-bootstrap-icons";
 import { getAPIUrl } from "@snailycad/utils/api-url";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import { doesUserHaveAllRequiredConnections } from "lib/validation/does-user-have-required-connections";
 
 export function InnerRequiredConnectionsPage() {
   const { user, cad } = useAuth();
 
+  const searchParams = useSearchParams();
   const router = useRouter();
   const t = useTranslations();
   const { FORCE_DISCORD_AUTH, FORCE_STEAM_AUTH } = useFeatureEnabled();
@@ -24,7 +25,8 @@ export function InnerRequiredConnectionsPage() {
     user && doesUserHaveAllRequiredConnections({ user, features: cad?.features });
 
   React.useEffect(() => {
-    const from = typeof router.query.from === "string" ? router.query.from : "/citizen";
+    const fromSearchParam = searchParams?.get("from");
+    const from = typeof fromSearchParam === "string" ? fromSearchParam : "/citizen";
 
     if (_doesUserHaveAllRequiredConnections) {
       router.push(from);
@@ -39,7 +41,7 @@ export function InnerRequiredConnectionsPage() {
     );
   }
 
-  const rawSuccessMessage = router.query.success as string | undefined;
+  const rawSuccessMessage = searchParams?.get("success") as string | undefined;
   const successMessages = {
     discord: t("Auth.discordSyncSuccess"),
     steam: t("Auth.steamSyncSuccess"),

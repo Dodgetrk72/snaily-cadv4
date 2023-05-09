@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Manage911CallModal } from "components/dispatch/modals/Manage911CallModal";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { Full911Call, useDispatchState } from "state/dispatch/dispatch-state";
 import { AssignedUnit, WhitelistStatus } from "@snailycad/types";
 import { useTranslations } from "use-intl";
@@ -52,7 +52,7 @@ function _ActiveCalls({ initialData }: Props) {
   const t = useTranslations("Calls");
   const leo = useTranslations("Leo");
   const common = useTranslations("Common");
-  const router = useRouter();
+  const pathname = usePathname();
 
   const { CALLS_911 } = useFeatureEnabled();
   const { execute } = useFetch();
@@ -88,13 +88,9 @@ function _ActiveCalls({ initialData }: Props) {
   });
 
   const hasDispatchPermissions = hasPermissions(defaultPermissions.defaultDispatchPermissions);
-  const isDispatch = router.pathname === "/dispatch" && hasDispatchPermissions;
+  const isDispatch = pathname === "/dispatch" && hasDispatchPermissions;
   const unit =
-    router.pathname === "/officer"
-      ? activeOfficer
-      : router.pathname === "/ems-fd"
-      ? activeDeputy
-      : null;
+    pathname === "/officer" ? activeOfficer : pathname === "/ems-fd" ? activeDeputy : null;
 
   const { audio } = useActiveCalls({ calls, unit });
   const isUnitAssignedToCall = (call: Full911Call) =>

@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import * as RHoverCard from "@radix-ui/react-hover-card";
 import { classNames } from "../utils/classNames";

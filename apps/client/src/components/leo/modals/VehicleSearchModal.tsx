@@ -7,7 +7,7 @@ import useFetch from "lib/useFetch";
 import { ModalIds } from "types/ModalIds";
 import { useTranslations } from "use-intl";
 import { BoloType, CustomFieldCategory, RegisteredVehicle } from "@snailycad/types";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useVehicleSearch, VehicleSearchResult } from "state/search/vehicle-search-state";
 import { ManageVehicleFlagsModal } from "./VehicleSearch/ManageVehicleFlagsModal";
 import { ManageVehicleLicensesModal } from "./VehicleSearch/ManageVehicleLicensesModal";
@@ -41,11 +41,11 @@ export function VehicleSearchModal({ id = ModalIds.VehicleSearch }: Props) {
   const cT = useTranslations("Citizen");
   const t = useTranslations("Leo");
   const { state, execute } = useFetch();
-  const router = useRouter();
+  const pathname = usePathname();
   const { CREATE_USER_CITIZEN_LEO } = useFeatureEnabled();
 
   const payloadVehicle = getPayload<Partial<RegisteredVehicle> | null>(ModalIds.VehicleSearch);
-  const isLeo = router.pathname === "/officer";
+  const isLeo = pathname === "/officer";
   const showMarkVehicleAsStolenButton = currentResult && isLeo && !currentResult.reportedStolen;
   const showImpoundVehicleButton = currentResult && isLeo && !currentResult.impounded;
   const showCreateVehicleButton = CREATE_USER_CITIZEN_LEO && isLeo && !currentResult;

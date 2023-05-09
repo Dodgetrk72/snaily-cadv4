@@ -5,7 +5,7 @@ import { ActiveOfficer, useLeoState } from "state/leo-state";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import { useActiveOfficers } from "hooks/realtime/useActiveOfficers";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { formatUnitDivisions, makeUnitName } from "lib/utils";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
 import { useAuth } from "~/context/auth-context";
@@ -71,11 +71,11 @@ function ActiveOfficers({ initialOfficers }: Props) {
   const { BADGE_NUMBERS, ACTIVE_INCIDENTS, RADIO_CHANNEL_MANAGEMENT, DIVISIONS } =
     useFeatureEnabled();
 
-  const router = useRouter();
+  const pathname = usePathname();
   const isMounted = useMounted();
 
   const activeOfficers = isMounted ? _activeOfficers : initialOfficers;
-  const isDispatch = router.pathname === "/dispatch";
+  const isDispatch = pathname === "/dispatch";
 
   const hasDispatchPerms = hasPermissions([Permissions.Dispatch]);
   const showCreateTemporaryUnitButton = isDispatch && hasDispatchPerms;

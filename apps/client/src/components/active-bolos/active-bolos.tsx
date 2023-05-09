@@ -15,7 +15,7 @@ import dynamic from "next/dynamic";
 import { Table, useAsyncTable, useTableState } from "components/shared/Table";
 import { CallDescription } from "components/dispatch/active-calls/CallDescription";
 import { useLeoState } from "state/leo-state";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { usePermission } from "hooks/usePermission";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
 import { defaultPermissions } from "@snailycad/permissions";
@@ -47,15 +47,15 @@ export function ActiveBolos({ initialBolos }: Props) {
 
   const { state, execute } = useFetch();
   const { closeModal, openModal } = useModal();
+  const { generateCallsign } = useGenerateCallsign();
   const bolosState = useBolos();
   const isMounted = useMounted();
   const bolos = isMounted ? bolosState.bolos : initialBolos.bolos;
   const t = useTranslations();
   const common = useTranslations("Common");
-  const { generateCallsign } = useGenerateCallsign();
+  const pathname = usePathname();
 
   const activeOfficer = useLeoState((state) => state.activeOfficer);
-  const { pathname } = useRouter();
   const { hasActiveDispatchers } = useActiveDispatchers();
   const { hasPermissions } = usePermission();
   const isAdmin = hasPermissions(defaultPermissions.allDefaultAdminPermissions);

@@ -9,7 +9,7 @@ import { useTranslations } from "use-intl";
 import { Infofield } from "components/shared/Infofield";
 import { useWeaponSearch, WeaponSearchResult } from "state/search/weapon-search-state";
 import { CustomFieldsArea } from "./CustomFieldsArea";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { ManageCustomFieldsModal } from "./NameSearchModal/ManageCustomFieldsModal";
 import { CustomFieldCategory } from "@snailycad/types";
 import { Status } from "components/shared/Status";
@@ -26,8 +26,8 @@ export function WeaponSearchModal({ id = ModalIds.WeaponSearch }: Props) {
   const t = useTranslations("Leo");
   const { state, execute } = useFetch();
   const { currentResult, setCurrentResult } = useWeaponSearch();
-  const router = useRouter();
-  const isLeo = router.pathname === "/officer";
+  const pathname = usePathname();
+  const isLeo = pathname === "/officer";
   const { BUREAU_OF_FIREARMS } = useFeatureEnabled();
 
   React.useEffect(() => {

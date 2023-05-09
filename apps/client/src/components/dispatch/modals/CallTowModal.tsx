@@ -9,7 +9,7 @@ import { Form, Formik, useFormikContext } from "formik";
 import { handleValidate } from "lib/handleValidate";
 import { toastMessage } from "lib/toastMessage";
 import useFetch from "lib/useFetch";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import type { Full911Call } from "state/dispatch/dispatch-state";
 import { useEmsFdState } from "state/ems-fd-state";
 import { useLeoState } from "state/leo-state";
@@ -28,11 +28,11 @@ interface Props {
 }
 
 export function DispatchCallTowModal({ call }: Props) {
-  const router = useRouter();
+  const pathname = usePathname();
 
-  const isLeo = router.pathname === "/officer";
-  const isDispatch = router.pathname === "/dispatch";
-  const isEmsFd = router.pathname === "/ems-fd";
+  const isLeo = pathname === "/officer";
+  const isDispatch = pathname === "/dispatch";
+  const isEmsFd = pathname === "/ems-fd";
 
   const common = useTranslations("Common");
   const t = useTranslations();

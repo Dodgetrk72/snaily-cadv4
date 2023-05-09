@@ -4,7 +4,7 @@ import { Button } from "@snailycad/ui";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
 import { useModal } from "state/modalState";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import type { EmsFdDeputy } from "@snailycad/types";
 import type { ActiveOfficer } from "state/leo-state";
 import { useAuth } from "~/context/auth-context";
@@ -20,10 +20,10 @@ export function ModalButton({ button: buttonFn, unit, ...buttonProps }: Props) {
   const features = useFeatureEnabled();
   const { hasActiveDispatchers } = useActiveDispatchers();
   const { openModal } = useModal();
-  const router = useRouter();
+  const pathname = usePathname();
   const { user } = useAuth();
 
-  const isDispatch = router.pathname === "/dispatch";
+  const isDispatch = pathname === "/dispatch";
   const btnArgs = { ...features, hasActiveDispatchers, isDispatch, unit, user };
   const button = buttonFn(btnArgs as Args<any>);
   const isEnabled = button.isEnabled ?? true;

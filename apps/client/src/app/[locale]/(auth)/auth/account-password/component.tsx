@@ -1,7 +1,7 @@
 "use client";
 
 import { Form, Formik, FormikHelpers } from "formik";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { TEMP_PASSWORD_SCHEMA } from "@snailycad/schemas";
 import { useTranslations } from "use-intl";
 

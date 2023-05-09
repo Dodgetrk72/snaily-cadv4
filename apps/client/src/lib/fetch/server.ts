@@ -41,6 +41,20 @@ export async function handleServerRequest<T = any>(
   }
 }
 
+export async function handleMultiServerRequest<T extends any = any>(
+  config: { path: string; defaultData?: unknown }[],
+): Promise<T> {
+  return Promise.all(
+    config.map(async ({ path, defaultData = {} }) => {
+      return handleServerRequest<any>({
+        path,
+      })
+        .then((v) => (typeof v.data === "undefined" ? defaultData : v.data))
+        .catch(() => defaultData);
+    }),
+  ) as T;
+}
+
 function makeReturn<T>(v: any): Omit<AxiosResponse<T, T>, "request"> {
   const errorObj = getErrorObj(v);
 

@@ -7,7 +7,7 @@ const json = require("./package.json");
 
 /**
  * @template {import("next").NextConfig} T
- * @typedef {T}
+ * @type {T}
  */
 const nextConfig = {
   i18n,

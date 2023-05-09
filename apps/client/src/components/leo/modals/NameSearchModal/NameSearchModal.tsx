@@ -10,7 +10,7 @@ import { CustomFieldCategory, Citizen, BoloType } from "@snailycad/types";
 import format from "date-fns/format";
 import { NameSearchTabsContainer } from "./tabs/tabs-container";
 import { NameSearchResult, useNameSearch } from "state/search/name-search-state";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { ArrowLeft, PersonFill } from "react-bootstrap-icons";
 import { useImageUrl } from "hooks/useImageUrl";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
@@ -71,14 +71,14 @@ export function NameSearchModal() {
   const vT = useTranslations("Vehicles");
   const t = useTranslations("Leo");
   const { state, execute } = useFetch();
-  const router = useRouter();
   const { makeImageUrl } = useImageUrl();
   const { SOCIAL_SECURITY_NUMBERS, CREATE_USER_CITIZEN_LEO } = useFeatureEnabled();
   const { bolos } = useBolos();
 
   const { openModal } = useModal();
-  const isLeo = router.pathname === "/officer";
-  const isDispatch = router.pathname === "/dispatch";
+  const pathname = usePathname();
+  const isLeo = pathname === "/officer";
+  const isDispatch = pathname === "/dispatch";
 
   const { results, currentResult, setCurrentResult, setResults } = useNameSearch(
     (state) => ({
