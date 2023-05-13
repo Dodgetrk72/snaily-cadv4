@@ -1,5 +1,5 @@
 import { dataToSlate, DEFAULT_EDITOR_DATA } from "components/editor/editor";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 import type { Descendant } from "slate";
 import { storageFactory } from "storage-factory";
@@ -13,8 +13,8 @@ const routeIds: Record<string, string> = {
 };
 
 export function useNotepad() {
-  const router = useRouter();
-  const routeId = routeIds[router.pathname];
+  const pathname = usePathname();
+  const routeId =pathname&& routeIds[pathname];
 
   const [value, setValue] = React.useState<Descendant[]>([]);
   const _storageFactory = React.useMemo(() => {

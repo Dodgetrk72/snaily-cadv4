@@ -1,3 +1,5 @@
+"use client";
+
 import { useAreaOfPlay } from "hooks/global/useAreaOfPlay";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
 import { useTime } from "hooks/shared/useTime";

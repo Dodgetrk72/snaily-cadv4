@@ -1,6 +1,6 @@
-import { Nav } from "components/nav/Nav";
+import { Nav } from "~/components/nav/Nav";
 import { NextIntlClientProvider } from "next-intl";
-import { AdminSidebar } from "~/components/admin/sidebar";
+import { AdminSidebar } from "~/components/admin/sidebar/sidebar";
 import { getTranslations } from "~/lib/getTranslation";
 
 interface AdminLayoutProps {

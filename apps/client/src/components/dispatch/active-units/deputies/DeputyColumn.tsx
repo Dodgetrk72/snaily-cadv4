@@ -11,7 +11,7 @@ import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
 import type { CombinedEmsFdUnit, EmsFdDeputy } from "@snailycad/types";
 import { useDispatchState } from "state/dispatch/dispatch-state";
 import { isUnitCombinedEmsFd } from "@snailycad/utils";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { ActiveDeputy, useEmsFdState } from "state/ems-fd-state";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
@@ -34,7 +34,8 @@ interface Props {
 
 export function DeputyColumn({ deputy, isDispatch, nameAndCallsign, setTempUnit }: Props) {
   const router = useRouter();
-  const isEmsFd = router.pathname.includes("/ems-fd");
+  const pathname = usePathname();
+  const isEmsFd = pathname?.includes("/ems-fd");
   const isEligiblePage = isDispatch || isEmsFd;
 
   const { activeDeputies, setActiveDeputies } = useActiveDeputies();
@@ -88,11 +89,8 @@ export function DeputyColumn({ deputy, isDispatch, nameAndCallsign, setTempUnit 
       method: "POST",
     });
 
-    if (json) {
-      router.replace({
-        pathname: router.pathname,
-        query: router.query,
-      });
+    if (json && pathname) {
+      router.replace(pathname);
     }
   }
 

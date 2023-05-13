@@ -6,13 +6,13 @@ import { classNames } from "lib/classNames";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "use-intl";
 import { useViewport } from "@casper124578/useful/hooks/useViewport";
-import { importRoutes, managementRoutes, SidebarRoute, valueRoutes } from "./sidebar/routes";
+import { importRoutes, managementRoutes, SidebarRoute, valueRoutes } from "./routes";
 import { usePermission } from "hooks/usePermission";
 import { defaultPermissions, Permissions } from "@snailycad/permissions";
-import { SidebarSection } from "./sidebar/sidebar-section";
+import { SidebarSection } from "./sidebar-section";
 import useFetch from "lib/useFetch";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "../shared/link";
+import { Link } from "../../shared/link";
 
 type AdminNotificationKeys =
   | "pendingUnitsForDepartments"

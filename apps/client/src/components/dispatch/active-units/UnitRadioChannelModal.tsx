@@ -6,7 +6,7 @@ import { Form, Formik } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";
 import { Pencil } from "react-bootstrap-icons";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useDispatchState } from "state/dispatch/dispatch-state";
 import { handleValidate } from "lib/handleValidate";
 import { UPDATE_RADIO_CHANNEL_SCHEMA } from "@snailycad/schemas";
@@ -32,8 +32,8 @@ export function UnitRadioChannelModal({ unit, onClose }: Props) {
   }));
   const { hasActiveDispatchers } = useActiveDispatchers();
 
-  const router = useRouter();
-  const isDispatch = router.pathname.includes("/dispatch");
+  const pathname = usePathname();
+  const isDispatch = pathname?.includes("/dispatch");
 
   function handleClose() {
     onClose?.();

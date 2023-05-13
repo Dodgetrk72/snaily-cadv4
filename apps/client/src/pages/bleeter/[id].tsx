@@ -9,7 +9,7 @@ import { useTranslations } from "use-intl";
 import { ModalIds } from "types/ModalIds";
 import { useModal } from "state/modalState";
 import useFetch from "lib/useFetch";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useImageUrl } from "hooks/useImageUrl";
 import { Title } from "components/shared/Title";

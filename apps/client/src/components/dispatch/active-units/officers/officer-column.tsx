@@ -11,7 +11,7 @@ import { ActiveOfficer, useLeoState } from "state/leo-state";
 import { ArrowRight } from "react-bootstrap-icons";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
 import { makeUnitName } from "lib/utils";
@@ -47,8 +47,9 @@ export function OfficerColumn({ officer, nameAndCallsign, setTempUnit }: Props) 
   const t = useTranslations("Leo");
 
   const router = useRouter();
-  const isDispatch = router.pathname === "/dispatch";
-  const isLeo = router.pathname.includes("/officer");
+  const pathname = usePathname();
+  const isDispatch = pathname === "/dispatch";
+  const isLeo = pathname?.includes("/officer");
   const isEligiblePage = isDispatch || isLeo;
 
   const codesMapped = codes10.values
@@ -87,11 +88,8 @@ export function OfficerColumn({ officer, nameAndCallsign, setTempUnit }: Props) 
       method: "POST",
     });
 
-    if (json) {
-      router.replace({
-        pathname: router.pathname,
-        query: router.query,
-      });
+    if (json && pathname) {
+      router.replace(pathname);
     }
   }
 

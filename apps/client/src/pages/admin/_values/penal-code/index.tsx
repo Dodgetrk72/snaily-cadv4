@@ -21,7 +21,7 @@ import type { DeletePenalCodeGroupsData, PutValuePositionsData } from "@snailyca
 import useFetch from "lib/useFetch";
 import { hasTableDataChanged } from "lib/admin/values/utils";
 import { OptionsDropdown } from "components/admin/values/import/options-dropdown";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
 import { createValueDocumentationURL } from "~/app/[locale]/(admin)/admin/values/[path]/component";
 
@@ -231,7 +231,7 @@ export default function PenalCodeGroupsPage(props: Props) {
       />
 
       <ImportValuesModal
-        onImport={() => router.replace("/admin/values/penal-code", undefined, { shallow: true })}
+        onImport={() => router.refresh()}
         type={ValueType.PENAL_CODE}
       />
     </AdminLayout>

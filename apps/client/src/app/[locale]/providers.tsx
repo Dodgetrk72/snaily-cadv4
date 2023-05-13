@@ -12,9 +12,13 @@ import { SSRProvider } from "@react-aria/ssr";
 import { Toaster } from "react-hot-toast";
 import { SocketProvider } from "@casper124578/use-socket.io";
 import { ErrorFallback } from "~/components/error-fallback";
+import { getAPIUrl } from "@snailycad/utils/api-url";
 
 export function Providers({ messages, children, user }: any) {
   const [queryClient] = React.useState(() => new QueryClient());
+
+  const { protocol, host } = new URL(getAPIUrl());
+  const url = `${protocol}//${host}`;
 
   return (
     <SSRProvider>
@@ -22,7 +26,7 @@ export function Providers({ messages, children, user }: any) {
         <ErrorBoundary fallback={ErrorFallback}>
           <QueryClientProvider client={queryClient}>
             {/* todo: API url */}
-            <SocketProvider uri="http://localhost:8080">
+            <SocketProvider uri={url}>
               <NextIntlClientProvider
                 now={new Date()}
                 onError={console.warn}

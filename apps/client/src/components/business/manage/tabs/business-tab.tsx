@@ -9,7 +9,7 @@ import { CREATE_COMPANY_SCHEMA } from "@snailycad/schemas";
 import { Button, Loader, Input, TabsContent } from "@snailycad/ui";
 import { handleValidate } from "lib/handleValidate";
 import { Toggle } from "components/form/Toggle";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { SettingsFormField } from "components/form/SettingsFormField";
 import type { DeleteBusinessByIdData, PutBusinessByIdData } from "@snailycad/types/api";
 import { AddressPostalSelect } from "components/form/select/PostalSelect";

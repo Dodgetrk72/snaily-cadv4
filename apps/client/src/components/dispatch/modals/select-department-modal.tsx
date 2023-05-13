@@ -10,7 +10,7 @@ import { FormField } from "components/form/FormField";
 import useFetch from "lib/useFetch";
 import { useActiveDispatcherState } from "state/dispatch/active-dispatcher-state";
 import type { GetDispatchData } from "@snailycad/types/api";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export function SelectDepartmentModal() {
   const { closeModal, isOpen } = useModal();
@@ -37,7 +37,7 @@ export function SelectDepartmentModal() {
     });
 
     if (json) {
-      router.reload();
+      router.refresh();
       setUserActiveDispatcher(json);
       closeModal(ModalIds.SelectDepartment);
     }
