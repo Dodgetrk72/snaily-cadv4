@@ -19,13 +19,11 @@ export default async function DispatchLayout(props: LayoutProps) {
     <>
       <Nav />
 
-      <main className="mt-5 px-4 md:px-6 pb-5 container max-w-[100rem] mx-auto">
-        <NextIntlClientProvider locale={props.params.locale} messages={messages}>
-          <DndProvider>
-            <DispatchProviders>{props.children}</DispatchProviders>
-          </DndProvider>
-        </NextIntlClientProvider>
-      </main>
+      <NextIntlClientProvider locale={props.params.locale} messages={messages}>
+        <DndProvider>
+          <DispatchProviders>{props.children}</DispatchProviders>
+        </DndProvider>
+      </NextIntlClientProvider>
     </>
   );
 }

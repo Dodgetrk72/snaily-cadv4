@@ -24,7 +24,7 @@ export async function getDispatchData() {
   const [values, calls, bolos, activeDispatcherData, activeOfficers, activeDeputies] =
     await handleMultiServerRequest<GetDispatchDataTuple>([
       { path: "/admin/values/codes_10", defaultData: [] },
-      { path: "911-calls", defaultData: { calls: [], totalCount: 0 } },
+      { path: "/911-calls", defaultData: { calls: [], totalCount: 0 } },
       { path: "/bolos", defaultData: { bolos: [], totalCount: 0 } },
       {
         path: "/dispatch",
@@ -48,21 +48,23 @@ export default async function DispatchPage() {
   const dispatchData = await getDispatchData();
 
   return (
-    <RequiredPermissions
-      permissions={{
-        permissions: [Permissions.Dispatch],
-      }}
-    >
-      <InnerDispatchPage
-        activeDeputies={dispatchData.activeDeputies}
-        activeDispatchersCount={dispatchData.activeDispatcherData.activeDispatchersCount}
-        activeIncidents={dispatchData.activeDispatcherData.activeIncidents}
-        activeOfficers={dispatchData.activeOfficers}
-        bolos={dispatchData.bolos}
-        calls={dispatchData.calls}
-        userActiveDispatcher={dispatchData.activeDispatcherData.userActiveDispatcher}
-        areaOfPlay={dispatchData.activeDispatcherData.areaOfPlay}
-      />
-    </RequiredPermissions>
+    <main className="mt-5 px-4 md:px-6 pb-5 container max-w-[100rem] mx-auto">
+      <RequiredPermissions
+        permissions={{
+          permissions: [Permissions.Dispatch],
+        }}
+      >
+        <InnerDispatchPage
+          activeDeputies={dispatchData.activeDeputies}
+          activeDispatchersCount={dispatchData.activeDispatcherData.activeDispatchersCount}
+          activeIncidents={dispatchData.activeDispatcherData.activeIncidents}
+          activeOfficers={dispatchData.activeOfficers}
+          bolos={dispatchData.bolos}
+          calls={dispatchData.calls}
+          userActiveDispatcher={dispatchData.activeDispatcherData.userActiveDispatcher}
+          areaOfPlay={dispatchData.activeDispatcherData.areaOfPlay}
+        />
+      </RequiredPermissions>
+    </main>
   );
 }

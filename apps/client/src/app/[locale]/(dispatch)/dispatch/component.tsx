@@ -104,6 +104,7 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
 
     state.setActiveDeputies(props.activeDeputies);
     state.setActiveOfficers(props.activeOfficers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
   return (
