@@ -17,7 +17,7 @@ export default async function ManageValuesPage(props: ManageValuesPageProps) {
   const routeData = valueRoutes.find((v) => v.type === type);
   const { data: valuesForPath } = await handleServerRequest<GetValuesData>({
     path: `/admin/values/${path}?includeAll=false`,
-    defaultData: [{ totalCount: 0, values: [], type: type }],
+    defaultData: [{ totalCount: 0, values: [], type }],
   });
 
   if (!Object.keys(ValueType).includes(type)) {

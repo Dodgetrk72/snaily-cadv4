@@ -1,29 +1,31 @@
+"use client";
+
 import * as React from "react";
 import { PenalCodeGroup, ValueType } from "@snailycad/types";
-import { Table, useAsyncTable, useTableState } from "components/shared/Table";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import { requestAll } from "lib/utils";
-import type { GetServerSideProps } from "next";
-import { SearchArea } from "components/shared/search/search-area";
-import { Title } from "components/shared/Title";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { Permissions } from "@snailycad/permissions";
+import { DeletePenalCodeGroupsData, PutValuePositionsData } from "@snailycad/types/api";
 import { Button, buttonSizes, buttonVariants } from "@snailycad/ui";
-import { useTranslations } from "use-intl";
-import dynamic from "next/dynamic";
-import { ModalIds } from "types/ModalIds";
-import Link from "next/link";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { useModal } from "state/modalState";
-import { classNames } from "lib/classNames";
-import type { DeletePenalCodeGroupsData, PutValuePositionsData } from "@snailycad/types/api";
-import useFetch from "lib/useFetch";
-import { hasTableDataChanged } from "lib/admin/values/utils";
-import { OptionsDropdown } from "components/admin/values/import/options-dropdown";
-import { useRouter } from "next/navigation";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
-import { createValueDocumentationURL } from "~/app/[locale]/(admin)/admin/values/[path]/component";
+import { useTranslations } from "use-intl";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { Title } from "~/components/shared/Title";
+import { Link } from "~/components/shared/link";
+import { OptionsDropdown } from "~/components/admin/values/import/options-dropdown";
+import { SearchArea } from "~/components/shared/search/search-area";
+import { ModalIds } from "~/types/ModalIds";
+import { useModal } from "~/state/modalState";
+import { hasTableDataChanged } from "~/lib/admin/values/utils";
+
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import dynamic from "next/dynamic";
+import useFetch from "~/lib/useFetch";
+import { useRouter } from "next/navigation";
+import { classNames } from "~/lib/classNames";
+
+const ImportValuesModal = dynamic(
+  async () =>
+    (await import("~/components/admin/values/import/import-values-modal")).ImportValuesModal,
+  { ssr: false },
+);
 
 const ManagePenalCodeGroup = dynamic(
   async () =>
@@ -32,21 +34,15 @@ const ManagePenalCodeGroup = dynamic(
   { ssr: false },
 );
 
-const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal, {
+const AlertModal = dynamic(async () => (await import("~/components/modal/AlertModal")).AlertModal, {
   ssr: false,
 });
 
-const ImportValuesModal = dynamic(
-  async () =>
-    (await import("components/admin/values/import/import-values-modal")).ImportValuesModal,
-  { ssr: false },
-);
-
-interface Props {
+interface InnerManagePenalCodeGroupsPageProps {
   groups: { groups: PenalCodeGroup[]; totalCount: number };
 }
 
-export default function PenalCodeGroupsPage(props: Props) {
+export function InnerManagePenalCodeGroupsPage(props: InnerManagePenalCodeGroupsPageProps) {
   const t = useTranslations("PENAL_CODE_GROUP");
   const common = useTranslations("Common");
   const { openModal, closeModal } = useModal();
@@ -66,7 +62,7 @@ export default function PenalCodeGroupsPage(props: Props) {
 
   const asyncTable = useAsyncTable({
     fetchOptions: {
-      onResponse: (json: Props["groups"]) => ({
+      onResponse: (json: InnerManagePenalCodeGroupsPageProps["groups"]) => ({
         data: [ungroupedGroup, ...json.groups],
         totalCount: json.totalCount + 1,
       }),
@@ -132,11 +128,7 @@ export default function PenalCodeGroupsPage(props: Props) {
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [Permissions.ManageValuePenalCode],
-      }}
-    >
+    <>
       <header className="flex items-center justify-between">
         <div>
           <Title className="!mb-0">{t("MANAGE")}</Title>
@@ -230,27 +222,17 @@ export default function PenalCodeGroupsPage(props: Props) {
         state={state}
       />
 
-      <ImportValuesModal
-        onImport={() => router.refresh()}
-        type={ValueType.PENAL_CODE}
-      />
-    </AdminLayout>
+      <ImportValuesModal onImport={() => router.refresh()} type={ValueType.PENAL_CODE} />
+    </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [groups] = await requestAll(req, [
-    ["/admin/penal-code-group", { totalCount: 0, groups: [] }],
-  ]);
-
-  return {
-    props: {
-      messages: {
-        ...(await getTranslations(["admin", "values", "common"], user?.locale ?? locale)),
-      },
-      session: user,
-      groups,
-    },
+export function createValueDocumentationURL(type: ValueType) {
+  const transformedPaths: Partial<Record<ValueType, string>> = {
+    [ValueType.DRIVERSLICENSE_CATEGORY]: "license-category",
+    [ValueType.BLOOD_GROUP]: "bloodgroup",
   };
-};
+
+  const path = transformedPaths[type] ?? type.replace(/_/g, "-").toLowerCase();
+  return `https://docs.snailycad.org/docs/features/general/values/${path}`;
+}

@@ -1,49 +1,50 @@
+"use client";
+
 import * as React from "react";
 import { ValueType } from "@snailycad/types";
-import { getSelectedTableRows, Table, useAsyncTable, useTableState } from "components/shared/Table";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import { getObjLength, isEmpty, requestAll, yesOrNoText } from "lib/utils";
-import type { GetServerSideProps } from "next";
-import { SearchArea } from "components/shared/search/search-area";
-import { Title } from "components/shared/Title";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { Permissions } from "@snailycad/permissions";
-import { Button, buttonSizes, buttonVariants } from "@snailycad/ui";
-import { useTranslations } from "use-intl";
-import dynamic from "next/dynamic";
-import { ModalIds } from "types/ModalIds";
-import Link from "next/link";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { useModal } from "state/modalState";
-import { classNames } from "lib/classNames";
 import type {
   DeleteValueByIdData,
   DeleteValuesBulkData,
   GetValuesPenalCodesData,
 } from "@snailycad/types/api";
-import useFetch from "lib/useFetch";
-import { useRouter } from "next/navigation";
-import { CallDescription } from "components/dispatch/active-calls/CallDescription";
+import { Button, buttonSizes, buttonVariants } from "@snailycad/ui";
 import { ArrowLeft, BoxArrowUpRight } from "react-bootstrap-icons";
-import { toastMessage } from "lib/toastMessage";
-import { createValueDocumentationURL } from "~/app/[locale]/(admin)/admin/values/[path]/component";
+import { useTranslations } from "use-intl";
+import {
+  Table,
+  getSelectedTableRows,
+  useAsyncTable,
+  useTableState,
+} from "~/components/shared/Table";
+import { Title } from "~/components/shared/Title";
+import { Link } from "~/components/shared/link";
+import { SearchArea } from "~/components/shared/search/search-area";
+import { ModalIds } from "~/types/ModalIds";
+import { useModal } from "~/state/modalState";
+
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import dynamic from "next/dynamic";
+import useFetch from "~/lib/useFetch";
+import { useRouter } from "next/navigation";
+import { classNames } from "~/lib/classNames";
+import { getObjLength, isEmpty, yesOrNoText } from "~/lib/utils";
+import { toastMessage } from "~/lib/toastMessage";
+import { CallDescription } from "~/components/dispatch/active-calls/CallDescription";
 
 const ManagePenalCode = dynamic(
   async () =>
     (await import("components/admin/values/penal-codes/manage-penal-code-modal")).ManagePenalCode,
   { ssr: false },
 );
-
-const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal, {
+const AlertModal = dynamic(async () => (await import("~/components/modal/AlertModal")).AlertModal, {
   ssr: false,
 });
 
-interface Props {
+interface InnerPenalCodePageProps {
   penalCodes: GetValuesPenalCodesData[number];
 }
 
-export default function PenalCodeGroupsPage(props: Props) {
+export function InnerPenalCodePage(props: InnerPenalCodePageProps) {
   const t = useTranslations("PENAL_CODE");
   const valuesT = useTranslations("Values");
   const common = useTranslations("Common");
@@ -140,11 +141,7 @@ export default function PenalCodeGroupsPage(props: Props) {
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [Permissions.ManageValuePenalCode],
-      }}
-    >
+    <>
       <header className="flex items-center justify-between">
         <div>
           <Title className="!mb-0">{t("MANAGE")}</Title>
@@ -254,26 +251,16 @@ export default function PenalCodeGroupsPage(props: Props) {
         title={t("DELETE")}
         state={state}
       />
-    </AdminLayout>
+    </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale, req, query }) => {
-  const user = await getSessionUser(req);
-  const [penalCodes] = await requestAll(req, [
-    [
-      `/admin/values/penal_code?groupId=${query.groupId}&includeAll=false&cache=false`,
-      { totalCount: 0, values: [], type: "PENAL_CODE" },
-    ],
-  ]);
-
-  return {
-    props: {
-      messages: {
-        ...(await getTranslations(["admin", "values", "common"], user?.locale ?? locale)),
-      },
-      session: user,
-      penalCodes: penalCodes[0] ?? null,
-    },
+export function createValueDocumentationURL(type: ValueType) {
+  const transformedPaths: Partial<Record<ValueType, string>> = {
+    [ValueType.DRIVERSLICENSE_CATEGORY]: "license-category",
+    [ValueType.BLOOD_GROUP]: "bloodgroup",
   };
-};
+
+  const path = transformedPaths[type] ?? type.replace(/_/g, "-").toLowerCase();
+  return `https://docs.snailycad.org/docs/features/general/values/${path}`;
+}

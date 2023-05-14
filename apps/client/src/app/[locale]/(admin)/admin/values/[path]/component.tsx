@@ -35,6 +35,7 @@ import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
 import dynamic from "next/dynamic";
 import useFetch from "~/lib/useFetch";
 import { toastMessage } from "~/lib/toastMessage";
+import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
 
 const ManageValueModal = dynamic(
   async () => (await import("~/components/admin/values/manage-value-modal")).ManageValueModal,
@@ -62,13 +63,28 @@ interface InnerManageValuesPathPage {
   valuesForPath: GetValuesData[number];
 }
 
+const pathsRecord: Partial<Record<ValueType, ValueType[]>> = {
+  [ValueType.DEPARTMENT]: [ValueType.OFFICER_RANK],
+  [ValueType.DIVISION]: [ValueType.DEPARTMENT],
+  [ValueType.QUALIFICATION]: [ValueType.DEPARTMENT],
+  [ValueType.CODES_10]: [ValueType.DEPARTMENT],
+  [ValueType.OFFICER_RANK]: [ValueType.DEPARTMENT],
+  [ValueType.EMERGENCY_VEHICLE]: [ValueType.DEPARTMENT, ValueType.DIVISION],
+  [ValueType.VEHICLE]: [ValueType.VEHICLE_TRIM_LEVEL],
+};
+
 export function InnerManageValuesPathPage(props: InnerManageValuesPathPage) {
   const t = useTranslations("Values");
   const typeT = useTranslations(props.type);
   const common = useTranslations("Common");
-  const { closeModal, openModal } = useModal();
+  const { isOpen, closeModal, openModal } = useModal();
   const { user } = useAuth();
   const { state, execute } = useFetch();
+
+  useLoadValuesClientSide({
+    // @ts-expect-error - this is fine
+    valueTypes: pathsRecord[props.type] ? pathsRecord[props.type] : [],
+  });
 
   const [search, setSearch] = React.useState("");
   const [allSelected, setAllSelected] = React.useState(false);
@@ -78,8 +94,10 @@ export function InnerManageValuesPathPage(props: InnerManageValuesPathPage) {
     fetchOptions: {
       onResponse(json: GetValuesData) {
         const [forType] = json;
-        if (!forType)
+        if (!forType) {
           return { data: props.valuesForPath.values, totalCount: props.valuesForPath.totalCount };
+        }
+
         return { data: forType.values, totalCount: forType.totalCount };
       },
       path: `/admin/values/${props.type.toLowerCase()}?includeAll=false`,
@@ -89,6 +107,7 @@ export function InnerManageValuesPathPage(props: InnerManageValuesPathPage) {
   });
 
   const [tempValue, valueState] = useTemporaryItem(asyncTable.items);
+
   const documentationUrl = createValueDocumentationURL(props.type);
   const tableState = useTableState({
     pagination: asyncTable.pagination,
@@ -175,6 +194,15 @@ export function InnerManageValuesPathPage(props: InnerManageValuesPathPage) {
       });
     }
   }
+
+  React.useEffect(() => {
+    // reset form values
+    if (!isOpen(ModalIds.ManageValue) && !isOpen(ModalIds.AlertDeleteValue)) {
+      // timeout: wait for modal to close
+      setTimeout(() => valueState.setTempId(null), 100);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   return (
     <>
