@@ -41,12 +41,12 @@ export async function handleServerRequest<T = any>(
   }
 }
 
-export async function handleMultiServerRequest<T extends any = any>(
+export async function handleMultiServerRequest<T = any>(
   config: { path: string; defaultData?: unknown }[],
 ): Promise<T> {
   return Promise.all(
     config.map(async ({ path, defaultData = {} }) => {
-      return handleServerRequest<any>({
+      return handleServerRequest<T>({
         path,
       })
         .then((v) => (typeof v.data === "undefined" ? defaultData : v.data))

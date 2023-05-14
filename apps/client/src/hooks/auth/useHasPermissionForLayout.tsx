@@ -16,8 +16,6 @@ export function useHasPermissionForLayout(options: UseHasPermissionForLayoutOpti
   const router = useRouter();
 
   React.useEffect(() => {
-    if (!options) return;
-
     if (!hasPermissions(options.permissions)) {
       router.push("/403");
       setForbidden(true);

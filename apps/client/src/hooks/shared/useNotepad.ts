@@ -14,7 +14,7 @@ const routeIds: Record<string, string> = {
 
 export function useNotepad() {
   const pathname = usePathname();
-  const routeId =pathname&& routeIds[pathname];
+  const routeId = pathname && routeIds[pathname];
 
   const [value, setValue] = React.useState<Descendant[]>([]);
   const _storageFactory = React.useMemo(() => {

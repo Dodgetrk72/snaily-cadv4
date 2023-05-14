@@ -64,7 +64,7 @@ export function useTableDataOfType(type: ValueType) {
         return {
           shouldDo: SHOULD_DO_LABELS[v.shouldDo],
           type: TYPE_LABELS[v.type],
-          whatPages: whatPages?.map((v) => WHAT_PAGES_LABELS[v]).join(", "),
+          whatPages: whatPages.map((v) => WHAT_PAGES_LABELS[v]).join(", "),
           departments:
             v.shouldDo === ShouldDoType.SET_ON_DUTY
               ? "—"
