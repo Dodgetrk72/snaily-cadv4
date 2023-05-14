@@ -1,6 +1,6 @@
 import { useTranslations } from "use-intl";
 import * as React from "react";
-import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 import { Button } from "@snailycad/ui";
 import { Layout } from "components/Layout";
 import { getSessionUser } from "lib/auth";
@@ -75,8 +75,10 @@ const pathsRecord: Partial<Record<ValueType, ValueType[]>> = {
 };
 
 export default function ValuePath({ pathValues: { totalCount, type, values: data } }: Props) {
-  const router = useRouter();
-  const path = (router.query.path as string).toUpperCase().replace(/-/g, "_");
+  const params = useParams();
+  const pathSearchParam = params?.path;
+
+  const path = (pathSearchParam as string).toUpperCase().replace(/-/g, "_");
   const routeData = valueRoutes.find((v) => v.type === type);
   const { user } = useAuth();
 

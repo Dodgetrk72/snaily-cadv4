@@ -26,11 +26,7 @@
       "hooks/*": ["./src/hooks/*"],
       "state/*": ["./src/state/*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "plugins": [{ "name": "next" }]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

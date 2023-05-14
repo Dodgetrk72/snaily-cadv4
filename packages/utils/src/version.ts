@@ -4,8 +4,8 @@ import { readFile } from "node:fs/promises";
 import process from "node:process";
 import { spawnSync } from "node:child_process";
 
-let currentVersionCached: string;
-let currentCommitHash: string;
+let currentVersionCached: string | undefined;
+let currentCommitHash: string | undefined;
 let latestReleaseVersion: string | null;
 
 export async function getCADVersion() {
@@ -15,8 +15,8 @@ export async function getCADVersion() {
   if (!localPackageVersion || !localCommitHash) return null;
 
   currentVersionCached ??= localPackageVersion;
-  currentCommitHash = localCommitHash;
-  latestReleaseVersion = releaseVersion;
+  currentCommitHash ??= localCommitHash;
+  latestReleaseVersion ??= releaseVersion;
 
   return { currentVersion: currentVersionCached, latestReleaseVersion, currentCommitHash };
 }

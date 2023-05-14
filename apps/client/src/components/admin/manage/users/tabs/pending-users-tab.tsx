@@ -7,7 +7,7 @@ import { useAsyncTable } from "hooks/shared/table/use-async-table";
 import { Button, TabsContent } from "@snailycad/ui";
 import type { GetManageUsersData, PostManageUserAcceptDeclineData } from "@snailycad/types/api";
 import { SearchArea } from "components/shared/search/search-area";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export function PendingUsersTab(props: GetManageUsersData) {
   const [search, setSearch] = React.useState("");
@@ -35,7 +35,7 @@ export function PendingUsersTab(props: GetManageUsersData) {
 
     if (json) {
       asyncTable.remove(user.id);
-      router.replace({ pathname: router.pathname, query: router.query });
+      router.refresh();
     }
   }
 

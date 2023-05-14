@@ -4,7 +4,7 @@ import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 import type { Full911Call } from "state/dispatch/dispatch-state";
 import { useModal } from "state/modalState";
 import { usePermission } from "hooks/usePermission";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { defaultPermissions } from "@snailycad/permissions";
 import type { ActiveOfficer } from "state/leo-state";
 import type { ActiveDeputy } from "state/ems-fd-state";
@@ -31,7 +31,7 @@ export function ActiveCallsActionsColumn({
   const { TOW } = useFeatureEnabled();
   const { hasActiveDispatchers } = useActiveDispatchers();
   const { hasPermissions } = usePermission();
-  const router = useRouter();
+  const pathname = usePathname();
   const { setCurrentlySelectedCall } = useCall911State((s) => ({
     setCurrentlySelectedCall: s.setCurrentlySelectedCall,
   }));
@@ -40,7 +40,7 @@ export function ActiveCallsActionsColumn({
   const common = useTranslations("Common");
 
   const hasDispatchPermissions = hasPermissions(defaultPermissions.defaultDispatchPermissions);
-  const isDispatch = router.pathname === "/dispatch" && hasDispatchPermissions;
+  const isDispatch = pathname === "/dispatch" && hasDispatchPermissions;
 
   const isUnitActive = unit?.status && unit.status.shouldDo !== ShouldDoType.SET_OFF_DUTY;
 

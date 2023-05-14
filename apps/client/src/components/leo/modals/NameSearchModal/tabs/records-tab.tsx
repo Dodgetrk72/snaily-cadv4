@@ -1,6 +1,6 @@
 import * as React from "react";
 import compareDesc from "date-fns/compareDesc";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { Record, RecordType } from "@snailycad/types";
 import { useTranslations } from "use-intl";
 import { Button, TabsContent } from "@snailycad/ui";
@@ -148,10 +148,10 @@ export function RecordsTable({
   const common = useTranslations("Common");
   const { openModal } = useModal();
   const t = useTranslations();
-  const router = useRouter();
+  const pathname = usePathname();
 
-  const isCitizenCreation = router.pathname === "/citizen/create";
-  const isCitizen = router.pathname.startsWith("/citizen") && !isCitizenCreation;
+  const isCitizenCreation = pathname === "/citizen/create";
+  const isCitizen = pathname?.startsWith("/citizen") && !isCitizenCreation;
 
   const { generateCallsign } = useGenerateCallsign();
   const tableState = useTableState();

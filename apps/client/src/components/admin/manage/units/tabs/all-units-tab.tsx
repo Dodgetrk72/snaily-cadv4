@@ -12,7 +12,7 @@ import { useTranslations } from "use-intl";
 import { Button, buttonVariants, TabsContent } from "@snailycad/ui";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
 import useFetch from "lib/useFetch";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Table, useAsyncTable, useTableState } from "components/shared/Table";
 import { Status } from "components/shared/Status";
 import { usePermission, Permissions } from "hooks/usePermission";
@@ -104,10 +104,7 @@ export function AllUnitsTab({ units }: Props) {
       unitState.setTempId(null);
       closeModal(ModalIds.AlertDeleteUnit);
 
-      router.replace({
-        pathname: router.pathname,
-        query: router.query,
-      });
+      router.refresh();
     }
   }
 

@@ -32,7 +32,9 @@ export function Layout({
 }: LayoutProps) {
   const { Component, audio, roleplayStopped } = useRoleplayStopped();
   const { showError } = useSocketError();
-  const { forbidden, Loader } = useHasPermissionForLayout(permissions);
+  const { forbidden, Loader } = useHasPermissionForLayout({
+    permissions: permissions?.permissions ?? [],
+  });
   const socket = useSocket();
 
   React.useEffect(() => {

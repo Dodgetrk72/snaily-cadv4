@@ -15,5 +15,5 @@ export function RequiredPermissions(props: RequiredPermissionsProps) {
     return <Loader />;
   }
 
-  return <>{props.children}</>;
+  return props.children as JSX.Element;
 }

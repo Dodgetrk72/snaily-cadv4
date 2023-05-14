@@ -11,7 +11,7 @@ import { TruckLogsTable } from "../TruckLogsTable";
 import { CustomFieldsArea } from "../../CustomFieldsArea";
 import { useVehicleLicenses } from "hooks/locale/useVehicleLicenses";
 import { useModal } from "state/modalState";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { ModalIds } from "types/ModalIds";
 import { useFeatureEnabled } from "hooks/useFeatureEnabled";
 
@@ -24,9 +24,9 @@ export function ResultsTab() {
   const common = useTranslations("Common");
   const vT = useTranslations("Vehicles");
   const t = useTranslations("Leo");
-  const router = useRouter();
+  const pathname = usePathname();
 
-  const isLeo = router.pathname === "/officer";
+  const isLeo = pathname === "/officer";
 
   function handleEditVehicleFlags() {
     if (!currentResult) return;

@@ -6,7 +6,7 @@ export default defineConfig({
   bundle: false,
   platform: "node",
   target: "node16",
-  // "silent": true,
+  silent: true,
   format: ["esm"],
   banner: {
     js: "'use client'",

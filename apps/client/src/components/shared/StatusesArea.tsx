@@ -5,7 +5,7 @@ import { useModal } from "state/modalState";
 import { useValues } from "~/context/values-context";
 import { classNames } from "lib/classNames";
 import useFetch from "lib/useFetch";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import type { ActiveDeputy } from "state/ems-fd-state";
 import type { ActiveOfficer } from "state/leo-state";
 import { ModalIds } from "types/ModalIds";
@@ -44,8 +44,9 @@ export function StatusesArea<T extends ActiveOfficer | ActiveDeputy>({
   const { openModal } = useModal();
   const { execute } = useFetch();
   const { user } = useAuth();
-  const router = useRouter();
-  const isEmsFd = router.pathname.includes("/ems-fd");
+  const pathname = usePathname();
+
+  const isEmsFd = pathname?.includes("/ems-fd");
   const modalId = isEmsFd ? ModalIds.SelectDeputy : ModalIds.SelectOfficer;
   const updateEmsOrOfficerStatusEventName = isEmsFd
     ? SocketEvents.UpdateEmsFdStatus

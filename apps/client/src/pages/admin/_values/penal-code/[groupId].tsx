@@ -23,7 +23,7 @@ import type {
   GetValuesPenalCodesData,
 } from "@snailycad/types/api";
 import useFetch from "lib/useFetch";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { CallDescription } from "components/dispatch/active-calls/CallDescription";
 import { ArrowLeft, BoxArrowUpRight } from "react-bootstrap-icons";
 import { toastMessage } from "lib/toastMessage";
@@ -50,6 +50,8 @@ export default function PenalCodeGroupsPage(props: Props) {
   const { openModal, closeModal } = useModal();
   const { execute, state } = useFetch();
   const router = useRouter();
+
+  // @ts-expect-error replace later in app dir with `props.params.groupId`
   const groupId = router.query.groupId as string;
 
   const [search, setSearch] = React.useState("");

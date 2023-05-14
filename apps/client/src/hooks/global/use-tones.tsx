@@ -3,7 +3,7 @@ import { useListener } from "@casper124578/use-socket.io";
 import { SocketEvents } from "@snailycad/config";
 import { useTranslations } from "use-intl";
 import { useAudio } from "react-use";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { ActiveTone, ActiveToneType } from "@snailycad/types";
 import { useQuery } from "@tanstack/react-query";
 import type { GETDispatchTonesData } from "@snailycad/types/api";
@@ -111,13 +111,13 @@ function Component({
   user: { username: string } | null;
 }) {
   const t = useTranslations();
-  const router = useRouter();
+  const pathname = usePathname();
   const types: Record<string, ActiveToneType> = {
     "/officer": ActiveToneType.LEO,
     "/ems-fd": ActiveToneType.EMS_FD,
   };
 
-  const type = types[router.pathname];
+  const type = pathname && types[pathname];
   const isShared = description?.type === ActiveToneType.SHARED;
   const showToneMessage = isShared ? true : description?.type === type;
 

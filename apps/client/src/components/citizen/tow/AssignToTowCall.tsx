@@ -5,7 +5,7 @@ import { Modal } from "components/modal/Modal";
 import { useModal } from "state/modalState";
 import useFetch from "lib/useFetch";
 import { ModalIds } from "types/ModalIds";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { CitizenSuggestionsField } from "components/shared/CitizenSuggestionsField";
 import type { PutTaxiCallsData, PutTowCallsData } from "@snailycad/types/api";
 
@@ -23,8 +23,8 @@ export function AssignToCallModal({ call, onClose, onSuccess }: Props) {
   const { isOpen, closeModal } = useModal();
   const common = useTranslations("Common");
   const t = useTranslations("Calls");
-  const router = useRouter();
-  const isTow = router.pathname === "/tow";
+  const pathname = usePathname();
+  const isTow = pathname === "/tow";
 
   const INITIAL_VALUES = {
     assignedUnitId: call?.assignedUnitId ?? "",

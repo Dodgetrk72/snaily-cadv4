@@ -25,7 +25,9 @@ interface Props {
 export function AdminLayout({ children, className, permissions }: Props) {
   const { Component, audio, roleplayStopped } = useRoleplayStopped();
   const { showError } = useSocketError();
-  const { forbidden, Loader } = useHasPermissionForLayout(permissions);
+  const { forbidden, Loader } = useHasPermissionForLayout({
+    permissions: permissions?.permissions ?? [],
+  });
   const { cad } = useAuth();
   const t = useTranslations("Errors");
 

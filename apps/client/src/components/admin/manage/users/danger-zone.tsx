@@ -1,6 +1,6 @@
 import { Loader, Button } from "@snailycad/ui";
 import useFetch from "lib/useFetch";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { ModalIds } from "types/ModalIds";
 import { useModal } from "state/modalState";
 import { AlertModal } from "components/modal/AlertModal";

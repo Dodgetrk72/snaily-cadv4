@@ -10,7 +10,7 @@ interface ErrorFallbackProps {
 }
 
 export function ErrorFallback(props: ErrorFallbackProps) {
-  console.error(JSON?.stringify(props.error, null, 4));
+  console.error(JSON.stringify(props.error, null, 4));
   const isDevelopment = process.env.NODE_ENV === "development";
 
   return (

@@ -9,7 +9,7 @@ import { Title } from "components/shared/Title";
 import { Permissions } from "@snailycad/permissions";
 import type { GetManageRecordsLogsCitizenData } from "@snailycad/types/api";
 import { Table, useAsyncTable, useTableState } from "components/shared/Table";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FullDate } from "components/shared/FullDate";
 import { ViolationsColumn } from "components/leo/ViolationsColumn";
 import { Status } from "components/shared/Status";
@@ -32,7 +32,9 @@ const TYPE_LABELS = {
 };
 
 export default function CitizenLogs(props: Props) {
-  const { query } = useRouter();
+  const router = useRouter();
+  // @ts-expect-error replace later in app dir with `props.params.citizenId`
+  const citizenId = router.query.citizenId;
 
   const t = useTranslations("Leo");
   const common = useTranslations("Common");
@@ -42,7 +44,7 @@ export default function CitizenLogs(props: Props) {
     totalCount: props.recordLogs.totalCount,
     initialData: props.recordLogs.recordsLogs,
     fetchOptions: {
-      path: `/admin/manage/records-logs/${query.citizenId}`,
+      path: `/admin/manage/records-logs/${citizenId}`,
       onResponse: (data: GetManageRecordsLogsCitizenData) => ({
         data: data.recordsLogs,
         totalCount: data.totalCount,

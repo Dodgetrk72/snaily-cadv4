@@ -9,7 +9,7 @@ import useFetch from "lib/useFetch";
 import { ModalIds } from "types/ModalIds";
 import { useTranslations } from "use-intl";
 import { FormRow } from "components/form/FormRow";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { dataToSlate, Editor } from "components/editor/editor";
 import { IncidentEventsArea } from "./IncidentEventsArea";
 import { classNames } from "lib/classNames";
@@ -47,13 +47,13 @@ export function ManageIncidentModal<T extends LeoIncident | EmsFdIncident>({
   const common = useTranslations("Common");
   const t = useTranslations("Leo");
   const { codes10 } = useValues();
-  const router = useRouter();
+  const pathname = usePathname();
   const { state, execute } = useFetch();
   const { user } = useAuth();
 
-  const isDispatch = router.pathname.includes("/dispatch");
-  const isEmsFdIncidents = type === "ems-fd" || router.pathname === "/ems-fd/incidents";
-  const isLeoIncidents = type === "leo" || router.pathname === "/officer/incidents";
+  const isDispatch = pathname?.includes("/dispatch");
+  const isEmsFdIncidents = type === "ems-fd" || pathname === "/ems-fd/incidents";
+  const isLeoIncidents = type === "leo" || pathname === "/officer/incidents";
   const areIncidentsNonDispatch = isEmsFdIncidents || isLeoIncidents;
 
   const areEventsReadonly = isDispatch ? false : areIncidentsNonDispatch;
