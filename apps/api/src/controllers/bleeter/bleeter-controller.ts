@@ -31,17 +31,20 @@ import generateBlurPlaceholder from "lib/images/generate-image-blur-data";
 export class BleeterController {
   @Get("/")
   @Description("Get **all** bleeter posts, ordered by `createdAt`")
-  async getBleeterPosts() {
-    const posts = await prisma.bleeterPost.findMany({
-      orderBy: { createdAt: "desc" },
-      include: {
-        user: {
-          select: { username: true },
+  async getBleeterPosts(): Promise<APITypes.GetBleeterData> {
+    const [posts, totalCount] = await prisma.$transaction([
+      prisma.bleeterPost.findMany({
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: { username: true },
+          },
         },
-      },
-    });
+      }),
+      prisma.bleeterPost.count(),
+    ]);
 
-    return posts;
+    return { posts, totalCount };
   }
 
   @Get("/:id")

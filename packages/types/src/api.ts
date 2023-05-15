@@ -16,13 +16,16 @@ export * from "./api/values.js";
  * @method Get
  * @route /bleeter
  */
-export type GetBleeterData = (Prisma.BleeterPost & { user: Pick<Types.User, "username"> })[];
+export interface GetBleeterData {
+  posts: (Prisma.BleeterPost & { user: Pick<Types.User, "username"> })[];
+  totalCount: number;
+}
 
 /**
  * @method Get
  * @route /bleeter/:id
  */
-export type GetBleeterByIdData = GetBleeterData[number];
+export type GetBleeterByIdData = GetBleeterData["posts"][number];
 
 /**
  * @method Post

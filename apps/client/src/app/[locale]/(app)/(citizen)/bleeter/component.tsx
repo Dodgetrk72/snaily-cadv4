@@ -1,44 +1,40 @@
-import { useTranslations } from "use-intl";
+"use client";
 
-import { Layout } from "components/Layout";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
+import { GetBleeterData } from "@snailycad/types/api";
 import { Button } from "@snailycad/ui";
-import { useModal } from "state/modalState";
-import { ModalIds } from "types/ModalIds";
 import dynamic from "next/dynamic";
-import { Title } from "components/shared/Title";
-import type { GetBleeterData } from "@snailycad/types/api";
-import { requestAll } from "lib/utils";
-import { FullDate } from "components/shared/FullDate";
-import { Editor } from "components/editor/editor";
-import { ImageWrapper } from "components/shared/image-wrapper";
-import { useImageUrl } from "hooks/useImageUrl";
-import Link from "next/link";
-import { useList } from "hooks/shared/table/use-list";
+import { useTranslations } from "use-intl";
+import { Editor } from "~/components/editor/editor";
+import { FullDate } from "~/components/shared/FullDate";
+import { Title } from "~/components/shared/Title";
+import { ImageWrapper } from "~/components/shared/image-wrapper";
+import { Link } from "~/components/shared/link";
+import { useList } from "~/hooks/shared/table/use-list";
+import { useImageUrl } from "~/hooks/useImageUrl";
+import { useModal } from "~/state/modalState";
+import { ModalIds } from "~/types/ModalIds";
 
-const ManageBleetModal = dynamic(
-  async () => (await import("components/bleeter/manage-bleet-modal")).ManageBleetModal,
-  { ssr: false },
-);
-
-interface Props {
+interface InnerBleeterPageProps {
   posts: GetBleeterData;
 }
 
-export default function Bleeter({ posts }: Props) {
-  const t = useTranslations("Bleeter");
+const ManageBleetModal = dynamic(
+  async () => (await import("~/components/bleeter/manage-bleet-modal")).ManageBleetModal,
+  { ssr: false },
+);
+
+export function InnerBleeterPage(props: InnerBleeterPageProps) {
   const { openModal } = useModal();
   const { makeImageUrl } = useImageUrl();
+  const t = useTranslations("Bleeter");
 
   const list = useList({
-    initialData: posts,
-    totalCount: posts.length,
+    initialData: props.posts.posts,
+    totalCount: props.posts.totalCount,
   });
 
   return (
-    <Layout className="dark:text-white">
+    <>
       <header className="flex items-center justify-between">
         <Title className="!mb-0">{t("bleeter")}</Title>
 
@@ -94,21 +90,6 @@ export default function Bleeter({ posts }: Props) {
         onCreate={(bleet) => list.prepend(bleet)}
         post={null}
       />
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [bleeterData] = await requestAll(req, [["/bleeter", []]]);
-
-  return {
-    props: {
-      posts: bleeterData,
-      session: user,
-      messages: {
-        ...(await getTranslations(["bleeter", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};
