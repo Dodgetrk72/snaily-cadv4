@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { useAuth } from "~/context/auth-context";
 import { usePathname } from "next/navigation";
 import { classNames } from "lib/classNames";
@@ -20,6 +19,7 @@ import { usePermission } from "hooks/usePermission";
 import { defaultPermissions, Permissions } from "@snailycad/permissions";
 import { ImageWrapper } from "components/shared/image-wrapper";
 import { AdminLink } from "./dropdowns/admin-link";
+import { Link } from "../shared/link";
 
 interface Props {
   maxWidth?: string;

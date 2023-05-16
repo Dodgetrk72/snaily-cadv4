@@ -13,7 +13,11 @@ import type { DeleteCourthousePostsData, GetCourthousePostsData } from "@snailyc
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
 import { CallDescription } from "components/dispatch/active-calls/CallDescription";
 
-export function CourthousePostsTab() {
+interface Props {
+  posts: GetCourthousePostsData;
+}
+
+export function CourthousePostsTab(props: Props) {
   const asyncTable = useAsyncTable<CourthousePost>({
     fetchOptions: {
       path: "/courthouse-posts",
@@ -22,6 +26,8 @@ export function CourthousePostsTab() {
         totalCount: json.totalCount,
       }),
     },
+    initialData: props.posts.courthousePosts,
+    totalCount: props.posts.totalCount,
   });
   const [tempPost, postState] = useTemporaryItem(asyncTable.items);
   const tableState = useTableState({ pagination: asyncTable.pagination });

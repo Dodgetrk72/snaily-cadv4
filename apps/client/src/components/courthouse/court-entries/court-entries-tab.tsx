@@ -12,7 +12,11 @@ import type { DeleteCourtEntriesData, GetCourtEntriesData } from "@snailycad/typ
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
 import { CallDescription } from "components/dispatch/active-calls/CallDescription";
 
-export function CourtEntriesTab() {
+interface Props {
+  entries: GetCourtEntriesData;
+}
+
+export function CourtEntriesTab(props: Props) {
   const asyncTable = useAsyncTable<CourtEntry>({
     fetchOptions: {
       path: "/court-entries",
@@ -21,6 +25,8 @@ export function CourtEntriesTab() {
         totalCount: json.totalCount,
       }),
     },
+    initialData: props.entries.courtEntries,
+    totalCount: props.entries.totalCount,
   });
   const [tempEntry, entryState] = useTemporaryItem(asyncTable.items);
 
