@@ -1,25 +1,21 @@
-import * as React from "react";
-import { useTranslations } from "use-intl";
-import { useListener } from "@casper124578/use-socket.io";
-import { SocketEvents } from "@snailycad/config";
-import { Layout } from "components/Layout";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { requestAll } from "lib/utils";
-import { Table, useTableState } from "components/shared/Table";
-import { Title } from "components/shared/Title";
-import { FullDate } from "components/shared/FullDate";
-import type { TowCall } from "@snailycad/types";
-import { Permissions } from "@snailycad/permissions";
-import type { GetTowCallsData } from "@snailycad/types/api";
-import { CallDescription } from "components/dispatch/active-calls/CallDescription";
+"use client";
 
-interface Props {
+import * as React from "react";
+import { Title } from "~/components/shared/Title";
+import { TowCall } from "@snailycad/types";
+import { GetTowCallsData } from "@snailycad/types/api";
+import { useTranslations } from "use-intl";
+import { SocketEvents } from "@snailycad/config";
+import { useListener } from "@casper124578/use-socket.io";
+import { Table, useTableState } from "~/components/shared/Table";
+import { CallDescription } from "~/components/dispatch/active-calls/CallDescription";
+import { FullDate } from "~/components/shared/FullDate";
+
+interface InnerTowLogsPageProps {
   calls: GetTowCallsData;
 }
 
-export default function TowLogs(props: Props) {
+export function InnerTowLogsPage(props: InnerTowLogsPageProps) {
   const [calls, setCalls] = React.useState<TowCall[]>(props.calls);
   const common = useTranslations("Common");
   const t = useTranslations("Calls");
@@ -46,7 +42,7 @@ export default function TowLogs(props: Props) {
   }, [props.calls]);
 
   return (
-    <Layout permissions={{ permissions: [Permissions.ViewTowLogs] }} className="dark:text-white">
+    <>
       <header>
         <Title>{t("towLogs")}</Title>
         <p className="max-w-2xl mt-2 text-neutral-700 dark:text-gray-400">
@@ -78,21 +74,6 @@ export default function TowLogs(props: Props) {
           ]}
         />
       )}
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [data] = await requestAll(req, [["/tow?ended=true", []]]);
-
-  return {
-    props: {
-      calls: data,
-      session: user,
-      messages: {
-        ...(await getTranslations(["calls", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};

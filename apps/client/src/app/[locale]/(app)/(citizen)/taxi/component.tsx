@@ -1,25 +1,22 @@
-import * as React from "react";
-import { Layout } from "components/Layout";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import type { TaxiCall } from "@snailycad/types";
-import { Button } from "@snailycad/ui";
-import { useTranslations } from "use-intl";
-import { useListener } from "@casper124578/use-socket.io";
-import { SocketEvents } from "@snailycad/config";
-import { useModal } from "state/modalState";
-import { ModalIds } from "types/ModalIds";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { TowTaxiCallsTable } from "components/calls/TowTaxiCallsTable";
-import { Permissions } from "@snailycad/permissions";
+"use client";
 
-interface Props {
-  calls: TaxiCall[];
+import * as React from "react";
+import { Button } from "@snailycad/ui";
+import { TowTaxiCallsTable } from "~/components/calls/TowTaxiCallsTable";
+import { Title } from "~/components/shared/Title";
+import { useModal } from "~/state/modalState";
+import { TaxiCall } from "@snailycad/types";
+import { GetTaxiCallsData } from "@snailycad/types/api";
+import { useTranslations } from "use-intl";
+import { SocketEvents } from "@snailycad/config";
+import { useListener } from "@casper124578/use-socket.io";
+import { ModalIds } from "~/types/ModalIds";
+
+interface InnerTaxiPageProps {
+  calls: GetTaxiCallsData;
 }
 
-export default function Taxi(props: Props) {
+export function InnerTaxiPage(props: InnerTaxiPageProps) {
   const { openModal } = useModal();
   const [calls, setCalls] = React.useState<TaxiCall[]>(props.calls);
   const t = useTranslations("Calls");
@@ -59,12 +56,7 @@ export default function Taxi(props: Props) {
   }, [props.calls]);
 
   return (
-    <Layout
-      permissions={{
-        permissions: [Permissions.ViewTaxiCalls, Permissions.ManageTaxiCalls],
-      }}
-      className="dark:text-white"
-    >
+    <>
       <header className="flex items-center justify-between mb-5">
         <Title>{t("taxi")}</Title>
 
@@ -77,21 +69,6 @@ export default function Taxi(props: Props) {
         setCalls={setCalls}
         calls={calls}
       />
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [data] = await requestAll(req, [["/taxi", []]]);
-
-  return {
-    props: {
-      calls: data,
-      session: user,
-      messages: {
-        ...(await getTranslations(["calls", "leo", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};
