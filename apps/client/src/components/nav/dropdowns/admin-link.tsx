@@ -3,9 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { classNames } from "lib/classNames";
 import useFetch from "lib/useFetch";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "use-intl";
+import { Link } from "~/components/shared/link";
 
 export function AdminLink() {
   const { execute } = useFetch();

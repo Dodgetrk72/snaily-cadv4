@@ -1,34 +1,39 @@
-import { AdminLayout } from "components/admin/AdminLayout";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import { requestAll } from "lib/utils";
-import type { GetServerSideProps } from "next";
-import prettyBytes from "pretty-bytes";
-import { useTranslations } from "next-intl";
-import { Title } from "components/shared/Title";
-import { defaultPermissions } from "@snailycad/permissions";
-import type { GetAdminDashboardData } from "@snailycad/types/api";
+"use client";
 
-interface Props {
-  counts: GetAdminDashboardData | null;
+import { GetAdminDashboardData } from "@snailycad/types/api";
+import prettyBytes from "pretty-bytes";
+import { ExclamationCircleFill } from "react-bootstrap-icons";
+import { useTranslations } from "use-intl";
+import { Title } from "~/components/shared/Title";
+
+interface InnerAdminDashboardPageProps {
+  data: GetAdminDashboardData | null;
 }
 
-export default function Admin({ counts }: Props) {
+export function InnerAdminDashboardPage(props: InnerAdminDashboardPageProps) {
+  const counts = props.data;
   const t = useTranslations("Management");
 
   if (!counts) {
-    return null;
+    return (
+      <div
+        role="alert"
+        className="mb-5 flex flex-col p-2 px-4 text-black rounded-md shadow bg-red-400 border border-red-500/80"
+      >
+        <header className="flex items-center gap-2 mb-2">
+          <ExclamationCircleFill />
+          <h5 className="font-semibold text-lg">Unable to show stats</h5>
+        </header>
+        <p>
+          We were unable to show the statistics. Please try again later. If this issue persists,
+          please contact the developer.
+        </p>
+      </div>
+    );
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [
-          ...defaultPermissions.allDefaultAdminPermissions,
-          ...defaultPermissions.defaultCourthousePermissions,
-        ],
-      }}
-    >
+    <>
       <Title>{t("adminDashboard")}</Title>
 
       <Group name={t("users")}>
@@ -102,7 +107,7 @@ export default function Admin({ counts }: Props) {
         <Item count={counts.imageData.count} name="total" />
         <Item count={prettyBytes(counts.imageData.totalSize, { binary: true })} name="" />
       </Group>
-    </AdminLayout>
+    </>
   );
 }
 
@@ -140,21 +145,3 @@ function Item({
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async ({ locale, res, req }) => {
-  const user = await getSessionUser(req);
-  const [data] = await requestAll(req, [["/admin", null]]);
-
-  // https://nextjs.org/docs/going-to-production#caching
-  res.setHeader("Cache-Control", "public, s-maxage=10, stale-while-revalidate=59");
-
-  return {
-    props: {
-      counts: data,
-      session: user,
-      messages: {
-        ...(await getTranslations(["admin", "values", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};
