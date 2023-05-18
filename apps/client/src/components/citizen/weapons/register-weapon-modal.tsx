@@ -47,7 +47,7 @@ export function RegisterWeaponModal({ weapon, onClose, onCreate, onUpdate }: Pro
   const { weapon: weapons, license } = useValues();
   const validate = handleValidate(WEAPON_SCHEMA);
   const isDisabled = pathname === "/citizen/[id]";
-  const isLeo = pathname?.includes("/officer");
+  const isLeo = pathname.includes("/officer");
 
   function handleClose() {
     closeModal(ModalIds.RegisterWeapon);

@@ -38,7 +38,7 @@ export function AccountTabList(props: AccountTabListProps) {
     },
   ];
 
-  const activeTab = TABS_TITLES.findLast((v) => pathname?.endsWith(v.href));
+  const activeTab = TABS_TITLES.findLast((v) => pathname.endsWith(v.href));
 
   return (
     <TabList activeTab={activeTab?.value} tabs={TABS_TITLES}>

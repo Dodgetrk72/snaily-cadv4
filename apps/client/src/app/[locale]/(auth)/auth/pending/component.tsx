@@ -23,7 +23,7 @@ export function InnerAccountPendingPage() {
     return <main className="flex justify-center pt-20">This account is not pending access.</main>;
   }
 
-  const rawSuccessMessage = searchParams?.get("success") as string | undefined;
+  const rawSuccessMessage = searchParams.get("success") as string | undefined;
   const successMessages = {
     discord: t("discordSyncSuccess"),
     steam: t("steamSyncSuccess"),

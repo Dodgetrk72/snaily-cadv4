@@ -51,7 +51,7 @@ export function ManageIncidentModal<T extends LeoIncident | EmsFdIncident>({
   const { state, execute } = useFetch();
   const { user } = useAuth();
 
-  const isDispatch = pathname?.includes("/dispatch");
+  const isDispatch = pathname.includes("/dispatch");
   const isEmsFdIncidents = type === "ems-fd" || pathname === "/ems-fd/incidents";
   const isLeoIncidents = type === "leo" || pathname === "/officer/incidents";
   const areIncidentsNonDispatch = isEmsFdIncidents || isLeoIncidents;

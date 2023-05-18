@@ -59,7 +59,7 @@ interface ProviderProps {
 
 export function ValuesProvider({ initialData, children }: ProviderProps) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/admin");
+  const isAdmin = pathname.startsWith("/admin");
 
   const [values, setValues] = React.useState<ProviderProps["initialData"]["values"]>(
     Array.isArray(initialData.values) ? initialData.values : [],

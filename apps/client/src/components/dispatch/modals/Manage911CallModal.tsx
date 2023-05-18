@@ -60,8 +60,8 @@ export function Manage911CallModal({ setCall, forceDisabled, forceOpen, call, on
 
   const hasDispatchPermissions = hasPermissions(defaultPermissions.defaultDispatchPermissions);
 
-  const activeUnit = pathname?.includes("/officer") ? activeOfficer : activeDeputy;
-  const isDispatch = pathname?.includes("/dispatch") && hasDispatchPermissions;
+  const activeUnit = pathname.includes("/officer") ? activeOfficer : activeDeputy;
+  const isDispatch = pathname.includes("/dispatch") && hasDispatchPermissions;
 
   const isDisabled = forceDisabled
     ? true

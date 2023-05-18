@@ -33,7 +33,7 @@ export function Nav({ maxWidth }: Props) {
   const pathname = usePathname();
 
   const t = useTranslations("Nav");
-  const isActive = (route: string) => pathname?.startsWith(route);
+  const isActive = (route: string) => pathname.startsWith(route);
   const { hasPermissions } = usePermission();
 
   const { makeImageUrl } = useImageUrl();

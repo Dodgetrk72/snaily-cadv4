@@ -25,7 +25,7 @@ export function InnerRequiredConnectionsPage() {
     user && doesUserHaveAllRequiredConnections({ user, features: cad?.features });
 
   React.useEffect(() => {
-    const fromSearchParam = searchParams?.get("from");
+    const fromSearchParam = searchParams.get("from");
     const from = typeof fromSearchParam === "string" ? fromSearchParam : "/citizen";
 
     if (_doesUserHaveAllRequiredConnections) {
@@ -41,7 +41,7 @@ export function InnerRequiredConnectionsPage() {
     );
   }
 
-  const rawSuccessMessage = searchParams?.get("success") as string | undefined;
+  const rawSuccessMessage = searchParams.get("success") as string | undefined;
   const successMessages = {
     discord: t("Auth.discordSyncSuccess"),
     steam: t("Auth.steamSyncSuccess"),

@@ -15,7 +15,7 @@ export function useActiveDispatchers() {
   const queryClient = useQueryClient();
 
   const pathname = usePathname();
-  const isCitizen = pathname?.includes("/citizen");
+  const isCitizen = pathname.includes("/citizen");
 
   const dispatchState = useDispatchState();
   const activeDispatcherState = useActiveDispatcherState();

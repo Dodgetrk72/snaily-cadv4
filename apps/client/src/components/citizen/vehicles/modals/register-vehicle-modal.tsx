@@ -71,7 +71,7 @@ export function RegisterVehicleModal({ vehicle, onClose, onCreate, onUpdate }: P
 
   const isDisabled = pathname === "/citizen/[id]";
   const maxPlateLength = cad?.miscCadSettings?.maxPlateLength ?? 8;
-  const isLeo = pathname?.includes("/officer");
+  const isLeo = pathname.includes("/officer");
 
   const schema = isLeo ? LEO_VEHICLE_SCHEMA : VEHICLE_SCHEMA;
   const validate = handleValidate(schema);

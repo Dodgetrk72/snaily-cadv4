@@ -151,7 +151,7 @@ export function RecordsTable({
   const pathname = usePathname();
 
   const isCitizenCreation = pathname === "/citizen/create";
-  const isCitizen = pathname?.startsWith("/citizen") && !isCitizenCreation;
+  const isCitizen = pathname.startsWith("/citizen") && !isCitizenCreation;
 
   const { generateCallsign } = useGenerateCallsign();
   const tableState = useTableState();

@@ -50,7 +50,7 @@ export function Manage911CallForm({ call, isDisabled, setShowAlert, handleClose 
   const { invalidateQuery } = useInvalidateQuery(["/911-calls"]);
 
   const validate = handleValidate(CALL_911_SCHEMA);
-  const isCitizen = pathname?.includes("/citizen");
+  const isCitizen = pathname.includes("/citizen");
 
   function handleEndClick() {
     if (!call || isDisabled) return;
@@ -153,7 +153,7 @@ export function Manage911CallForm({ call, isDisabled, setShowAlert, handleClose 
           />
 
           <AddressPostalSelect isDisabled={isDisabled} addressLabel="location" />
-          {pathname?.includes("/citizen") ? (
+          {pathname.includes("/citizen") ? (
             <FormField errorMessage={errors.description} label={common("description")}>
               <Editor
                 value={values.descriptionData}

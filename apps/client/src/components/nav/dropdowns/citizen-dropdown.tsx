@@ -12,7 +12,7 @@ import { usePermission, Permissions } from "hooks/usePermission";
 export function CitizenDropdown() {
   const enabled = useFeatureEnabled();
   const pathname = usePathname();
-  const isActive = (route: string) => pathname?.startsWith(route);
+  const isActive = (route: string) => pathname.startsWith(route);
   const t = useTranslations("Nav");
   const { user } = useAuth();
   const { hasPermissions } = usePermission();

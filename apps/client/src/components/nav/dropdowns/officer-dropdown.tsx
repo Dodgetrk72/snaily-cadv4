@@ -14,7 +14,7 @@ import useFetch from "lib/useFetch";
 export function OfficerDropdown() {
   const pathname = usePathname();
   const t = useTranslations("Nav");
-  const isActive = (route: string) => pathname?.startsWith(route);
+  const isActive = (route: string) => pathname.startsWith(route);
   const { hasPermissions } = usePermission();
   const { LICENSE_EXAMS, CALLS_911, DMV, BUREAU_OF_FIREARMS } = useFeatureEnabled();
   const { execute } = useFetch();

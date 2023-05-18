@@ -49,7 +49,7 @@ export function OfficerColumn({ officer, nameAndCallsign, setTempUnit }: Props) 
   const router = useRouter();
   const pathname = usePathname();
   const isDispatch = pathname === "/dispatch";
-  const isLeo = pathname?.includes("/officer");
+  const isLeo = pathname.includes("/officer");
   const isEligiblePage = isDispatch || isLeo;
 
   const codesMapped = codes10.values

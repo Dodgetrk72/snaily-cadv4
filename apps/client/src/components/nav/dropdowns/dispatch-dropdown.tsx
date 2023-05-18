@@ -11,7 +11,7 @@ import { usePermission, Permissions } from "hooks/usePermission";
 export function DispatchDropdown() {
   const pathname = usePathname();
   const t = useTranslations("Nav");
-  const isActive = (route: string) => pathname?.startsWith(route);
+  const isActive = (route: string) => pathname.startsWith(route);
   const { hasPermissions } = usePermission();
 
   return (

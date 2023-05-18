@@ -29,7 +29,7 @@ interface Props {
 export function LoginForm({ onFormSubmitted, isWithinModal }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const searchError = searchParams?.get("error");
+  const searchError = searchParams.get("error");
 
   const { state, execute } = useFetch();
   const t = useTranslations("Auth");
@@ -71,10 +71,10 @@ export function LoginForm({ onFormSubmitted, isWithinModal }: Props) {
 
     if (json.hasTempPassword) {
       router.push(
-        `/auth/temp-password?from=${encodeURIComponent(searchParams?.get("from") ?? "/")}`,
+        `/auth/temp-password?from=${encodeURIComponent(searchParams.get("from") ?? "/")}`,
       );
     } else if (json?.userId) {
-      const searchFrom = searchParams?.get("from");
+      const searchFrom = searchParams.get("from");
       const from = typeof searchFrom === "string" ? searchFrom : "/citizen";
       onFormSubmitted({ from });
     }
@@ -95,7 +95,7 @@ export function LoginForm({ onFormSubmitted, isWithinModal }: Props) {
   }
 
   function handleContinueAs() {
-    const searchFrom = searchParams?.get("from");
+    const searchFrom = searchParams.get("from");
     const from = typeof searchFrom === "string" ? searchFrom : "/citizen";
 
     router.push(from);

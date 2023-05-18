@@ -52,7 +52,7 @@ export function AdminSidebar() {
   }
 
   function isImportActive(type: string) {
-    return (pathname?.includes("import") && pathname.endsWith(type.toLowerCase())) ?? false;
+    return pathname.includes("import") && pathname.endsWith(type.toLowerCase());
   }
 
   function isValueActive(type: string) {

@@ -11,7 +11,7 @@ import { Permissions, usePermission } from "hooks/usePermission";
 export function EmsFdDropdown() {
   const pathname = usePathname();
   const t = useTranslations("Nav");
-  const isActive = (route: string) => pathname?.startsWith(route);
+  const isActive = (route: string) => pathname.startsWith(route);
 
   const { hasPermissions } = usePermission();
   const hasIncidentPermissions = hasPermissions([

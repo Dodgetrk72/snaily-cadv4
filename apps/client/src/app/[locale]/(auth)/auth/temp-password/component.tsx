@@ -36,7 +36,7 @@ export function InnerAccountTempPassword() {
       return helpers.setFieldError("confirmPassword", "Passwords do not match");
     }
 
-    const tempPassword = searchParams?.get("tp")?.toString();
+    const tempPassword = searchParams.get("tp")?.toString();
     const { json } = await execute<PostUserPasswordData>({
       path: "/user/password",
       data: { ...values, currentPassword: tempPassword },

@@ -33,7 +33,7 @@ export function UnitRadioChannelModal({ unit, onClose }: Props) {
   const { hasActiveDispatchers } = useActiveDispatchers();
 
   const pathname = usePathname();
-  const isDispatch = pathname?.includes("/dispatch");
+  const isDispatch = pathname.includes("/dispatch");
 
   function handleClose() {
     onClose?.();

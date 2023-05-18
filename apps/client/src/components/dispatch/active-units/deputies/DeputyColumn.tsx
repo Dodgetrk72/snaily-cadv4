@@ -35,7 +35,7 @@ interface Props {
 export function DeputyColumn({ deputy, isDispatch, nameAndCallsign, setTempUnit }: Props) {
   const router = useRouter();
   const pathname = usePathname();
-  const isEmsFd = pathname?.includes("/ems-fd");
+  const isEmsFd = pathname.includes("/ems-fd");
   const isEligiblePage = isDispatch || isEmsFd;
 
   const { activeDeputies, setActiveDeputies } = useActiveDeputies();

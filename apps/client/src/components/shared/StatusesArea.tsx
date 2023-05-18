@@ -46,7 +46,7 @@ export function StatusesArea<T extends ActiveOfficer | ActiveDeputy>({
   const { user } = useAuth();
   const pathname = usePathname();
 
-  const isEmsFd = pathname?.includes("/ems-fd");
+  const isEmsFd = pathname.includes("/ems-fd");
   const modalId = isEmsFd ? ModalIds.SelectDeputy : ModalIds.SelectOfficer;
   const updateEmsOrOfficerStatusEventName = isEmsFd
     ? SocketEvents.UpdateEmsFdStatus
