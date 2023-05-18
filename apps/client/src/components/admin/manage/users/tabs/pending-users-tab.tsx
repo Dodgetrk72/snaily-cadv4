@@ -40,7 +40,11 @@ export function PendingUsersTab(props: GetManageUsersData) {
   }
 
   return (
-    <TabsContent aria-label={t("pendingUsers")} value="pendingUsers">
+    <TabsContent
+      tabName={`${t("pendingUsers")} (${props.pendingCount})`}
+      aria-label={t("pendingUsers")}
+      value="pendingUsers"
+    >
       <h3 className="my-4 text-xl font-semibold">{t("pendingUsers")}</h3>
 
       <SearchArea

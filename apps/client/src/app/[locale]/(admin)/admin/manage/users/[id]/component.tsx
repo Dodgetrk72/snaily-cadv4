@@ -1,42 +1,44 @@
+"use client";
+
 import * as React from "react";
-import { useTranslations } from "use-intl";
-import Link from "next/link";
-import { Form, Formik } from "formik";
-import { UPDATE_USER_SCHEMA } from "@snailycad/schemas";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { Rank, WhitelistStatus } from "@snailycad/types";
-import { AdminLayout } from "components/admin/AdminLayout";
 import {
-  Loader,
-  Button,
-  buttonVariants,
-  TextField,
-  Breadcrumbs,
-  BreadcrumbItem,
-} from "@snailycad/ui";
-import useFetch from "lib/useFetch";
-import { FormRow } from "components/form/FormRow";
-import { handleValidate } from "lib/handleValidate";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { ModalIds } from "types/ModalIds";
-import { useModal } from "state/modalState";
-import { usePermission, Permissions } from "hooks/usePermission";
-import dynamic from "next/dynamic";
-import { SettingsFormField } from "components/form/SettingsFormField";
-import { ApiTokenArea } from "components/admin/manage/users/api-token-area";
-import { useFeatureEnabled } from "hooks/use-feature-enabled";
-import { classNames } from "lib/classNames";
-import type {
   GetCustomRolesData,
   GetManageUserByIdData,
   PostManageUserAcceptDeclineData,
   PutManageUserByIdData,
 } from "@snailycad/types/api";
+import useFetch from "~/lib/useFetch";
+import { useTranslations } from "use-intl";
+import { Permissions, usePermission } from "~/hooks/usePermission";
+import { useFeatureEnabled } from "~/hooks/use-feature-enabled";
 import { useAuth } from "~/context/auth-context";
+import { Rank, WhitelistStatus } from "@snailycad/types";
+import { handleValidate } from "~/lib/handleValidate";
+import { UPDATE_USER_SCHEMA } from "@snailycad/schemas";
+import {
+  BreadcrumbItem,
+  Breadcrumbs,
+  Button,
+  Loader,
+  TextField,
+  buttonVariants,
+} from "@snailycad/ui";
+import { Title } from "~/components/shared/Title";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
+import { Form, Formik } from "formik";
+import { SettingsFormField } from "~/components/form/SettingsFormField";
+import { ModalIds } from "~/types/ModalIds";
+import { FormRow } from "~/components/form/FormRow";
+import { useModal } from "~/state/modalState";
+import { Link } from "~/components/shared/link";
+import { classNames } from "~/lib/classNames";
+import { ApiTokenArea } from "~/components/admin/manage/users/api-token-area";
+import dynamic from "next/dynamic";
+
+interface InnerManageUserByIdPageProps {
+  user: GetManageUserByIdData;
+  customRoles: GetCustomRolesData;
+}
 
 const DangerZone = dynamic(
   async () => (await import("components/admin/manage/users/danger-zone")).DangerZone,
@@ -59,12 +61,7 @@ const ManagePermissionsModal = dynamic(
   { ssr: false },
 );
 
-interface Props {
-  roles: GetCustomRolesData;
-  user: GetManageUserByIdData;
-}
-
-export default function ManageCitizens(props: Props) {
+export function InnerManageUserByIdPage(props: InnerManageUserByIdPageProps) {
   const [user, setUser] = React.useState(props.user);
   const { state, execute } = useFetch();
   const common = useTranslations("Common");
@@ -109,11 +106,7 @@ export default function ManageCitizens(props: Props) {
   const validate = handleValidate(UPDATE_USER_SCHEMA);
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [Permissions.BanUsers, Permissions.ManageUsers, Permissions.DeleteUsers],
-      }}
-    >
+    <>
       <Breadcrumbs>
         <BreadcrumbItem href="/admin/manage/users">{t("MANAGE_USERS")}</BreadcrumbItem>
         <BreadcrumbItem>{t("editUser")}</BreadcrumbItem>
@@ -260,37 +253,13 @@ export default function ManageCitizens(props: Props) {
       {user.rank !== Rank.OWNER && (!isUserPendingApproval || !isUserDenied) ? (
         <>
           <ManagePermissionsModal onUpdate={(user) => setUser(user)} user={user} />
-          <ManageRolesModal onUpdate={(user) => setUser(user)} roles={props.roles} user={user} />
+          <ManageRolesModal
+            onUpdate={(user) => setUser(user)}
+            roles={props.customRoles}
+            user={user}
+          />
         </>
       ) : null}
-    </AdminLayout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async ({ query, locale, req }) => {
-  const sessionUser = await getSessionUser(req);
-  const [user, roles] = await requestAll(req, [
-    [`/admin/manage/users/${query.id}`, null],
-    ["/admin/manage/custom-roles?includeAll=true", { totalCount: 0, customRoles: [] }],
-  ]);
-
-  if (!user) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      user,
-      roles,
-      session: sessionUser,
-      messages: {
-        ...(await getTranslations(
-          ["citizen", "admin", "values", "common"],
-          sessionUser?.locale ?? locale,
-        )),
-      },
-    },
-  };
-};

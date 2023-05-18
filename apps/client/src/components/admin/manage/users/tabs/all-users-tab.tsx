@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useTranslations } from "use-intl";
-import Link from "next/link";
 import { yesOrNoText } from "lib/utils";
 import { Table, useTableState } from "components/shared/Table";
 import { Status } from "components/shared/Status";
@@ -13,6 +12,7 @@ import { buttonVariants, TabsContent } from "@snailycad/ui";
 import type { GetManageUsersData } from "@snailycad/types/api";
 import { SearchArea } from "components/shared/search/search-area";
 import dynamic from "next/dynamic";
+import { Link } from "~/components/shared/link";
 
 const PruneUsersModal = dynamic(
   async () => (await import("../modals/prune-users-modal")).PruneUsersModal,
@@ -46,7 +46,12 @@ export function AllUsersTab({ users, totalCount }: GetManageUsersData) {
   const tableState = useTableState({ pagination: asyncTable.pagination });
 
   return (
-    <TabsContent aria-label={t("allUsers")} value="allUsers" className="mt-5">
+    <TabsContent
+      tabName={`${t("allUsers")} (${totalCount})`}
+      aria-label={t("allUsers")}
+      value="allUsers"
+      className="mt-5"
+    >
       <SearchArea totalCount={totalCount} asyncTable={asyncTable} search={{ search, setSearch }} />
 
       <Table
