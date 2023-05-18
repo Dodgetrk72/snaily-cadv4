@@ -11,9 +11,9 @@ import { ImageSelectInput, validateFile } from "components/form/inputs/ImageSele
 import { SettingsFormField } from "components/form/SettingsFormField";
 import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Formik, FormikHelpers } from "formik";
-import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
 import { toastMessage } from "lib/toastMessage";
 import type { PutCADSettingsData } from "@snailycad/types/api";
+import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/tab-list";
 
 export function GeneralSettingsTab() {
   const [logo, setLogo] = React.useState<(File | string) | null>(null);

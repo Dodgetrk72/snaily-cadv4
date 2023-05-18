@@ -5,7 +5,7 @@ import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";
 import { useAuth } from "~/context/auth-context";
 import { DiscordWebhookType } from "@snailycad/types";
-import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
+import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/tab-list";
 import { WebhookSettingsField } from "../discord-webhooks/WebhookSettingsField";
 import { toastMessage } from "lib/toastMessage";
 import type { GetCADDiscordWebhooksData, PostCADDiscordWebhooksData } from "@snailycad/types/api";

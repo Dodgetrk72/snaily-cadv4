@@ -7,7 +7,7 @@ import { Form, Formik, FormikHelpers } from "formik";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "use-intl";
 import { SettingsFormField } from "components/form/SettingsFormField";
-import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
+import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/tab-list";
 import { toastMessage } from "lib/toastMessage";
 import type { DeleteCADApiTokenData, PutCADApiTokenData } from "@snailycad/types/api";
 import { getAPIUrl } from "@snailycad/utils/api-url";

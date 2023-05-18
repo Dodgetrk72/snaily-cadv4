@@ -8,7 +8,6 @@ import useFetch from "lib/useFetch";
 import { JailTimeScale, MiscCadSettings } from "@snailycad/types";
 import { ImageSelectInput, validateFile } from "components/form/inputs/ImageSelectInput";
 import { SettingsFormField } from "components/form/SettingsFormField";
-import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
 import { Select } from "components/form/Select";
 import { toastMessage } from "lib/toastMessage";
 import type { PutCADMiscSettingsData } from "@snailycad/types/api";
@@ -16,6 +15,7 @@ import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { InactivityTimeoutSection } from "./misc-features/inactivity-timeout-section";
 import { LicenseNumbersSection } from "./misc-features/license-number-section";
 import { TemplateSection } from "./misc-features/template-section";
+import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/tab-list";
 
 export function MiscFeatures() {
   const [headerId, setHeaderId] = React.useState<(File | string) | null>(null);

@@ -7,7 +7,7 @@ import { Toggle } from "components/form/Toggle";
 import { CadFeature, Feature } from "@snailycad/types";
 import { Button, Loader, TextField, TabsContent } from "@snailycad/ui";
 import { SettingsFormField } from "components/form/SettingsFormField";
-import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
+import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/tab-list";
 import { toastMessage } from "lib/toastMessage";
 import { DEFAULT_DISABLED_FEATURES } from "hooks/use-feature-enabled";
 import type { PutCADFeaturesData } from "@snailycad/types/api";

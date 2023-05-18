@@ -5,7 +5,7 @@ import { Button, Loader, SwitchField, TabsContent, TextField } from "@snailycad/
 import { useAuth } from "~/context/auth-context";
 import useFetch from "lib/useFetch";
 import type { cad } from "@snailycad/types";
-import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
+import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/tab-list";
 import { toastMessage } from "lib/toastMessage";
 import type { PutCADDefaultPermissionsData } from "@snailycad/types/api";
 import { usePermissionsModal } from "hooks/use-permissions-modal";
