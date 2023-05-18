@@ -47,6 +47,7 @@ export function IncidentsTable<T extends EmsFdIncident | LeoIncident>(
         totalCount: json.totalCount,
       }),
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       path: props.type === "ems-fd" ? "/ems-fd/incidents" : "/incidents",
     },
   });
@@ -61,6 +62,7 @@ export function IncidentsTable<T extends EmsFdIncident | LeoIncident>(
   const { state, execute } = useFetch();
 
   const permissionToUse =
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     props.type === "ems-fd" ? Permissions.PurgeEmsFdIncidents : Permissions.PurgeLeoIncidents;
   const hasPurgePermissions = hasPermissions([permissionToUse]);
 
@@ -69,6 +71,7 @@ export function IncidentsTable<T extends EmsFdIncident | LeoIncident>(
 
     const { json } = await execute<DeleteIncidentByIdData>({
       path:
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         props.type === "ems-fd"
           ? `/ems-fd/incidents/${tempIncident.id}`
           : `/incidents/${tempIncident.id}`,
@@ -106,6 +109,7 @@ export function IncidentsTable<T extends EmsFdIncident | LeoIncident>(
     if (selectedRows.length <= 0 || !hasPurgePermissions) return;
 
     const { json } = await execute<boolean>({
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       path: props.type === "ems-fd" ? "/ems-fd/incidents/purge" : "/incidents/purge",
       method: "DELETE",
       data: { ids: selectedRows },

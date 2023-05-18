@@ -229,8 +229,7 @@ export function RecordsTable({
               paymentStatus: <Status fallback="—">{record.paymentStatus}</Status>,
               totalCost: `${currency}${formatSum(totalCost())}`,
               notes: record.notes || common("none"),
-              // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-              createdAt: record.createdAt ? <FullDate>{record.createdAt}</FullDate> : "-",
+              createdAt: <FullDate>{record.createdAt}</FullDate>,
               actions: isCitizen ? null : (
                 <>
                   <Button
