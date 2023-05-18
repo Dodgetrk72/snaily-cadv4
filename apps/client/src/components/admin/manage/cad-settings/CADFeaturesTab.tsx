@@ -9,7 +9,7 @@ import { Button, Loader, TextField, TabsContent } from "@snailycad/ui";
 import { SettingsFormField } from "components/form/SettingsFormField";
 import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
 import { toastMessage } from "lib/toastMessage";
-import { DEFAULT_DISABLED_FEATURES } from "hooks/useFeatureEnabled";
+import { DEFAULT_DISABLED_FEATURES } from "hooks/use-feature-enabled";
 import type { PutCADFeaturesData } from "@snailycad/types/api";
 import Link from "next/link";
 import { BoxArrowUpRight } from "react-bootstrap-icons";

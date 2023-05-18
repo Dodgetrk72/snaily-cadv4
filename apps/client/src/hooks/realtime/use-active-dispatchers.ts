@@ -2,7 +2,7 @@ import { useListener } from "@casper124578/use-socket.io";
 import { SocketEvents } from "@snailycad/config";
 import useFetch from "lib/useFetch";
 import { useDispatchState } from "state/dispatch/dispatch-state";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { usePathname } from "next/navigation";
 import type { GetDispatchData } from "@snailycad/types/api";
 import { useActiveDispatcherState } from "state/dispatch/active-dispatcher-state";

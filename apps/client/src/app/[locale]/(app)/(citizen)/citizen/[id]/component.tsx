@@ -15,7 +15,7 @@ import { useCitizen } from "~/context/citizen-context";
 import dynamic from "next/dynamic";
 import { useImageUrl } from "~/hooks/useImageUrl";
 import { useAuth } from "~/context/auth-context";
-import { useFeatureEnabled } from "~/hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "~/hooks/use-feature-enabled";
 import { Infofield } from "~/components/shared/Infofield";
 import { Title } from "~/components/shared/Title";
 import { ModalIds } from "types/ModalIds";

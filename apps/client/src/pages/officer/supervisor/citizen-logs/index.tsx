@@ -10,7 +10,7 @@ import { Permissions } from "@snailycad/permissions";
 import { TabList } from "@snailycad/ui";
 import { CitizenLogsTab } from "components/leo/citizen-logs/citizen-logs-tab";
 import { ArrestReportsTab } from "components/leo/citizen-logs/arrest-reports-tab";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import type { GetManagePendingArrestReports, GetManageRecordLogsData } from "@snailycad/types/api";
 
 export type CitizenLog = RecordLog & { citizen: Citizen };

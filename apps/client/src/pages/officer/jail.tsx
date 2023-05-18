@@ -16,7 +16,7 @@ import { ReleaseCitizenModal } from "components/leo/jail/ReleaseCitizenModal";
 import { Title } from "components/shared/Title";
 import { FullDate } from "components/shared/FullDate";
 import { usePermission, Permissions } from "hooks/usePermission";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { NameSearchModal } from "components/leo/modals/NameSearchModal/NameSearchModal";
 import { useAsyncTable } from "hooks/shared/table/use-async-table";
 import type { GetJailedCitizensData } from "@snailycad/types/api";

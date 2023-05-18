@@ -16,7 +16,7 @@ import { Title } from "~/components/shared/Title";
 import { UtilityPanel } from "~/components/shared/UtilityPanel";
 import { usePanicButton } from "~/hooks/shared/usePanicButton";
 import { useSignal100 } from "~/hooks/shared/useSignal100";
-import { useFeatureEnabled } from "~/hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "~/hooks/use-feature-enabled";
 import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
 import { useActiveDispatcherState } from "~/state/dispatch/active-dispatcher-state";
 import { useCall911State } from "~/state/dispatch/call-911-state";

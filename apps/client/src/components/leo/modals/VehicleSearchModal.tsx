@@ -16,7 +16,7 @@ import { useNameSearch } from "state/search/name-search-state";
 import { useBolos } from "hooks/realtime/useBolos";
 import { ResultsTab } from "./VehicleSearch/tabs/ResultsTab";
 import { NotesTab } from "./NameSearchModal/tabs/notes-tab";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { RegisterVehicleModal } from "components/citizen/vehicles/modals/register-vehicle-modal";
 import type { PostMarkStolenData } from "@snailycad/types/api";
 import { ImpoundVehicleModal } from "./VehicleSearch/ImpoundVehicleModal";

@@ -13,7 +13,7 @@ import { NameSearchResult, useNameSearch } from "state/search/name-search-state"
 import { usePathname } from "next/navigation";
 import { ArrowLeft, PersonFill } from "react-bootstrap-icons";
 import { useImageUrl } from "hooks/useImageUrl";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Infofield } from "components/shared/Infofield";
 import dynamic from "next/dynamic";
 import {

@@ -1,8 +1,8 @@
 "use client";
 
 import { GetCourthousePostsData } from "@snailycad/types/api";
-import { CourthousePostsTab } from "~/components/courthouse/courthouse-posts/CourthousePostsTab";
-import { useFeatureEnabled } from "~/hooks/useFeatureEnabled";
+import { CourthousePostsTab } from "~/components/courthouse/courthouse-posts/courthouse-posts-tab";
+import { useFeatureEnabled } from "~/hooks/use-feature-enabled";
 
 interface InnerCourtPostsPageProps {
   posts: GetCourthousePostsData;

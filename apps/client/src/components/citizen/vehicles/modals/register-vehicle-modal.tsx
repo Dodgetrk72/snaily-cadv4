@@ -28,7 +28,7 @@ import { handleValidate } from "lib/handleValidate";
 import { useCitizen } from "~/context/citizen-context";
 import { usePathname } from "next/navigation";
 import { useAuth } from "~/context/auth-context";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useBusinessState } from "state/business-state";
 import { filterLicenseType, filterLicenseTypes } from "lib/utils";
 import { FormRow } from "components/form/FormRow";

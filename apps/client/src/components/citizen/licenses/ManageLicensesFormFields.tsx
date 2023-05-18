@@ -1,7 +1,7 @@
 import { Citizen, DriversLicenseCategoryType, ValueLicenseType, ValueType } from "@snailycad/types";
 import { useValues } from "~/context/values-context";
 import { useFormikContext } from "formik";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useTranslations } from "next-intl";
 
 import { FormField } from "components/form/FormField";

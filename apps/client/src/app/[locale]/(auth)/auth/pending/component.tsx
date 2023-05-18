@@ -7,7 +7,7 @@ import { Title } from "components/shared/Title";
 import { VersionDisplay } from "components/shared/VersionDisplay";
 import { WhitelistStatus } from "@snailycad/types";
 import { canUseThirdPartyConnections } from "lib/utils";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Discord, Steam } from "react-bootstrap-icons";
 import { getAPIUrl } from "@snailycad/utils/api-url";
 import { useSearchParams } from "next/navigation";

@@ -7,7 +7,7 @@ import { classNames } from "lib/classNames";
 import { CitizenDropdown } from "./dropdowns/citizen-dropdown";
 import { OfficerDropdown } from "./dropdowns/officer-dropdown";
 import { EmsFdDropdown } from "./dropdowns/ems-fd-dropdown";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { TowDropdown } from "./dropdowns/tow-dropdown";
 import { DispatchDropdown } from "./dropdowns/dispatch-dropdown";
 import { useTranslations } from "next-intl";

@@ -8,7 +8,7 @@ import useFetch from "lib/useFetch";
 import { useLeoState } from "state/leo-state";
 import { useEmsFdState } from "state/ems-fd-state";
 import { DispatchCallTowModal } from "components/dispatch/modals/CallTowModal";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useCallsFilters } from "state/callsFiltersState";
 import { Table, useAsyncTable, useTableState } from "components/shared/Table";
 import { FullDate } from "components/shared/FullDate";

@@ -5,7 +5,7 @@ import { Button, TabsContent } from "@snailycad/ui";
 import { useAuth } from "~/context/auth-context";
 import { getAPIUrl } from "@snailycad/utils/api-url";
 import useFetch from "lib/useFetch";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
 
 enum ConnectionKeys {

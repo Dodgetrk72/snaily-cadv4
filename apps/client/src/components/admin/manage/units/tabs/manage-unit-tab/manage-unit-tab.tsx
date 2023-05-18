@@ -24,7 +24,7 @@ import { classNames } from "lib/classNames";
 import type { GetManageUnitByIdData, PutManageUnitData } from "@snailycad/types/api";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { QualificationsTable } from "../../QualificationsTable";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { usePermission, Permissions } from "hooks/usePermission";
 import { ImageSelectInput, validateFile } from "components/form/inputs/ImageSelectInput";
 import type { User } from "@snailycad/types";

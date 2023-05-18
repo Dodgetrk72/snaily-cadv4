@@ -1,5 +1,5 @@
 import { Button, Loader } from "@snailycad/ui";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { classNames } from "lib/classNames";
 import { useModal } from "state/modalState";
 import { useNameSearch } from "state/search/name-search-state";

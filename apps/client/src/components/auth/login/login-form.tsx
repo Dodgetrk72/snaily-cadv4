@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useFetch from "lib/useFetch";
 import { useTranslations } from "next-intl";
 import { useAuth } from "~/context/auth-context";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { handleValidate } from "lib/handleValidate";
 import { AUTH_SCHEMA } from "@snailycad/schemas";
 import type { PostLoginUserData } from "@snailycad/types/api";

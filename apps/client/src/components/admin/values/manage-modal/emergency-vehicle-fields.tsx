@@ -3,7 +3,7 @@ import { FormField } from "components/form/FormField";
 import { Select } from "components/form/Select";
 import { useValues } from "~/context/values-context";
 import { useFormikContext } from "formik";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { ManageValueValues } from "../manage-value-modal";
 
 export function useDefaultDivisions() {

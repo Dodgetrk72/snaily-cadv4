@@ -28,7 +28,7 @@ import type {
 } from "@snailycad/types/api";
 import { useCall911State } from "state/dispatch/call-911-state";
 import { usePermission } from "hooks/usePermission";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 
 interface Props {
   activeDeputy: GetEmsFdActiveDeputy | null;

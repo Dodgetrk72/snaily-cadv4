@@ -3,7 +3,7 @@
 import { TabList } from "@snailycad/ui";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "use-intl";
-import { useFeatureEnabled } from "~/hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "~/hooks/use-feature-enabled";
 import { Permissions, usePermission } from "~/hooks/usePermission";
 
 interface AccountTabListProps {

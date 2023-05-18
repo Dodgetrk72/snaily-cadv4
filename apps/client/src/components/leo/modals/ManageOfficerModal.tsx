@@ -9,7 +9,7 @@ import useFetch from "lib/useFetch";
 import { ModalIds } from "types/ModalIds";
 import { useTranslations } from "use-intl";
 import type { IndividualDivisionCallsign, Officer } from "@snailycad/types";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { UnitQualificationsTable } from "../qualifications/UnitQualificationsTable";
 import { classNames } from "lib/classNames";
 import type {

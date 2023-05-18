@@ -10,7 +10,7 @@ import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import type { EmsFdDeputy, Officer } from "@snailycad/types";
 import { Infofield } from "components/shared/Infofield";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { UnitRadioChannelModal } from "components/dispatch/active-units/UnitRadioChannelModal";
 
 interface CallItemProps {

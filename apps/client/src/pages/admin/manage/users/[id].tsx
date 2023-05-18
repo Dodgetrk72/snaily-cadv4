@@ -27,7 +27,7 @@ import { usePermission, Permissions } from "hooks/usePermission";
 import dynamic from "next/dynamic";
 import { SettingsFormField } from "components/form/SettingsFormField";
 import { ApiTokenArea } from "components/admin/manage/users/api-token-area";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { classNames } from "lib/classNames";
 import type {
   GetCustomRolesData,

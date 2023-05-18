@@ -9,7 +9,7 @@ import type { Officer } from "@snailycad/types";
 import { CitizenSuggestionsField } from "components/shared/CitizenSuggestionsField";
 
 import { useFormikContext } from "formik";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { getUnitDepartment } from "lib/utils";
 import { useTranslations } from "use-intl";
 import { makeDivisionsObjectMap } from "../modals/ManageOfficerModal";

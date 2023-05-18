@@ -14,7 +14,7 @@ import type {
   GetManageUnitsData,
   PostManageUnitAcceptDeclineDepartmentData,
 } from "@snailycad/types/api";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Permissions, usePermission } from "hooks/usePermission";
 import { SearchArea } from "components/shared/search/search-area";
 import { WhitelistStatus } from "@snailycad/types";

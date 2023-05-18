@@ -7,7 +7,7 @@ import { ModalIds } from "types/ModalIds";
 
 import type { Weapon } from "@snailycad/types";
 import { useWeaponSearch } from "state/search/weapon-search-state";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Status } from "components/shared/Status";
 
 export function NameSearchWeaponsTab() {

@@ -13,7 +13,7 @@ import { FullDate } from "components/shared/FullDate";
 import { Warrant, WarrantStatus } from "@snailycad/types";
 import type { DeleteRecordsByIdData, PutWarrantsData } from "@snailycad/types/api";
 import { Permissions, usePermission } from "hooks/usePermission";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { shallow } from "zustand/shallow";
 
 const values = [

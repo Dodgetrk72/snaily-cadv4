@@ -9,7 +9,7 @@ import useFetch from "lib/useFetch";
 
 import type { Put911CallByIdData } from "@snailycad/types/api";
 import { useValues } from "~/context/values-context";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Select } from "components/form/Select";
 import { FormRow } from "components/form/FormRow";
 import { CallSignPreview } from "components/leo/CallsignPreview";

@@ -18,7 +18,7 @@ import {
 } from "@snailycad/types";
 import { handleValidate } from "lib/handleValidate";
 import { useCitizen } from "~/context/citizen-context";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { filterLicenseType, filterLicenseTypes } from "lib/utils";
 import { toastMessage } from "lib/toastMessage";
 import { CitizenSuggestionsField } from "components/shared/CitizenSuggestionsField";

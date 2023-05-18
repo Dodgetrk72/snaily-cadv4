@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import type { ModalButton, Args } from "./buttons";
 import { Button } from "@snailycad/ui";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
 import { useModal } from "state/modalState";
 import { usePathname } from "next/navigation";

@@ -11,7 +11,7 @@ import type { DeleteCitizenMedicalRecordsData } from "@snailycad/types/api";
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
 import { FullDate } from "components/shared/FullDate";
 import dynamic from "next/dynamic";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 
 const ManageMedicalRecordsModal = dynamic(
   async () => (await import("./manage-medical-records-modal")).ManageMedicalRecordsModal,

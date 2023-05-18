@@ -7,7 +7,7 @@ import { CitizenList } from "components/citizen/citizen-list/citizen-list";
 import { Title } from "components/shared/Title";
 import { useAreaOfPlay } from "hooks/global/useAreaOfPlay";
 import { useSignal100 } from "hooks/shared/useSignal100";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import { useTranslations } from "use-intl";

@@ -1,7 +1,7 @@
 "use client";
 
 import { TabList } from "@snailycad/ui";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Permissions, usePermission } from "hooks/usePermission";
 import { canUseThirdPartyConnections } from "lib/utils";
 import { usePathname } from "next/navigation";

@@ -5,7 +5,7 @@ import { useFormikContext } from "formik";
 import { useTranslations } from "next-intl";
 import type { PenalCode } from "@snailycad/types";
 import type React from "react";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Checkbox } from "components/form/inputs/Checkbox";
 
 interface Props {

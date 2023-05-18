@@ -12,7 +12,7 @@ import type { PostLeoTogglePanicButtonData } from "@snailycad/types/api";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
 import { ModalIds } from "types/ModalIds";
 import { useModal } from "state/modalState";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useImageUrl } from "hooks/useImageUrl";
 import { useMounted } from "@casper124578/useful";
 import { usePermission } from "hooks/usePermission";

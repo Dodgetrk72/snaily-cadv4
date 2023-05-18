@@ -3,7 +3,7 @@ import { RecordType } from "@snailycad/types";
 import type { PostEmsFdDeclareCitizenById } from "@snailycad/types/api";
 import { Button } from "@snailycad/ui";
 import { Dropdown } from "components/Dropdown";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import useFetch from "lib/useFetch";
 import { normalizeValue } from "lib/values/normalize-value";
 import { ThreeDotsVertical } from "react-bootstrap-icons";

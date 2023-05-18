@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { classNames } from "lib/classNames";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "use-intl";

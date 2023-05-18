@@ -14,7 +14,7 @@ import { useAuth } from "~/context/auth-context";
 
 import { Table, useTableState } from "components/shared/Table";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { UnitRadioChannelModal } from "./active-units/UnitRadioChannelModal";
 import { useActiveUnitsState } from "state/active-unit-state";
 import { classNames } from "lib/classNames";

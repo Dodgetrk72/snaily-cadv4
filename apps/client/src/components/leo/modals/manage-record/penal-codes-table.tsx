@@ -3,7 +3,7 @@ import { useFormikContext } from "formik";
 import { useTranslations } from "next-intl";
 import type { PenalCode } from "@snailycad/types";
 import { TableItemForm } from "./table-item-form";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 
 interface Props {
   penalCodes: PenalCode[];

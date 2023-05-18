@@ -12,7 +12,7 @@ import { SettingsTabs } from "src/pages/admin/manage/cad-settings";
 import { Select } from "components/form/Select";
 import { toastMessage } from "lib/toastMessage";
 import type { PutCADMiscSettingsData } from "@snailycad/types/api";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { InactivityTimeoutSection } from "./misc-features/inactivity-timeout-section";
 import { LicenseNumbersSection } from "./misc-features/license-number-section";
 import { TemplateSection } from "./misc-features/template-section";

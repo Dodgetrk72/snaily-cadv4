@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 import { ManageCustomFieldsModal } from "./NameSearchModal/ManageCustomFieldsModal";
 import { CustomFieldCategory } from "@snailycad/types";
 import { Status } from "components/shared/Status";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 
 interface Props {
   id?: ModalIds.WeaponSearch | ModalIds.WeaponSearchWithinName;

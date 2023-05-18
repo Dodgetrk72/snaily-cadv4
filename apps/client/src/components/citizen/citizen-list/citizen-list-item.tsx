@@ -2,7 +2,7 @@ import { defaultPermissions } from "@snailycad/permissions";
 import type { GetCitizensData } from "@snailycad/types/api";
 import { buttonVariants } from "@snailycad/ui";
 import { ImageWrapper } from "components/shared/image-wrapper";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useImageUrl } from "hooks/useImageUrl";
 import { usePermission } from "hooks/usePermission";
 import { useLocale, useTranslations } from "next-intl";

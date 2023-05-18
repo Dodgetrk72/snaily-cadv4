@@ -5,7 +5,7 @@ import { ModalIds } from "types/ModalIds";
 import { Table, useAsyncTable, useTableState } from "components/shared/Table";
 import type { CourthousePost } from "@snailycad/types";
 import { FullDate } from "components/shared/FullDate";
-import { ManageCourtPostModal } from "./ManageCourtPostModal";
+import { ManageCourtPostModal } from "./manage-courthouse-post-modal";
 import { AlertModal } from "components/modal/AlertModal";
 import useFetch from "lib/useFetch";
 import { usePermission, Permissions } from "hooks/usePermission";

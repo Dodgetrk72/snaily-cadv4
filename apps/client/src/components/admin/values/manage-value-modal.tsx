@@ -51,7 +51,7 @@ import {
   getValueStrFromValue,
   makeDefaultWhatPages,
 } from "~/lib/admin/values/utils";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 
 import { DivisionFields } from "./manage-modal/division-fields";
 import {

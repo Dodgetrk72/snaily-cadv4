@@ -1,31 +1,27 @@
-import * as React from "react";
-import { useTranslations } from "use-intl";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { RegisteredVehicle } from "@snailycad/types";
-import { Table, useTableState } from "components/shared/Table";
-import { FullDate } from "components/shared/FullDate";
-import { Button } from "@snailycad/ui";
-import { ImportModal } from "components/admin/import/ImportModal";
-import { ModalIds } from "types/ModalIds";
-import { useModal } from "state/modalState";
-import { useAsyncTable } from "hooks/shared/table/use-async-table";
-import type { GetImportVehiclesData, PostImportVehiclesData } from "@snailycad/types/api";
-import { AlertModal } from "components/modal/AlertModal";
-import useFetch from "lib/useFetch";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { Permissions, usePermission } from "hooks/usePermission";
-import { SearchArea } from "components/shared/search/search-area";
+"use client";
 
-interface Props {
-  data: GetImportVehiclesData;
+import * as React from "react";
+import { GetImportVehiclesData, PostImportVehiclesData } from "@snailycad/types/api";
+import { useTranslations } from "use-intl";
+import { useModal } from "~/state/modalState";
+import { Permissions, usePermission } from "~/hooks/usePermission";
+import useFetch from "~/lib/useFetch";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import { RegisteredVehicle } from "@snailycad/types";
+import { ModalIds } from "~/types/ModalIds";
+import { Title } from "~/components/shared/Title";
+import { Button } from "@snailycad/ui";
+import { SearchArea } from "~/components/shared/search/search-area";
+import { FullDate } from "~/components/shared/FullDate";
+import { ImportModal } from "~/components/admin/import/ImportModal";
+import { AlertModal } from "~/components/modal/AlertModal";
+
+interface InnerImportVehiclesPageProps {
+  defaultData: GetImportVehiclesData;
 }
 
-export default function ImportVehiclesPage({ data }: Props) {
+export function InnerImportVehiclesPage(props: InnerImportVehiclesPageProps) {
   const [search, setSearch] = React.useState("");
 
   const t = useTranslations("Management");
@@ -47,8 +43,8 @@ export default function ImportVehiclesPage({ data }: Props) {
       }),
       path: "/admin/import/vehicles",
     },
-    initialData: data.vehicles,
-    totalCount: data.totalCount,
+    initialData: props.defaultData.vehicles,
+    totalCount: props.defaultData.totalCount,
   });
   const tableState = useTableState({ pagination: asyncTable.pagination });
   const [tempVehicle, vehicleState] = useTemporaryItem(asyncTable.items);
@@ -69,16 +65,12 @@ export default function ImportVehiclesPage({ data }: Props) {
     if (typeof json === "boolean" && json) {
       asyncTable.remove(tempVehicle.id);
       vehicleState.setTempId(null);
-      closeModal(ModalIds.AlertDeleteWeapon);
+      closeModal(ModalIds.AlertDeleteVehicle);
     }
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [Permissions.ImportRegisteredVehicles],
-      }}
-    >
+    <>
       <header>
         <div className="flex items-center justify-between">
           <Title className="!mb-0">{t("IMPORT_VEHICLES")}</Title>
@@ -96,7 +88,7 @@ export default function ImportVehiclesPage({ data }: Props) {
       <SearchArea
         search={{ search, setSearch }}
         asyncTable={asyncTable}
-        totalCount={data.totalCount}
+        totalCount={props.defaultData.totalCount}
       />
 
       <Table
@@ -131,9 +123,7 @@ export default function ImportVehiclesPage({ data }: Props) {
       />
 
       <ImportModal<PostImportVehiclesData>
-        onImport={(vehicles) => {
-          asyncTable.append(...vehicles);
-        }}
+        onImport={(vehicles) => asyncTable.append(...vehicles)}
         id={ModalIds.ImportVehicles}
         url="/admin/import/vehicles/file"
       />
@@ -147,28 +137,6 @@ export default function ImportVehiclesPage({ data }: Props) {
           state={state}
         />
       ) : null}
-    </AdminLayout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [vehicles, values] = await requestAll(req, [
-    ["/admin/import/vehicles", { vehicles: [], totalCount: 0 }],
-    ["/admin/values/gender?paths=ethnicity", []],
-  ]);
-
-  return {
-    props: {
-      values,
-      data: vehicles,
-      session: user,
-      messages: {
-        ...(await getTranslations(
-          ["citizen", "admin", "values", "common"],
-          user?.locale ?? locale,
-        )),
-      },
-    },
-  };
-};

@@ -6,7 +6,7 @@ import { Modal } from "components/modal/Modal";
 import useFetch from "lib/useFetch";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { PersonFill } from "react-bootstrap-icons";
 import { Infofield } from "components/shared/Infofield";
 import { FullDate } from "components/shared/FullDate";

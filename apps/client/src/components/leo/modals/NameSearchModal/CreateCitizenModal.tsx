@@ -9,7 +9,7 @@ import type { SelectValue } from "components/form/Select";
 import { useNameSearch } from "state/search/name-search-state";
 import { useLoadValuesClientSide } from "hooks/useLoadValuesClientSide";
 import { ValueType } from "@snailycad/types";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import type {
   PostCitizenImageByIdData,
   PostSearchActionsCreateCitizen,

@@ -15,7 +15,7 @@ import { useImageUrl } from "hooks/useImageUrl";
 import { Table, useTableState } from "components/shared/Table";
 import { Title } from "components/shared/Title";
 import { Permissions } from "@snailycad/permissions";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { OfficerRank } from "components/leo/OfficerRank";
 import { UnitDepartmentStatus } from "components/leo/UnitDepartmentStatus";
 import type { DeleteMyDeputyByIdData, GetMyDeputiesData } from "@snailycad/types/api";

@@ -7,7 +7,7 @@ import { Dropdown } from "components/Dropdown";
 import { Button } from "@snailycad/ui";
 import { classNames } from "lib/classNames";
 import { usePermission, Permissions } from "hooks/usePermission";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useQuery } from "@tanstack/react-query";
 import useFetch from "lib/useFetch";
 

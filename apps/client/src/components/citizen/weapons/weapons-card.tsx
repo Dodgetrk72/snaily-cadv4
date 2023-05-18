@@ -8,7 +8,7 @@ import { useTranslations } from "use-intl";
 import { AlertModal } from "components/modal/AlertModal";
 import useFetch from "lib/useFetch";
 import { Table, useTableState } from "components/shared/Table";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { FullDate } from "components/shared/FullDate";
 import { useAsyncTable } from "hooks/shared/table/use-async-table";
 import { useCitizen } from "~/context/citizen-context";

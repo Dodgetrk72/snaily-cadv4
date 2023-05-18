@@ -20,7 +20,7 @@ import { makeUnitName } from "lib/utils";
 import type { PostDispatchStatusMergeOfficers } from "@snailycad/types/api";
 import type { ActiveDeputy } from "state/ems-fd-state";
 import type { ActiveOfficer } from "state/leo-state";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 
 interface Props {
   isDispatch: boolean;

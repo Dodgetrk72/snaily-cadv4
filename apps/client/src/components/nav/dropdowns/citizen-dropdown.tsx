@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "react-bootstrap-icons";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import type { Feature } from "@snailycad/types";
 import { useTranslations } from "next-intl";
 import { Dropdown } from "components/Dropdown";

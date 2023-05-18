@@ -19,7 +19,7 @@ import { handleValidate } from "lib/handleValidate";
 import type { FormikHelpers } from "formik";
 import { User, Citizen, PenalCode, ValueType, Feature } from "@snailycad/types";
 import { useTranslations } from "next-intl";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import {
   createDefaultLicensesValues,
   ManageLicensesFormFields,

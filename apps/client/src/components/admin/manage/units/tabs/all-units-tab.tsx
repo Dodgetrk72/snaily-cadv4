@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { Table, useAsyncTable, useTableState } from "components/shared/Table";
 import { Status } from "components/shared/Status";
 import { usePermission, Permissions } from "hooks/usePermission";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { classNames } from "lib/classNames";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";

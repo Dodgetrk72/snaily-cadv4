@@ -1,5 +1,5 @@
 import { TabList } from "@snailycad/ui";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { NameSearchVehiclesTab } from "./vehicles-tab";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";

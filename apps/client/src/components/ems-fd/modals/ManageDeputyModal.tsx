@@ -14,7 +14,7 @@ import { useTranslations } from "use-intl";
 import { FormRow } from "components/form/FormRow";
 import { ImageSelectInput, validateFile } from "components/form/inputs/ImageSelectInput";
 import { CallSignPreview } from "components/leo/CallsignPreview";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { UnitQualificationsTable } from "components/leo/qualifications/UnitQualificationsTable";
 import { CitizenSuggestionsField } from "components/shared/CitizenSuggestionsField";
 import type {

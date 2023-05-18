@@ -13,7 +13,7 @@ import { useVehicleLicenses } from "hooks/locale/useVehicleLicenses";
 import { useModal } from "state/modalState";
 import { usePathname } from "next/navigation";
 import { ModalIds } from "types/ModalIds";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 
 export function ResultsTab() {
   const currentResult = useVehicleSearch((state) => state.currentResult);

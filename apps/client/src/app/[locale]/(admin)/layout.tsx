@@ -9,7 +9,10 @@ interface AdminLayoutProps {
 }
 
 export default async function RootLayout(props: AdminLayoutProps) {
-  const messages = await getTranslations(["account", "values", "admin"], props.params.locale);
+  const messages = await getTranslations(
+    ["account", "values", "citizen", "admin"],
+    props.params.locale,
+  );
 
   return (
     <NextIntlClientProvider locale={props.params.locale} messages={messages}>

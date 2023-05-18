@@ -4,7 +4,7 @@ import { ModalIds } from "types/ModalIds";
 import { useModal } from "state/modalState";
 import { LicenseInitialValues, ManageLicensesModal } from "./manage-licenses-modal";
 import { CitizenWithVehAndWep, useCitizen } from "~/context/citizen-context";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Infofield } from "components/shared/Infofield";
 import { Citizen, DriversLicenseCategoryType, SuspendedCitizenLicenses } from "@snailycad/types";
 import useFetch from "lib/useFetch";

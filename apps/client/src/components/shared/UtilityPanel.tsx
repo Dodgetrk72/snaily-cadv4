@@ -3,7 +3,7 @@
 import { useAreaOfPlay } from "hooks/global/useAreaOfPlay";
 import { useActiveDispatchers } from "hooks/realtime/use-active-dispatchers";
 import { useTime } from "hooks/shared/useTime";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { classNames } from "lib/classNames";
 import { useTranslations } from "next-intl";
 import { Wifi } from "react-bootstrap-icons";

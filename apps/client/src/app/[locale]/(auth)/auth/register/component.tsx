@@ -12,7 +12,7 @@ import { Button, Loader, TextField } from "@snailycad/ui";
 import { WhitelistStatus } from "@snailycad/types";
 import { Title } from "components/shared/Title";
 import { AuthScreenImages } from "components/auth/AuthScreenImages";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { LocalhostDetector } from "components/auth/LocalhostDetector";
 import type { PostRegisterUserData } from "@snailycad/types/api";
 

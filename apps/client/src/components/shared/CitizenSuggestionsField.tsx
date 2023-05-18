@@ -1,6 +1,6 @@
 import { AsyncListSearchField, Item } from "@snailycad/ui";
 import { useFormikContext } from "formik";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useImageUrl } from "hooks/useImageUrl";
 import { PersonFill } from "react-bootstrap-icons";
 import type { NameSearchResult } from "state/search/name-search-state";

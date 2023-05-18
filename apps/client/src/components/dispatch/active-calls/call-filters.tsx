@@ -10,7 +10,7 @@ import type { useAsyncTable } from "components/shared/Table";
 import { useValues } from "~/context/values-context";
 import type { DepartmentValue, DivisionValue } from "@snailycad/types";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
-import { useFeatureEnabled } from "hooks/useFeatureEnabled";
+import { useFeatureEnabled } from "hooks/use-feature-enabled";
 
 interface Props {
   calls: Full911Call[];

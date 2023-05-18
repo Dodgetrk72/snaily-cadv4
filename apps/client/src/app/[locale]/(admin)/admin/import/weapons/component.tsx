@@ -1,31 +1,27 @@
-import * as React from "react";
-import { useTranslations } from "use-intl";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { Weapon } from "@snailycad/types";
-import { Table, useTableState } from "components/shared/Table";
-import { FullDate } from "components/shared/FullDate";
-import { Button } from "@snailycad/ui";
-import { ImportModal } from "components/admin/import/ImportModal";
-import { ModalIds } from "types/ModalIds";
-import { useModal } from "state/modalState";
-import { useAsyncTable } from "hooks/shared/table/use-async-table";
-import type { GetImportWeaponsData, PostImportWeaponsData } from "@snailycad/types/api";
-import { AlertModal } from "components/modal/AlertModal";
-import { Permissions, usePermission } from "hooks/usePermission";
-import useFetch from "lib/useFetch";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { SearchArea } from "components/shared/search/search-area";
+"use client";
 
-interface Props {
-  data: GetImportWeaponsData;
+import * as React from "react";
+import { GetImportWeaponsData, PostImportWeaponsData } from "@snailycad/types/api";
+import { useTranslations } from "use-intl";
+import { useModal } from "~/state/modalState";
+import { Permissions, usePermission } from "~/hooks/usePermission";
+import useFetch from "~/lib/useFetch";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import { Weapon } from "@snailycad/types";
+import { ModalIds } from "~/types/ModalIds";
+import { Title } from "~/components/shared/Title";
+import { Button } from "@snailycad/ui";
+import { SearchArea } from "~/components/shared/search/search-area";
+import { FullDate } from "~/components/shared/FullDate";
+import { ImportModal } from "~/components/admin/import/ImportModal";
+import { AlertModal } from "~/components/modal/AlertModal";
+
+interface InnerImportWeaponsPageProps {
+  defaultData: GetImportWeaponsData;
 }
 
-export default function ImportWeaponsPage({ data }: Props) {
+export function InnerImportWeaponsPage(props: InnerImportWeaponsPageProps) {
   const [search, setSearch] = React.useState("");
 
   const t = useTranslations("Management");
@@ -47,8 +43,8 @@ export default function ImportWeaponsPage({ data }: Props) {
       }),
       path: "/admin/import/weapons",
     },
-    initialData: data.weapons,
-    totalCount: data.totalCount,
+    initialData: props.defaultData.weapons,
+    totalCount: props.defaultData.totalCount,
   });
   const tableState = useTableState({ pagination: asyncTable.pagination });
   const [tempWeapon, weaponState] = useTemporaryItem(asyncTable.items);
@@ -74,11 +70,7 @@ export default function ImportWeaponsPage({ data }: Props) {
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [Permissions.ImportRegisteredWeapons],
-      }}
-    >
+    <>
       <header>
         <div className="flex items-center justify-between">
           <Title className="!mb-0">{t("IMPORT_WEAPONS")}</Title>
@@ -96,7 +88,7 @@ export default function ImportWeaponsPage({ data }: Props) {
       <SearchArea
         search={{ search, setSearch }}
         asyncTable={asyncTable}
-        totalCount={data.totalCount}
+        totalCount={props.defaultData.totalCount}
       />
 
       <Table
@@ -139,28 +131,6 @@ export default function ImportWeaponsPage({ data }: Props) {
           state={state}
         />
       ) : null}
-    </AdminLayout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [weapons, values] = await requestAll(req, [
-    ["/admin/import/weapons", { weapons: [], totalCount: 0 }],
-    ["/admin/values/gender?paths=ethnicity", []],
-  ]);
-
-  return {
-    props: {
-      values,
-      data: weapons,
-      session: user,
-      messages: {
-        ...(await getTranslations(
-          ["citizen", "admin", "values", "common"],
-          user?.locale ?? locale,
-        )),
-      },
-    },
-  };
-};
