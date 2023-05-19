@@ -1,3 +1,5 @@
+"use client";
+
 import { EmployeeAsEnum, ValueType, WhitelistStatus } from "@snailycad/types";
 import {
   DeleteBusinessFireEmployeeData,

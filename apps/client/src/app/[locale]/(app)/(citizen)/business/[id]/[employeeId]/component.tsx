@@ -1,37 +1,34 @@
+"use client";
+
 import * as React from "react";
-import { Star } from "react-bootstrap-icons";
-import type { GetServerSideProps } from "next";
-import { dataToSlate, Editor } from "components/editor/editor";
-import { BreadcrumbItem, Breadcrumbs, Button, buttonSizes, buttonVariants } from "@snailycad/ui";
-import { Layout } from "components/Layout";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import { useModal } from "state/modalState";
-import { ModalIds } from "types/ModalIds";
-import { useBusinessState } from "state/business-state";
-import { useTranslations } from "use-intl";
-import { BusinessPost, WhitelistStatus } from "@snailycad/types";
-import useFetch from "lib/useFetch";
+import { BusinessPost } from "@snailycad/types";
+import { DeleteBusinessPostsData, GetBusinessByIdData } from "@snailycad/types/api";
 import dynamic from "next/dynamic";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { classNames } from "lib/classNames";
-import type { DeleteBusinessPostsData, GetBusinessByIdData } from "@snailycad/types/api";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
+import { useTranslations } from "use-intl";
+import useFetch from "~/lib/useFetch";
+import { useBusinessState } from "~/state/business-state";
+import { useModal } from "~/state/modalState";
+import { ModalIds } from "~/types/ModalIds";
 import { shallow } from "zustand/shallow";
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import { WhitelistStatus } from ".prisma/client";
 import { Link } from "~/components/shared/link";
+import { BreadcrumbItem, Breadcrumbs, Button, buttonSizes, buttonVariants } from "@snailycad/ui";
+import { Title } from "~/components/shared/Title";
+import { classNames } from "~/lib/classNames";
+import { Editor, dataToSlate } from "~/components/editor/editor";
+import { Star } from "react-bootstrap-icons";
+
+interface InnerBusinessByIdPageProps {
+  business: GetBusinessByIdData;
+}
 
 const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal);
 const ManageBusinessPostModal = dynamic(
   async () => (await import("components/business/ManagePostModal")).ManageBusinessPostModal,
 );
 
-interface Props {
-  business: GetBusinessByIdData;
-  employee: GetBusinessByIdData["employee"];
-}
-
-export default function BusinessId(props: Props) {
+export function InnerBusinessByIdPage(props: InnerBusinessByIdPageProps) {
   const { state: fetchState, execute } = useFetch();
   const { openModal, closeModal } = useModal();
 
@@ -81,11 +78,9 @@ export default function BusinessId(props: Props) {
   }
 
   React.useEffect(() => {
-    const { employee, business } = props;
-
-    businessActions.setCurrentBusiness(business);
-    businessActions.setCurrentEmployee(employee);
-    businessActions.setPosts(business.businessPosts);
+    businessActions.setCurrentBusiness(props.business);
+    businessActions.setCurrentEmployee(props.business.employee);
+    businessActions.setPosts(props.business.businessPosts);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
@@ -102,28 +97,22 @@ export default function BusinessId(props: Props) {
   }
 
   if (currentEmployee.whitelistStatus === WhitelistStatus.PENDING) {
-    return (
-      <Layout className="dark:text-white">
-        <p>{t("businessIsWhitelisted")}</p>
-      </Layout>
-    );
+    return <p>{t("businessIsWhitelisted")}</p>;
   }
 
   if (props.business.status === WhitelistStatus.PENDING) {
     return (
-      <Layout className="dark:text-white">
-        <p>
-          {t("businessWhitelistedCAD")}{" "}
-          <Link href="/business" className="underline">
-            Return
-          </Link>
-        </p>
-      </Layout>
+      <p>
+        {t("businessWhitelistedCAD")}{" "}
+        <Link href="/business" className="underline">
+          Return
+        </Link>
+      </p>
     );
   }
 
   return (
-    <Layout className="dark:text-white">
+    <>
       <Breadcrumbs>
         <BreadcrumbItem href="/business">{t("business")}</BreadcrumbItem>
         <BreadcrumbItem>{currentBusiness.name}</BreadcrumbItem>
@@ -238,25 +227,6 @@ export default function BusinessId(props: Props) {
         state={fetchState}
         onClose={() => postState.setTempId(null)}
       />
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ query, locale, req }) => {
-  const user = await getSessionUser(req);
-  const [business] = await requestAll(req, [
-    [`/businesses/business/${query.id}?employeeId=${query.employeeId}`, null],
-  ]);
-
-  return {
-    notFound: !business?.employee,
-    props: {
-      business,
-      employee: business?.employee ?? null,
-      session: user,
-      messages: {
-        ...(await getTranslations(["business", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};

@@ -67,9 +67,13 @@ export function TabList<Tabs extends Tab[]>({
 
             if (tab.href) {
               return (
-                <Tabs.Trigger value={tab.value} key={tab.value} asChild>
+                <Tabs.Trigger
+                  onClick={() => NProgress.start()}
+                  value={tab.value}
+                  key={tab.value}
+                  asChild
+                >
                   <Link
-                    onClick={() => NProgress.start()}
                     className={
                       "z-20 tabs-list py-1.5 pb-2 border-b-2 border-transparent text-gray-800 dark:text-gray-200 transition-border duration-100 min-w-fit"
                     }

@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslations } from "use-intl";
 import { Button, TabsContent } from "@snailycad/ui";
 import { FullEmployee, useBusinessState } from "state/business-state";
@@ -134,6 +136,7 @@ export function EmployeesTab() {
         id={ModalIds.AlertFireEmployee}
         title={t("fireEmployee")}
         description={t.rich("alert_fireEmployee", {
+          span: (children) => <span className="font-semibold">{children}</span>,
           employee: tempEmployee && `${tempEmployee.citizen.name} ${tempEmployee.citizen.surname}`,
         })}
         onDeleteClick={handleFireEmployee}
