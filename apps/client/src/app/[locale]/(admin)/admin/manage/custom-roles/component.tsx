@@ -1,26 +1,26 @@
-import { useTranslations } from "use-intl";
+"use client";
+
 import * as React from "react";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { type CustomRole } from "@snailycad/types";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { Permissions } from "@snailycad/permissions";
+import { DeleteCustomRoleByIdData, GetCustomRolesData } from "@snailycad/types/api";
+import { useTranslations } from "use-intl";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { Permissions, usePermission } from "~/hooks/usePermission";
+import useFetch from "~/lib/useFetch";
+import { useModal } from "~/state/modalState";
+import { SearchArea } from "~/components/shared/search/search-area";
 import { Button } from "@snailycad/ui";
-import { useModal } from "state/modalState";
-import { Table, useAsyncTable, useTableState } from "components/shared/Table";
-import { ModalIds } from "types/ModalIds";
-import { AlertModal } from "components/modal/AlertModal";
-import useFetch from "lib/useFetch";
-import { usePermission } from "hooks/usePermission";
-import { FullDate } from "components/shared/FullDate";
-import type { DeleteCustomRoleByIdData, GetCustomRolesData } from "@snailycad/types/api";
+import { ModalIds } from "~/types/ModalIds";
+import { Title } from "~/components/shared/Title";
+import { CustomRole } from "@snailycad/types";
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import { CallDescription } from "~/components/dispatch/active-calls/CallDescription";
+import { FullDate } from "~/components/shared/FullDate";
 import dynamic from "next/dynamic";
-import { CallDescription } from "components/dispatch/active-calls/CallDescription";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { SearchArea } from "components/shared/search/search-area";
+import { AlertModal } from "~/components/modal/AlertModal";
+
+interface InnerManageCustomRolesPageProps {
+  defaultData: GetCustomRolesData;
+}
 
 const ManageCustomRolesModal = dynamic(
   async () =>
@@ -29,11 +29,7 @@ const ManageCustomRolesModal = dynamic(
   { ssr: false },
 );
 
-interface Props {
-  customRoles: GetCustomRolesData;
-}
-
-export default function ManageCustomRoles({ customRoles: data }: Props) {
+export function InnerManageCustomRolesPage(props: InnerManageCustomRolesPageProps) {
   const { state, execute } = useFetch();
   const { hasPermissions } = usePermission();
   const { openModal, closeModal } = useModal();
@@ -52,8 +48,8 @@ export default function ManageCustomRoles({ customRoles: data }: Props) {
       path: "/admin/manage/custom-roles",
     },
     search,
-    totalCount: data.totalCount,
-    initialData: data.customRoles,
+    totalCount: props.defaultData.totalCount,
+    initialData: props.defaultData.customRoles,
   });
   const [tempRole, tempRoleState] = useTemporaryItem(asyncTable.items);
   const tableState = useTableState({
@@ -86,11 +82,7 @@ export default function ManageCustomRoles({ customRoles: data }: Props) {
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [Permissions.ManageCustomRoles, Permissions.ViewCustomRoles],
-      }}
-    >
+    <>
       <header className="flex items-start justify-between mb-3">
         <div className="flex flex-col">
           <Title className="!mb-0">{t("MANAGE_CUSTOM_ROLES")}</Title>
@@ -112,7 +104,7 @@ export default function ManageCustomRoles({ customRoles: data }: Props) {
       <SearchArea
         asyncTable={asyncTable}
         search={{ search, setSearch }}
-        totalCount={data.totalCount}
+        totalCount={props.defaultData.totalCount}
       />
 
       {asyncTable.noItemsAvailable ? (
@@ -175,23 +167,6 @@ export default function ManageCustomRoles({ customRoles: data }: Props) {
         onClose={() => tempRoleState.setTempId(null)}
         state={state}
       />
-    </AdminLayout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [customRoles] = await requestAll(req, [
-    ["/admin/manage/custom-roles", { totalCount: 0, customRoles: [] }],
-  ]);
-
-  return {
-    props: {
-      customRoles,
-      session: user,
-      messages: {
-        ...(await getTranslations(["admin", "values", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};

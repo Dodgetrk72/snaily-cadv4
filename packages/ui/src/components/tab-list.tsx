@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import Link from "next/link";
 import { useLocale } from "next-intl";
+import NProgress from "nprogress";
 
 interface TabListStore {
   upsertTabTitle(value: string, name?: string): void;
@@ -68,6 +69,7 @@ export function TabList<Tabs extends Tab[]>({
               return (
                 <Tabs.Trigger value={tab.value} key={tab.value} asChild>
                   <Link
+                    onClick={() => NProgress.start()}
                     className={
                       "z-20 tabs-list py-1.5 pb-2 border-b-2 border-transparent text-gray-800 dark:text-gray-200 transition-border duration-100 min-w-fit"
                     }

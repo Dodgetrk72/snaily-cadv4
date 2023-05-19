@@ -1,38 +1,33 @@
+"use client";
+
 import * as React from "react";
+import { GetAuditLogsData } from "@snailycad/types/api";
+import { FormField } from "~/components/form/FormField";
+import { Select } from "~/components/form/Select";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { Title } from "~/components/shared/Title";
+import { SearchArea } from "~/components/shared/search/search-area";
 import { useTranslations } from "use-intl";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import type { GetAuditLogsData } from "@snailycad/types/api";
-import { useModal } from "state/modalState";
-import { Table, useAsyncTable, useTableState } from "components/shared/Table";
-import { SearchArea } from "components/shared/search/search-area";
-import { FullDate } from "components/shared/FullDate";
-import { Button } from "@snailycad/ui";
-import { ModalIds } from "types/ModalIds";
-import dynamic from "next/dynamic";
-import { FormField } from "components/form/FormField";
-import { Select } from "components/form/Select";
+import { useModal } from "~/state/modalState";
 import { AuditLogActionType } from "@snailycad/audit-logger";
-import { defaultPermissions } from "@snailycad/permissions";
+import dynamic from "next/dynamic";
+import { FullDate } from "~/components/shared/FullDate";
+import { Button } from "@snailycad/ui";
+import { ModalIds } from "~/types/ModalIds";
+
+const ActionTypes = Object.keys(AuditLogActionType);
+interface InnerAuditLogsPageProps {
+  defaultData: GetAuditLogsData;
+}
 
 const ViewAuditLogsDiffModal = dynamic(
   async () =>
-    (await import("components/admin/manage/audit-logs/view-audit-logs-diff-modal"))
+    (await import("~/components/admin/manage/audit-logs/view-audit-logs-diff-modal"))
       .ViewAuditLogsDiffModal,
   { ssr: false },
 );
 
-interface Props {
-  data: GetAuditLogsData;
-}
-
-const ActionTypes = Object.keys(AuditLogActionType);
-
-export default function ManageAuditLogs({ data }: Props) {
+export function InnerAuditLogsPage(props: InnerAuditLogsPageProps) {
   const [search, setSearch] = React.useState("");
 
   const common = useTranslations("Common");
@@ -48,22 +43,18 @@ export default function ManageAuditLogs({ data }: Props) {
         totalCount: data.totalCount,
       }),
     },
-    totalCount: data.totalCount,
-    initialData: data.logs,
+    totalCount: props.defaultData.totalCount,
+    initialData: props.defaultData.logs,
   });
 
   const tableState = useTableState({ pagination: asyncTable.pagination });
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: defaultPermissions.allDefaultAdminPermissions,
-      }}
-    >
+    <>
       <Title>{t("MANAGE_AUDIT_LOGS")}</Title>
 
       <SearchArea
-        totalCount={data.totalCount}
+        totalCount={props.defaultData.totalCount}
         asyncTable={asyncTable}
         search={{ search, setSearch }}
       >
@@ -106,29 +97,6 @@ export default function ManageAuditLogs({ data }: Props) {
       />
 
       <ViewAuditLogsDiffModal />
-    </AdminLayout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ locale, res, req }) => {
-  const [data] = await requestAll(req, [
-    ["/admin/manage/cad-settings/audit-logs", { logs: [], totalCount: 0 }],
-  ]);
-  const user = await getSessionUser(req);
-
-  // https://nextjs.org/docs/going-to-production#caching
-  res.setHeader("Cache-Control", "public, s-maxage=10, stale-while-revalidate=59");
-
-  return {
-    props: {
-      data,
-      session: user,
-      messages: {
-        ...(await getTranslations(
-          ["citizen", "admin", "values", "common"],
-          user?.locale ?? locale,
-        )),
-      },
-    },
-  };
-};

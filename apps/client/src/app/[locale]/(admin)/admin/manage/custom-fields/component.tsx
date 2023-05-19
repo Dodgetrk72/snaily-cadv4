@@ -1,30 +1,26 @@
-import { useTranslations } from "use-intl";
-import * as React from "react";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { type CustomField } from "@snailycad/types";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { Permissions } from "@snailycad/permissions";
-import { Button } from "@snailycad/ui";
-import { useModal } from "state/modalState";
-import { Table, useAsyncTable, useTableState } from "components/shared/Table";
-import { ModalIds } from "types/ModalIds";
-import { ManageCustomFieldModal } from "components/admin/manage/custom-fields/ManageCustomFieldModal";
-import { AlertModal } from "components/modal/AlertModal";
-import useFetch from "lib/useFetch";
-import { usePermission } from "hooks/usePermission";
-import type { DeleteManageCustomFieldsData, GetManageCustomFieldsData } from "@snailycad/types/api";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { SearchArea } from "components/shared/search/search-area";
+"use client";
 
-interface Props {
-  customFields: GetManageCustomFieldsData;
+import * as React from "react";
+import { DeleteManageCustomFieldsData, GetManageCustomFieldsData } from "@snailycad/types/api";
+import { useTranslations } from "use-intl";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { Permissions, usePermission } from "~/hooks/usePermission";
+import useFetch from "~/lib/useFetch";
+import { useModal } from "~/state/modalState";
+import { SearchArea } from "~/components/shared/search/search-area";
+import { Button } from "@snailycad/ui";
+import { ModalIds } from "~/types/ModalIds";
+import { Title } from "~/components/shared/Title";
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import { AlertModal } from "~/components/modal/AlertModal";
+import { ManageCustomFieldModal } from "~/components/admin/manage/custom-fields/ManageCustomFieldModal";
+import { CustomField } from "@snailycad/types";
+
+interface InnerManageCustomFieldsPageProps {
+  defaultData: GetManageCustomFieldsData;
 }
 
-export default function ManageCustomFields({ customFields: data }: Props) {
+export function InnerManageCustomFieldsPage(props: InnerManageCustomFieldsPageProps) {
   const { state, execute } = useFetch();
   const { hasPermissions } = usePermission();
   const { openModal, closeModal } = useModal();
@@ -43,8 +39,8 @@ export default function ManageCustomFields({ customFields: data }: Props) {
       path: "/admin/manage/custom-fields",
     },
     search,
-    totalCount: data.totalCount,
-    initialData: data.customFields,
+    totalCount: props.defaultData.totalCount,
+    initialData: props.defaultData.customFields,
   });
   const [tempField, tempFieldState] = useTemporaryItem(asyncTable.items);
   const tableState = useTableState({
@@ -77,11 +73,7 @@ export default function ManageCustomFields({ customFields: data }: Props) {
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [Permissions.ManageCustomFields, Permissions.ViewCustomFields],
-      }}
-    >
+    <>
       <header className="flex items-start justify-between mb-5">
         <div className="flex flex-col">
           <Title className="!mb-0">{t("MANAGE_CUSTOM_FIELDS")}</Title>
@@ -103,7 +95,7 @@ export default function ManageCustomFields({ customFields: data }: Props) {
       <SearchArea
         asyncTable={asyncTable}
         search={{ search, setSearch }}
-        totalCount={data.totalCount}
+        totalCount={props.defaultData.totalCount}
       />
 
       {asyncTable.noItemsAvailable ? (
@@ -156,23 +148,6 @@ export default function ManageCustomFields({ customFields: data }: Props) {
         onClose={() => tempFieldState.setTempId(null)}
         state={state}
       />
-    </AdminLayout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ locale, req }) => {
-  const user = await getSessionUser(req);
-  const [customFields] = await requestAll(req, [
-    ["/admin/manage/custom-fields", { customFields: [], totalCount: 0 }],
-  ]);
-
-  return {
-    props: {
-      customFields,
-      session: user,
-      messages: {
-        ...(await getTranslations(["admin", "values", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};
