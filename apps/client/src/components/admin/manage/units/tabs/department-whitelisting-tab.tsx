@@ -1,5 +1,4 @@
 import * as React from "react";
-import type { Unit } from "src/pages/admin/manage/units";
 import useFetch from "lib/useFetch";
 import { formatUnitDivisions, makeUnitName, formatOfficerDepartment } from "lib/utils";
 import { useTranslations } from "use-intl";
@@ -18,6 +17,7 @@ import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { Permissions, usePermission } from "hooks/usePermission";
 import { SearchArea } from "components/shared/search/search-area";
 import { WhitelistStatus } from "@snailycad/types";
+import { Unit } from "~/app/[locale]/(admin)/admin/manage/units/(tab-list)/layout";
 
 interface Props {
   pendingUnits: GetManageUnitsData;

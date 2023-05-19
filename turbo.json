@@ -14,7 +14,7 @@
     },
     "build": {
       "dependsOn": ["copy-env", "create-images-domain", "validate-locales", "^build"],
-      "outputs": [".next/*", "dist/*"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "typecheck": {
       "dependsOn": ["^typecheck"],
@@ -28,7 +28,7 @@
     "watch": {
       "persistent": true,
       "cache": false,
-      "outputs": [".next/*", "dist/*"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     }
   },
   "globalDependencies": ["**/.env"]

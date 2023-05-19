@@ -10,13 +10,13 @@ interface AdminLayoutProps {
 
 export default async function RootLayout(props: AdminLayoutProps) {
   const messages = await getTranslations(
-    ["account", "values", "citizen", "cad-settings", "admin"],
+    ["account", "values", "leo", "ems-fd", "citizen", "cad-settings", "admin"],
     props.params.locale,
   );
 
   return (
     <NextIntlClientProvider locale={props.params.locale} messages={messages}>
-      <Nav />
+      <Nav maxWidth="none" />
 
       <main className="flex">
         <AdminSidebar />

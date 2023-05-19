@@ -17,7 +17,7 @@ export default async function DispatchLayout(props: LayoutProps) {
 
   return (
     <>
-      <Nav />
+      <Nav maxWidth="none" />
 
       <NextIntlClientProvider locale={props.params.locale} messages={messages}>
         <DndProvider>

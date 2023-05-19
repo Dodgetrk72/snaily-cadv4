@@ -261,6 +261,8 @@ export type DeleteManageCustomFieldsData = boolean;
  */
 export interface GetManageUnitsData {
   totalCount: number;
+  /** only available when `?pendingOnly=true` */
+  pendingCount: number | null;
   units: ((Types.Officer & { type: "OFFICER" }) | (Types.EmsFdDeputy & { type: "DEPUTY" }))[];
 }
 /**

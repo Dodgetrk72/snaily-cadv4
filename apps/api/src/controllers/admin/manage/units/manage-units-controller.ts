@@ -103,10 +103,12 @@ export class AdminManageUnitsController {
 
     const officers = _officers.map((o) => ({ ...o, type: "OFFICER" as const }));
     const emsFdDeputies = _emsFdDeputies.map((o) => ({ ...o, type: "DEPUTY" as const }));
+    const pendingCount = pendingOnly ? officerCount + emsFdDeputiesCount : null;
 
     return {
       units: [...officers, ...emsFdDeputies],
       totalCount: officerCount + emsFdDeputiesCount,
+      pendingCount,
     };
   }
 

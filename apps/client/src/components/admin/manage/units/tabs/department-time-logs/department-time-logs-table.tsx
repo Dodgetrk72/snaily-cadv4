@@ -16,13 +16,16 @@ type DepartmentReturnType =
   | GetDepartmentTimeLogsUnitsData["logs"][number]
   | GetDepartmentTimeLogsDepartmentsData["logs"][number];
 
-export function DepartmentTimeLogsTab() {
+interface Props {
+  defaultData: GetDepartmentTimeLogsDepartmentsData;
+}
+
+export function DepartmentTimeLogsTab(props: Props) {
   const { value: search, localValue, setLocalValue } = useDebouncedValue("", 250);
   const [groupedBy, setGroupedBy] = React.useState<"departments" | "units">("departments");
 
   const asyncTable = useAsyncTable<DepartmentReturnType>({
     search,
-    totalCount: 0,
     fetchOptions: {
       path: `/admin/manage/units/department-time-logs/${groupedBy}`,
       onResponse: (
@@ -32,6 +35,8 @@ export function DepartmentTimeLogsTab() {
         totalCount: data.totalCount,
       }),
     },
+    initialData: props.defaultData.logs,
+    totalCount: props.defaultData.totalCount,
   });
 
   const t = useTranslations();
