@@ -1,7 +1,7 @@
 "use client";
 
-import { LiveMapTab } from "~/components/admin/manage/cad-settings/live-map-tab";
+import { ApiTokenTab } from "~/components/admin/manage/cad-settings/ApiTokenTab";
 
-export default function CADSettingsPage_LiveMap() {
-  return <LiveMapTab />;
+export default function CADSettingsPage_ApiToken() {
+  return <ApiTokenTab />;
 }
