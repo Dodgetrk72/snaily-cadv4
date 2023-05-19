@@ -1,27 +1,28 @@
-import { useTranslations } from "use-intl";
-import { Button } from "@snailycad/ui";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { useModal } from "state/modalState";
 import { EmployeeAsEnum, ValueType, WhitelistStatus } from "@snailycad/types";
-import useFetch from "lib/useFetch";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { requestAll, yesOrNoText } from "lib/utils";
-import { Table, useAsyncTable, useTableState } from "components/shared/Table";
-import { Title } from "components/shared/Title";
-import { Status } from "components/shared/Status";
-import { usePermission, Permissions } from "hooks/usePermission";
-import type {
+import {
   DeleteBusinessFireEmployeeData,
   GetManageBusinessByIdEmployeesData,
 } from "@snailycad/types/api";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { ModalIds } from "types/ModalIds";
-import { useLoadValuesClientSide } from "hooks/useLoadValuesClientSide";
+import { Button } from "@snailycad/ui";
 import dynamic from "next/dynamic";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
+import { useTranslations } from "use-intl";
+import { Status } from "~/components/shared/Status";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { Title } from "~/components/shared/Title";
 import { Link } from "~/components/shared/link";
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
+import { Permissions, usePermission } from "~/hooks/usePermission";
+import useFetch from "~/lib/useFetch";
+import { yesOrNoText } from "~/lib/utils";
+import { useModal } from "~/state/modalState";
+import { ModalIds } from "~/types/ModalIds";
+
+interface InnerManageBusinessByIdPageProps {
+  params: { id: string };
+  business: GetManageBusinessByIdEmployeesData;
+}
 
 const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal, {
   ssr: false,
@@ -34,12 +35,7 @@ const ManageEmployeeModal = dynamic(
   { ssr: false },
 );
 
-interface Props {
-  business: GetManageBusinessByIdEmployeesData;
-  businessId: string;
-}
-
-export default function ManageBusinesses({ business, businessId }: Props) {
+export function InnerManageBusinessByIdPage(props: InnerManageBusinessByIdPageProps) {
   const { state, execute } = useFetch();
   const { openModal, closeModal } = useModal();
   const { hasPermissions } = usePermission();
@@ -51,24 +47,24 @@ export default function ManageBusinesses({ business, businessId }: Props) {
   useLoadValuesClientSide({
     valueTypes: [ValueType.BUSINESS_ROLE],
   });
-  const tableState = useTableState();
 
+  const tableState = useTableState();
   const asyncTable = useAsyncTable({
     fetchOptions: {
-      path: `/admin/manage/businesses/${businessId}/employees`,
+      path: `/admin/manage/businesses/${props.params.id}/employees`,
       onResponse: (data: GetManageBusinessByIdEmployeesData) => ({
         data: data.employees,
         totalCount: data.totalCount,
       }),
     },
-    totalCount: business.totalCount,
-    initialData: business.employees,
+    totalCount: props.business.totalCount,
+    initialData: props.business.employees,
   });
 
   const [tempEmployee, employeeState] = useTemporaryItem(asyncTable.items);
   const t = useTranslations();
   const common = useTranslations("Common");
-  const isBusinessPendingApproval = business.status === WhitelistStatus.PENDING;
+  const isBusinessPendingApproval = props.business.status === WhitelistStatus.PENDING;
 
   async function handleFireEmployee() {
     if (!hasManagePermissions || !tempEmployee) return;
@@ -87,15 +83,7 @@ export default function ManageBusinesses({ business, businessId }: Props) {
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [
-          Permissions.ViewBusinesses,
-          Permissions.DeleteBusinesses,
-          Permissions.ManageBusinesses,
-        ],
-      }}
-    >
+    <>
       <Title className="mb-5">{t("Business.employees")}</Title>
 
       {isBusinessPendingApproval ? (
@@ -186,31 +174,6 @@ export default function ManageBusinesses({ business, businessId }: Props) {
           />
         </>
       ) : null}
-    </AdminLayout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ locale, req, params }) => {
-  const user = await getSessionUser(req);
-  const [data] = await requestAll(req, [
-    [`/admin/manage/businesses/${params?.id}/employees`, { totalCount: 0, employees: [] }],
-  ]);
-
-  if (!data) {
-    return { notFound: true };
-  }
-
-  return {
-    props: {
-      business: data,
-      businessId: params?.id,
-      session: user,
-      messages: {
-        ...(await getTranslations(
-          ["business", "admin", "values", "common"],
-          user?.locale ?? locale,
-        )),
-      },
-    },
-  };
-};

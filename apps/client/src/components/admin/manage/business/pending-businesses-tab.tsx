@@ -8,7 +8,11 @@ import { useInvalidateQuery } from "hooks/use-invalidate-query";
 
 type Business = GetManageBusinessesData["businesses"][number];
 
-export function PendingBusinessesTab() {
+interface PendingBusinessesTabProps {
+  defaultData: GetManageBusinessesData;
+}
+
+export function PendingBusinessesTab(props: PendingBusinessesTabProps) {
   const t = useTranslations("Management");
   const common = useTranslations("Common");
   const tableState = useTableState();
@@ -16,6 +20,8 @@ export function PendingBusinessesTab() {
   const { invalidateQuery } = useInvalidateQuery(["/admin/manage/businesses"]);
 
   const asyncTable = useAsyncTable<Business>({
+    initialData: props.defaultData.businesses,
+    totalCount: props.defaultData.totalCount,
     fetchOptions: {
       path: "/admin/manage/businesses?pendingOnly=true",
       onResponse: (json: GetManageBusinessesData) => ({
