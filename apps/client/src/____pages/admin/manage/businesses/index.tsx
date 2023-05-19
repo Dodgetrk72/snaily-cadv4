@@ -18,8 +18,8 @@ import { Status } from "components/shared/Status";
 import { usePermission, Permissions } from "hooks/usePermission";
 import type { DeleteBusinessByIdData, GetManageBusinessesData } from "@snailycad/types/api";
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import Link from "next/link";
 import { classNames } from "lib/classNames";
+import { Link } from "~/components/shared/link";
 
 interface Props {
   businesses: GetManageBusinessesData;

@@ -15,7 +15,6 @@ import {
   SwitchField,
 } from "@snailycad/ui";
 import useFetch from "lib/useFetch";
-import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { FormRow } from "components/form/FormRow";
@@ -28,6 +27,7 @@ import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { usePermission, Permissions } from "hooks/usePermission";
 import { ImageSelectInput, validateFile } from "components/form/inputs/ImageSelectInput";
 import type { User } from "@snailycad/types";
+import { Link } from "~/components/shared/link";
 
 interface Props {
   unit: GetManageUnitByIdData;

@@ -8,7 +8,6 @@ import { Table, useAsyncTable, useTableState } from "components/shared/Table";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import { AlertDeclineOfficerModal } from "../AlertDeclineOfficerModal";
-import Link from "next/link";
 import type {
   GetManageUnitsData,
   PostManageUnitAcceptDeclineDepartmentData,
@@ -18,6 +17,7 @@ import { Permissions, usePermission } from "hooks/usePermission";
 import { SearchArea } from "components/shared/search/search-area";
 import { WhitelistStatus } from "@snailycad/types";
 import { Unit } from "~/app/[locale]/(admin)/admin/manage/units/(tab-list)/layout";
+import { Link } from "~/components/shared/link";
 
 interface Props {
   pendingUnits: GetManageUnitsData;

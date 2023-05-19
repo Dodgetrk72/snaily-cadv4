@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import { FormField } from "components/form/FormField";
 import { Table, useTableState } from "components/shared/Table";
 import { Select } from "components/form/Select";
-import Link from "next/link";
 import { FullDate } from "components/shared/FullDate";
 import { usePermission, Permissions } from "hooks/usePermission";
 import { classNames } from "lib/classNames";
@@ -15,6 +14,7 @@ import { useAsyncTable } from "hooks/shared/table/use-async-table";
 import type { DeleteManageCitizenByIdData, GetManageCitizensData } from "@snailycad/types/api";
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
 import dynamic from "next/dynamic";
+import { Link } from "~/components/shared/link";
 
 const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal, {
   ssr: false,

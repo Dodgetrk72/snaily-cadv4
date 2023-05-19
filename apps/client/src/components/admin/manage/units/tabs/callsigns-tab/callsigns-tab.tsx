@@ -1,5 +1,4 @@
 import * as React from "react";
-import Link from "next/link";
 import { formatOfficerDepartment, makeUnitName } from "lib/utils";
 import { useTranslations } from "use-intl";
 import { Button, buttonVariants, TabsContent } from "@snailycad/ui";
@@ -16,6 +15,7 @@ import { FormField } from "components/form/FormField";
 import { Select } from "components/form/Select";
 import { useValues } from "~/context/values-context";
 import { Unit } from "~/app/[locale]/(admin)/admin/manage/units/(tab-list)/layout";
+import { Link } from "~/components/shared/link";
 
 const ManageUnitCallsignModal = dynamic(
   async () => (await import("./manage-unit-callsign-modal")).ManageUnitCallsignModal,

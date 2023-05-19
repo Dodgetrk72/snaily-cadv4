@@ -4,6 +4,7 @@ import { classNames } from "../../utils/classNames";
 import Link from "next/link";
 import { ChevronRight } from "react-bootstrap-icons";
 import { useLocale } from "next-intl";
+import NProgress from "nprogress";
 
 interface Props extends AriaBreadcrumbItemProps {
   href?: string;
@@ -51,6 +52,7 @@ function LinkElement(props: Props) {
       {...itemProps}
       ref={ref}
       locale={locale}
+      onClick={() => NProgress.start()}
       className={classNames(
         props.isDisabled ? "text-gray-400" : "text-blue-500",
         !props.isCurrent && "hover:text-blue-600",
@@ -58,7 +60,7 @@ function LinkElement(props: Props) {
         props.isCurrent ? "font-semibold" : "font-normal",
         props.isCurrent || props.isDisabled ? "cursor-default" : "cursor-pointer",
       )}
-      href={`/${locale}${props.href}` || "#"}
+      href={`/${locale}${props.href}`}
     >
       {props.children}
     </Link>

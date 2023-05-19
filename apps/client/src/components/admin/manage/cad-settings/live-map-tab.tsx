@@ -7,10 +7,10 @@ import { SettingsFormField } from "components/form/SettingsFormField";
 import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/tab-list";
 import { toastMessage } from "lib/toastMessage";
 import type { PutCADMiscSettingsData } from "@snailycad/types/api";
-import Link from "next/link";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
 import { handleValidate } from "lib/handleValidate";
 import { LIVE_MAP_SETTINGS } from "@snailycad/schemas";
+import { Link } from "~/components/shared/link";
 
 const TILE_NAMES = [
   "minimap_sea_0_0",

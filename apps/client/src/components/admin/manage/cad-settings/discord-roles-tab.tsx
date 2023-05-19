@@ -13,8 +13,8 @@ import { formatPermissionName } from "../users/modals/manage-permissions-modal";
 import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/tab-list";
 import { toastMessage } from "lib/toastMessage";
 import type { GetCADDiscordRolesData, PostCADDiscordRolesData } from "@snailycad/types/api";
-import Link from "next/link";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
+import { Link } from "~/components/shared/link";
 
 function makeRoleValues(roles: DiscordRole[] | undefined) {
   if (!roles) return [];

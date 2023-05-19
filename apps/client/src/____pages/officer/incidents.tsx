@@ -14,7 +14,7 @@ import { usePermission, Permissions } from "hooks/usePermission";
 import type { GetActiveOfficerData, GetDispatchData, GetIncidentsData } from "@snailycad/types/api";
 import { IncidentsTable } from "components/leo/incidents/incidents-table";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
-import Link from "next/link";
+import { Link } from "~/components/shared/link";
 
 interface Props extends GetDispatchData {
   incidents: GetIncidentsData<"leo">;

@@ -22,6 +22,8 @@ export function Link({ href, locale, ...rest }: PropsWithChildren<LinkProps>) {
     [routerLocale, href, locale],
   );
 
+  // todo: check if URL is external
+
   React.useEffect(() => {
     NProgress.done();
   }, [pathname]);

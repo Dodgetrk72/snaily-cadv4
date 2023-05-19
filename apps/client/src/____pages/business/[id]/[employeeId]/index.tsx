@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Star } from "react-bootstrap-icons";
-import Link from "next/link";
 import type { GetServerSideProps } from "next";
 import { dataToSlate, Editor } from "components/editor/editor";
 import { BreadcrumbItem, Breadcrumbs, Button, buttonSizes, buttonVariants } from "@snailycad/ui";
@@ -20,6 +19,7 @@ import { classNames } from "lib/classNames";
 import type { DeleteBusinessPostsData, GetBusinessByIdData } from "@snailycad/types/api";
 import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
 import { shallow } from "zustand/shallow";
+import { Link } from "~/components/shared/link";
 
 const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal);
 const ManageBusinessPostModal = dynamic(

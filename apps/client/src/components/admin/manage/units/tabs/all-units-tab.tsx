@@ -1,6 +1,4 @@
 import * as React from "react";
-import type { Unit } from "src/pages/admin/manage/units";
-import Link from "next/link";
 import {
   formatUnitDivisions,
   makeUnitName,
@@ -35,6 +33,8 @@ import { Select } from "components/form/Select";
 import { useValues } from "~/context/values-context";
 import { useImageUrl } from "hooks/useImageUrl";
 import { ImageWrapper } from "components/shared/image-wrapper";
+import { Link } from "~/components/shared/link";
+import { Unit } from "~/app/[locale]/(admin)/admin/manage/units/(tab-list)/layout";
 
 const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal, {
   ssr: false,

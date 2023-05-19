@@ -7,9 +7,9 @@ import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
 import { CropImageModal } from "components/modal/CropImageModal";
 import { AllowedFileExtension, allowedFileExtensions, IMAGES_REGEX } from "@snailycad/config";
-import Link from "next/link";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
 import { useDebounce } from "react-use";
+import { Link } from "~/components/shared/link";
 
 interface Props {
   setImage: React.Dispatch<React.SetStateAction<(File | string) | null>>;

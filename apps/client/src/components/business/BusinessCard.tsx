@@ -1,9 +1,9 @@
 import { Button } from "@snailycad/ui";
 import { useAuth } from "~/context/auth-context";
-import Link from "next/link";
 import { WhitelistStatus } from "@snailycad/types";
 import { useTranslations } from "use-intl";
 import type { GetBusinessesData } from "@snailycad/types/api";
+import { Link } from "../shared/link";
 
 interface Props {
   employee: GetBusinessesData["ownedBusinesses"][number];

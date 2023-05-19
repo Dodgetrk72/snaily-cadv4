@@ -14,11 +14,11 @@ import { FullDate } from "components/shared/FullDate";
 import { ViolationsColumn } from "components/leo/ViolationsColumn";
 import { Status } from "components/shared/Status";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
-import Link from "next/link";
 import { buttonSizes, buttonVariants } from "@snailycad/ui";
 import { classNames } from "lib/classNames";
 import { ArrowLeft } from "react-bootstrap-icons";
 import { RecordsCaseNumberColumn } from "components/leo/records-case-number-column";
+import { Link } from "~/components/shared/link";
 
 export type CitizenLog = RecordLog & { citizen: Citizen };
 interface Props {

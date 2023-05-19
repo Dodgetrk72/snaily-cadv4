@@ -21,7 +21,7 @@ import { ModalIds } from "types/ModalIds";
 import { useLoadValuesClientSide } from "hooks/useLoadValuesClientSide";
 import dynamic from "next/dynamic";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
-import Link from "next/link";
+import { Link } from "~/components/shared/link";
 
 const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal, {
   ssr: false,

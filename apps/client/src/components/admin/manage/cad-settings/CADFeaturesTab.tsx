@@ -11,8 +11,8 @@ import { SettingsTabs } from "~/app/[locale]/(admin)/admin/manage/cad-settings/t
 import { toastMessage } from "lib/toastMessage";
 import { DEFAULT_DISABLED_FEATURES } from "hooks/use-feature-enabled";
 import type { PutCADFeaturesData } from "@snailycad/types/api";
-import Link from "next/link";
 import { BoxArrowUpRight } from "react-bootstrap-icons";
+import { Link } from "~/components/shared/link";
 
 const featuresWithURL: string[] = [
   Feature.BLEETER,
