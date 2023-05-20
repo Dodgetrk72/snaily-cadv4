@@ -25,10 +25,9 @@ type CitizenWithUser = GetManageCitizensData["citizens"][number];
 interface Props {
   citizens: GetManageCitizensData["citizens"];
   totalCount: number;
-  setCitizens: React.Dispatch<React.SetStateAction<GetManageCitizensData["citizens"]>>;
 }
 
-export function AllCitizensTab({ citizens: initialData, totalCount, setCitizens }: Props) {
+export function AllCitizensTab({ citizens: initialData, totalCount }: Props) {
   const [search, setSearch] = React.useState("");
 
   const asyncTable = useAsyncTable({
@@ -70,7 +69,7 @@ export function AllCitizensTab({ citizens: initialData, totalCount, setCitizens 
     });
 
     if (json) {
-      setCitizens((p) => p.filter((v) => v.id !== tempValue.id));
+      asyncTable.remove(tempValue.id);
       valueState.setTempId(null);
       closeModal(ModalIds.AlertDeleteCitizen);
     }

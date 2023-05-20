@@ -1,29 +1,26 @@
-import { useTranslations } from "use-intl";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { ValueType } from "@snailycad/types";
-import { AdminLayout } from "components/admin/AdminLayout";
-import { requestAll } from "lib/utils";
-import { Title } from "components/shared/Title";
-import { ManageCitizenForm } from "~/components/citizen/manage-citizen-form";
-import useFetch from "lib/useFetch";
-import { useRouter } from "next/navigation";
-import { Permissions } from "@snailycad/permissions";
-import type { SelectValue } from "components/form/Select";
-import type {
+"use client";
+
+import * as React from "react";
+import {
   GetManageCitizenByIdData,
   PostCitizenImageByIdData,
   PutManageCitizenByIdData,
 } from "@snailycad/types/api";
-import { BreadcrumbItem, Breadcrumbs } from "@snailycad/ui";
-import { useLoadValuesClientSide } from "hooks/useLoadValuesClientSide";
+import useFetch from "~/lib/useFetch";
+import { useTranslations } from "use-intl";
+import { ValueType } from "@snailycad/types";
+import { BreadcrumbItem, Breadcrumbs, SelectValue } from "@snailycad/ui";
+import { Title } from "~/components/shared/Title";
 
-interface Props {
+import { useRouter } from "next/router";
+import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
+import { ManageCitizenForm } from "~/components/citizen/manage-citizen-form";
+
+interface InnerManageCitizenByIdPageProps {
   citizen: NonNullable<GetManageCitizenByIdData>;
 }
 
-export default function ManageCitizens({ citizen }: Props) {
+export function InnerManageCitizenByIdPage(props: InnerManageCitizenByIdPageProps) {
   const t = useTranslations();
   const { state, execute } = useFetch();
   const router = useRouter();
@@ -41,7 +38,7 @@ export default function ManageCitizens({ citizen }: Props) {
     helpers: any;
   }) {
     const { json, error } = await execute<PutManageCitizenByIdData>({
-      path: `/admin/manage/citizens/${citizen.id}`,
+      path: `/admin/manage/citizens/${props.citizen.id}`,
       method: "PUT",
       helpers,
       data: {
@@ -68,7 +65,7 @@ export default function ManageCitizens({ citizen }: Props) {
 
     if (formData) {
       await execute<PostCitizenImageByIdData>({
-        path: `/citizen/${citizen.id}`,
+        path: `/citizen/${props.citizen.id}`,
         method: "POST",
         data: formData,
         helpers,
@@ -81,23 +78,19 @@ export default function ManageCitizens({ citizen }: Props) {
   }
 
   return (
-    <AdminLayout
-      permissions={{
-        permissions: [Permissions.ManageCitizens],
-      }}
-    >
+    <>
       <Breadcrumbs>
         <BreadcrumbItem href="/admin/manage/citizens">
           {t("Management.MANAGE_CITIZENS")}
         </BreadcrumbItem>
         <BreadcrumbItem>{t("Citizen.editCitizen")}</BreadcrumbItem>
         <BreadcrumbItem>
-          {citizen.name} {citizen.surname}
+          {props.citizen.name} {props.citizen.surname}
         </BreadcrumbItem>
       </Breadcrumbs>
 
       <Title renderLayoutTitle={false}>
-        {t("Common.manage")} {citizen.name} {citizen.surname}
+        {t("Common.manage")} {props.citizen.name} {props.citizen.surname}
       </Title>
 
       <div className="mt-5">
@@ -107,36 +100,12 @@ export default function ManageCitizens({ citizen }: Props) {
             "edit-user": true,
             "license-fields": true,
           }}
-          citizen={citizen}
+          citizen={props.citizen}
           onSubmit={handleSubmit}
           state={state}
           cancelURL="/admin/manage/citizens"
         />
       </div>
-    </AdminLayout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async ({ locale, query, req }) => {
-  const user = await getSessionUser(req);
-  const [citizen] = await requestAll(req, [[`/admin/manage/citizens/${query.id}`, null]]);
-
-  if (!citizen) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      citizen,
-      session: user,
-      messages: {
-        ...(await getTranslations(
-          ["citizen", "admin", "values", "common"],
-          user?.locale ?? locale,
-        )),
-      },
-    },
-  };
-};
