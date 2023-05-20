@@ -4,12 +4,12 @@ import formatDistance from "date-fns/formatDistance";
 import { useImageUrl } from "hooks/useImageUrl";
 import { makeUnitName } from "lib/utils";
 import { useTranslations } from "next-intl";
-import type { OfficerLogWithOfficer } from "src/pages/officer/my-officer-logs";
 import type { EmsFdDeputy, Officer, OfficerLog } from "@snailycad/types";
-import type { OfficerLogWithDeputy } from "src/pages/ems-fd/my-deputy-logs";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
 import type { GetMyDeputiesLogsData, GetMyOfficersLogsData } from "@snailycad/types/api";
 import { ImageWrapper } from "components/shared/image-wrapper";
+import { OfficerLogWithDeputy } from "~/____pages/ems-fd/my-deputy-logs";
+import { OfficerLogWithOfficer } from "~/____pages/officer/my-officer-logs";
 
 type OfficerLogData = GetMyOfficersLogsData["logs"][number] | GetMyDeputiesLogsData["logs"][number];
 
