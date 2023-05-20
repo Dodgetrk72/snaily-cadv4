@@ -14,7 +14,7 @@ import useFetch from "lib/useFetch";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "../../shared/link";
 
-type AdminNotificationKeys =
+export type AdminNotificationKeys =
   | "pendingUnitsForDepartments"
   | "pendingBusinesses"
   | "pendingNameChangeRequests"

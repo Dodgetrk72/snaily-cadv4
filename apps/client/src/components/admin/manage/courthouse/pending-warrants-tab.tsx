@@ -16,7 +16,11 @@ import { useInvalidateQuery } from "hooks/use-invalidate-query";
 
 type PendingWarrant = GetManagePendingWarrants["pendingWarrants"][number];
 
-export function PendingWarrantsTab() {
+interface PendingWarrantsTabProps {
+  defaultData: GetManagePendingWarrants;
+}
+
+export function PendingWarrantsTab(props: PendingWarrantsTabProps) {
   const { openModal } = useModal();
   const t = useTranslations();
   const common = useTranslations("Common");
@@ -26,6 +30,8 @@ export function PendingWarrantsTab() {
   const { invalidateQuery } = useInvalidateQuery(["admin", "notifications"]);
 
   const asyncTable = useAsyncTable<PendingWarrant>({
+    initialData: props.defaultData.pendingWarrants,
+    totalCount: props.defaultData.totalCount,
     fetchOptions: {
       onResponse: (data: GetManagePendingWarrants) => ({
         data: data.pendingWarrants,
