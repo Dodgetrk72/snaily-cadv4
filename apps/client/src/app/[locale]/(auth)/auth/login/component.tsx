@@ -1,7 +1,7 @@
 "use client";
 
 import { AuthScreenImages } from "components/auth/AuthScreenImages";
-import { LocalhostDetector } from "components/auth/LocalhostDetector";
+import { LocalhostDetector } from "components/auth/localhost-detector";
 import { VersionDisplay } from "components/shared/VersionDisplay";
 import { useAuth } from "~/context/auth-context";
 import { LoginForm } from "components/auth/login/login-form";

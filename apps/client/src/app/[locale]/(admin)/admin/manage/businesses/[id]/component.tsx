@@ -135,6 +135,7 @@ export function InnerManageBusinessByIdPage(props: InnerManageBusinessByIdPagePr
                   openModal(ModalIds.AlertFireEmployee);
                 }}
                 size="xs"
+                isDisabled={isBusinessPendingApproval || employee.role?.as === EmployeeAsEnum.OWNER}
                 disabled={isBusinessPendingApproval || employee.role?.as === EmployeeAsEnum.OWNER}
                 className="ml-2"
                 variant="danger"
@@ -161,6 +162,7 @@ export function InnerManageBusinessByIdPage(props: InnerManageBusinessByIdPagePr
             id={ModalIds.AlertFireEmployee}
             title={t("Business.fireEmployee")}
             description={t.rich("Business.alert_fireEmployee", {
+              span: (children) => <span className="font-semibold">{children}</span>,
               employee:
                 tempEmployee && `${tempEmployee.citizen.name} ${tempEmployee.citizen.surname}`,
             })}

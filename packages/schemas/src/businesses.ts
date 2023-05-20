@@ -9,6 +9,10 @@ export const CREATE_COMPANY_SCHEMA = z.object({
   whitelisted: z.boolean(),
 });
 
+export const UPDATE_COMPANY_SCHEMA = CREATE_COMPANY_SCHEMA.omit({
+  ownerId: true,
+});
+
 export const JOIN_COMPANY_SCHEMA = z.object({
   businessId: z.string().min(2).max(255),
   citizenId: z.string().min(2).max(255),

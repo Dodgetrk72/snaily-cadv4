@@ -19,11 +19,13 @@ export function ManageBusinessByIdTabList(props: ManageBusinessByIdTabListProps)
   const pathname = usePathname();
   const t = useTranslations("Business");
   const common = useTranslations("Common");
-  const businessActions = useBusinessState((state) => ({
+  const businessState = useBusinessState((state) => ({
+    currentBusiness: state.currentBusiness,
     setCurrentBusiness: state.setCurrentBusiness,
     setCurrentEmployee: state.setCurrentEmployee,
   }));
 
+  const currentBusiness = businessState.currentBusiness ?? props.currentBusiness;
   const isBusinessOwner = props.currentEmployee.role?.as === EmployeeAsEnum.OWNER;
   const pathPrefix = `/business/${props.currentBusiness.id}/${props.currentEmployee.id}/manage`;
 
@@ -48,7 +50,7 @@ export function ManageBusinessByIdTabList(props: ManageBusinessByIdTabListProps)
     },
     {
       isHidden: !(
-        props.currentBusiness.whitelisted &&
+        currentBusiness.whitelisted &&
         (props.currentEmployee.canManageEmployees || isBusinessOwner)
       ),
       name: t("pendingEmployees"),
@@ -66,8 +68,8 @@ export function ManageBusinessByIdTabList(props: ManageBusinessByIdTabListProps)
   const activeTab = TABS_TITLES.findLast((v) => pathname.endsWith(v.href));
 
   React.useEffect(() => {
-    businessActions.setCurrentBusiness(props.currentBusiness);
-    businessActions.setCurrentEmployee(props.currentEmployee);
+    businessState.setCurrentBusiness(props.currentBusiness);
+    businessState.setCurrentEmployee(props.currentEmployee);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
 
@@ -79,8 +81,8 @@ export function ManageBusinessByIdTabList(props: ManageBusinessByIdTabListProps)
 
       <Breadcrumbs>
         <BreadcrumbItem href="/business">{t("business")}</BreadcrumbItem>
-        <BreadcrumbItem href={`/business/${props.currentBusiness.id}/${props.currentEmployee.id}`}>
-          {props.currentBusiness.name}
+        <BreadcrumbItem href={`/business/${currentBusiness.id}/${props.currentEmployee.id}`}>
+          {currentBusiness.name}
         </BreadcrumbItem>
         <BreadcrumbItem>{common("manage")}</BreadcrumbItem>
       </Breadcrumbs>

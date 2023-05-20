@@ -5,7 +5,7 @@ import { ModalIds } from "types/ModalIds";
 import { AlertModal } from "components/modal/AlertModal";
 import useFetch from "lib/useFetch";
 import { Form, Formik } from "formik";
-import { CREATE_COMPANY_SCHEMA } from "@snailycad/schemas";
+import { UPDATE_COMPANY_SCHEMA } from "@snailycad/schemas";
 import { Button, Loader, Input, TabsContent } from "@snailycad/ui";
 import { handleValidate } from "lib/handleValidate";
 import { Toggle } from "components/form/Toggle";
@@ -64,8 +64,9 @@ export function ManageBusinessTab() {
     }
   }
 
-  const validate = handleValidate(CREATE_COMPANY_SCHEMA);
+  const validate = handleValidate(UPDATE_COMPANY_SCHEMA);
   const INITIAL_VALUES = {
+    ownerId: currentEmployee?.id,
     name: currentBusiness.name,
     address: currentBusiness.address,
     postal: currentBusiness.postal ?? "",

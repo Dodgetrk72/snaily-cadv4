@@ -13,7 +13,7 @@ import { WhitelistStatus } from "@snailycad/types";
 import { Title } from "components/shared/Title";
 import { AuthScreenImages } from "components/auth/AuthScreenImages";
 import { useFeatureEnabled } from "hooks/use-feature-enabled";
-import { LocalhostDetector } from "components/auth/LocalhostDetector";
+import { LocalhostDetector } from "components/auth/localhost-detector";
 import type { PostRegisterUserData } from "@snailycad/types/api";
 
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";

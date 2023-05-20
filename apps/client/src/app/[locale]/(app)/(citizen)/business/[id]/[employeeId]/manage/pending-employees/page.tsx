@@ -1,6 +1,7 @@
 "use client";
 
 import { EmployeeAsEnum } from "@snailycad/types";
+import { Loader } from "@snailycad/ui";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
 import { useTranslations } from "use-intl";
 import { shallow } from "zustand/shallow";
@@ -21,9 +22,13 @@ export default function BusinessPendingEmployeesPageTab() {
   const isBusinessOwner = currentEmployee?.role?.as === EmployeeAsEnum.OWNER;
   const hasManagePermissions = isBusinessOwner || currentEmployee?.canManageEmployees;
 
-  if (!currentBusiness || !currentEmployee) {
-    // loading
-    return null;
+  // the state is being set in a `React.useEffect`. Show loading state until the state is set
+  if (!currentEmployee || !currentBusiness) {
+    return (
+      <div className="p-32 grid place-content-center w-full h-full">
+        <Loader />
+      </div>
+    );
   }
 
   if (!currentBusiness?.whitelisted) {
