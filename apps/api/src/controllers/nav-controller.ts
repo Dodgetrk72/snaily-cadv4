@@ -63,6 +63,10 @@ export class NavController {
       permissionsToCheck: [Permissions.ManagePendingWarrants],
       userToCheck: user,
     });
+    const hasManageUsersPermissions = hasPermission({
+      permissionsToCheck: [Permissions.ManageUsers],
+      userToCheck: user,
+    });
 
     const [
       pendingUnitsForDepartments,
@@ -70,12 +74,16 @@ export class NavController {
       pendingNameChangeRequests,
       pendingExpungementRequests,
       pendingWarrants,
+      pendingUsers,
     ] = await prisma.$transaction([
       prisma.officer.count({ where: { whitelistStatus: { status: WhitelistStatus.PENDING } } }),
       prisma.business.count({ where: { status: WhitelistStatus.PENDING } }),
       prisma.nameChangeRequest.count({ where: { status: WhitelistStatus.PENDING } }),
       prisma.expungementRequest.count({ where: { status: WhitelistStatus.PENDING } }),
       prisma.warrant.count({ where: { approvalStatus: WhitelistStatus.PENDING } }),
+      prisma.user.count({
+        where: { whitelistStatus: WhitelistStatus.PENDING },
+      }),
     ]);
 
     return {
@@ -84,6 +92,7 @@ export class NavController {
       pendingNameChangeRequests: hasManageNameChange ? pendingNameChangeRequests : 0,
       pendingExpungementRequests: hasManageExpungementRequest ? pendingExpungementRequests : 0,
       pendingWarrants: hasManageWarrants ? pendingWarrants : 0,
+      pendingUsers: hasManageUsersPermissions ? pendingUsers : 0,
     };
   }
 }

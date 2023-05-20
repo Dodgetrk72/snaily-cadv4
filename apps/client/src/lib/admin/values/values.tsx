@@ -14,6 +14,7 @@ import {
   CallTypeValue,
   type AnyValue,
   AddressValue,
+  DriversLicenseCategoryValue,
 } from "@snailycad/types";
 import {
   SHOULD_DO_LABELS,
@@ -170,6 +171,13 @@ export function useTableDataOfType(type: ValueType) {
           priority: v.priority ?? common("none"),
         };
       }
+      case ValueType.DRIVERSLICENSE_CATEGORY: {
+        const v = value as DriversLicenseCategoryValue;
+
+        return {
+          type: v.type.toLowerCase(),
+        };
+      }
       default: {
         return {};
       }
@@ -242,6 +250,9 @@ export function useTableHeadersOfType(type: ValueType): ColumnDef<{ id: string }
     }
     case ValueType.CALL_TYPE: {
       return [{ header: t("priority"), accessorKey: "priority" }];
+    }
+    case ValueType.DRIVERSLICENSE_CATEGORY: {
+      return [{ header: common("type"), accessorKey: "type" }];
     }
     default: {
       return [];

@@ -35,6 +35,7 @@ export function SearchArea<T>(props: SearchAreaProps<T>) {
       {props.search.search && props.asyncTable.pagination.totalDataCount !== props.totalCount ? (
         <p className="italic text-base font-semibold">
           {common.rich("showingXResults", {
+            span: (children) => <span className="font-semibold">{children}</span>,
             amount: props.asyncTable.pagination.totalDataCount,
           })}
         </p>

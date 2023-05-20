@@ -66,7 +66,6 @@ import { StatusValueFields, useDefaultDepartments } from "./manage-modal/status-
 interface Props {
   type: ValueType;
   value: AnyValue | null;
-  clType?: DriversLicenseCategoryType | null;
   onCreate(newValue: AnyValue): void;
   onUpdate(oldValue: AnyValue, newValue: AnyValue): void;
 }
@@ -86,6 +85,11 @@ const BUSINESS_VALUES = [
   },
 ];
 
+const driversLicenseCategoryTypeValues = Object.values(DriversLicenseCategoryType).map((v) => ({
+  label: v.toLowerCase(),
+  value: v,
+}));
+
 const EXTRA_SCHEMAS: Partial<Record<ValueType, Zod.ZodObject<Zod.ZodRawShape>>> = {
   CODES_10: CODES_10_SCHEMA,
   DEPARTMENT: DEPARTMENT_SCHEMA,
@@ -101,11 +105,28 @@ interface GetManageValueInitialValuesOptions {
   features: Partial<Record<Feature, boolean>>;
   defaultDivisions: ReturnType<typeof useDefaultDivisions>;
   defaultDepartments: ReturnType<typeof useDefaultDepartments>;
+  type: ValueType;
+}
+
+function getInitialTypeValue(value: AnyValue | null, pathType: ValueType) {
+  if (pathType === ValueType.DRIVERSLICENSE_CATEGORY) {
+    if (!value) {
+      return null;
+    }
+
+    return isDLCategoryValue(value) && value.type;
+  }
+
+  if (value && (isStatusValue(value) || isDepartmentValue(value))) {
+    return value.type;
+  }
+
+  return "STATUS_CODE";
 }
 
 export type ManageValueValues = ReturnType<typeof getManageValueInitialValues>;
 export function getManageValueInitialValues(options: GetManageValueInitialValuesOptions) {
-  const { value, defaultDepartments, defaultDivisions, features } = options;
+  const { value, type, defaultDepartments, defaultDivisions, features } = options;
 
   return {
     isDisabled: value ? getDisabledFromValue(value) : false,
@@ -122,7 +143,7 @@ export function getManageValueInitialValues(options: GetManageValueInitialValues
 
     shouldDo: value && isStatusValue(value) ? value.shouldDo : "",
     color: value && isStatusValue(value) ? value.color ?? "" : "",
-    type: value && (isStatusValue(value) || isDepartmentValue(value)) ? value.type : "STATUS_CODE",
+    type: getInitialTypeValue(value, type),
     departments:
       value &&
       (isStatusValue(value) || isUnitQualification(value) || isEmergencyVehicleValue(value))
@@ -173,7 +194,7 @@ export function getManageValueInitialValues(options: GetManageValueInitialValues
   };
 }
 
-export function ManageValueModal({ onCreate, onUpdate, clType: dlType, type, value }: Props) {
+export function ManageValueModal({ onCreate, onUpdate, type, value }: Props) {
   const [image, setImage] = React.useState<File | string | null>(null);
 
   const { state, execute } = useFetch();
@@ -194,7 +215,7 @@ export function ManageValueModal({ onCreate, onUpdate, clType: dlType, type, val
   ) {
     const data = {
       ...values,
-      type: dlType ? dlType : values.type,
+      type: values.type,
       whatPages: values.whatPages,
       departments: values.departments?.map((v) => v.value),
       divisions: values.divisions?.map((v) => v.value),
@@ -264,6 +285,7 @@ export function ManageValueModal({ onCreate, onUpdate, clType: dlType, type, val
     defaultDivisions,
     features,
     value,
+    type,
   });
 
   function validate(values: typeof INITIAL_VALUES) {
@@ -305,6 +327,17 @@ export function ManageValueModal({ onCreate, onUpdate, clType: dlType, type, val
                 value={values.value}
               />
             )}
+
+            {type === ValueType.DRIVERSLICENSE_CATEGORY ? (
+              <SelectField
+                errorMessage={errors.type}
+                label="Type"
+                options={driversLicenseCategoryTypeValues}
+                name="type"
+                onSelectionChange={(key) => setFieldValue("type", key)}
+                selectedKey={values.type as DriversLicenseCategoryType | null}
+              />
+            ) : null}
 
             {type === ValueType.EMERGENCY_VEHICLE ? <EmergencyVehicleFields /> : null}
             {type === ValueType.LICENSE ? <LicenseFields /> : null}
