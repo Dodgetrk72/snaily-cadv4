@@ -7,7 +7,6 @@ import { useTranslations } from "use-intl";
 import { AdminNotificationKeys } from "~/components/admin/sidebar/sidebar";
 import { Title } from "~/components/shared/Title";
 import { Permissions, usePermission } from "~/hooks/usePermission";
-import useFetch from "~/lib/useFetch";
 
 interface ManageCourthouseTabListProps {
   children: React.ReactNode;
@@ -18,14 +17,9 @@ export function ManageCourthouseTabList(props: ManageCourthouseTabListProps) {
   const pathname = usePathname();
   const t = useTranslations("Management");
 
-  const { execute } = useFetch();
   const { data } = useQuery({
     initialData: props.notifications,
-    queryKey: ["courthouse", "notifications"],
-    queryFn: async () => {
-      const { json } = await execute({ path: "/notifications/admin", noToast: true });
-      return json as ManageCourthouseTabListProps["notifications"];
-    },
+    queryKey: ["admin", "notifications"],
   });
 
   const { hasPermissions } = usePermission();

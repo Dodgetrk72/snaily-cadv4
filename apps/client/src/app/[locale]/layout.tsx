@@ -22,6 +22,9 @@ export default async function RootLayout(props: RootLayoutProps) {
   const _headers = headers();
   const _cookies = cookies();
 
+  // todo: new function for getting user from session (headers)
+  // todo: get CAD settings (headers)
+
   const user = await getSessionUser({ headers: Object.fromEntries(_headers.entries()) } as any);
 
   const userSavedLocale = user?.locale || _cookies.get("sn_locale")?.value || "en";

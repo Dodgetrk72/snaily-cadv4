@@ -27,7 +27,7 @@ interface ProviderProps {
 }
 
 const NO_LOADING_ROUTES = [
-  "/en/403",
+  "/en/forbidden",
   "/en/404",
   "/en/auth/login",
   "/en/auth/register",
