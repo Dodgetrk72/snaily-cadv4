@@ -44,9 +44,6 @@
     "@tailwindcss/typography": "^0.5.9",
     "@tanstack/react-query": "^4.29.5",
     "@tanstack/react-table": "8.9.1",
-    "@tanstack/react-virtual": "^3.0.0-alpha.0",
-    "@tanstack/virtual-core": "^3.0.0-alpha.1",
-    "accept-language-parser": "^1.5.0",
     "axios": "^1.4.0",
     "bignumber.js": "^9.1.1",
     "color": "^4.2.3",
@@ -59,7 +56,6 @@
     "mdast-util-find-and-replace": "^2.2.2",
     "next": "13.4.2",
     "next-intl": "2.14.2",
-    "nookies": "^2.5.2",
     "nprogress": "^0.2.0",
     "pretty-bytes": "^6.1.0",
     "react": "18.2.0",
@@ -92,7 +88,6 @@
     "zustand": "^4.3.8"
   },
   "devDependencies": {
-    "@types/accept-language-parser": "^1.5.3",
     "@types/color": "^3.0.3",
     "@types/leaflet": "^1.9.3",
     "@types/nprogress": "^0.2.0",

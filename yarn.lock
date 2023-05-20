@@ -3052,9 +3052,6 @@ __metadata:
     "@tailwindcss/typography": ^0.5.9
     "@tanstack/react-query": ^4.29.5
     "@tanstack/react-table": 8.9.1
-    "@tanstack/react-virtual": ^3.0.0-alpha.0
-    "@tanstack/virtual-core": ^3.0.0-alpha.1
-    "@types/accept-language-parser": ^1.5.3
     "@types/color": ^3.0.3
     "@types/leaflet": ^1.9.3
     "@types/nprogress": ^0.2.0
@@ -3062,7 +3059,6 @@ __metadata:
     "@types/react-dom": ^18.2.4
     "@types/sortablejs": ^1.15.1
     "@types/uuid": ^9.0.1
-    accept-language-parser: ^1.5.0
     autoprefixer: ^10.4.14
     axios: ^1.4.0
     bignumber.js: ^9.1.1
@@ -3076,7 +3072,6 @@ __metadata:
     mdast-util-find-and-replace: ^2.2.2
     next: 13.4.2
     next-intl: 2.14.2
-    nookies: ^2.5.2
     nprogress: ^0.2.0
     postcss: ^8.4.23
     pretty-bytes: ^6.1.0
@@ -3427,28 +3422,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-virtual@npm:^3.0.0-alpha.0":
-  version: 3.0.0-beta.54
-  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.54"
-  dependencies:
-    "@tanstack/virtual-core": 3.0.0-beta.54
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: ddeb3cb46db89365609d5bc402b8a8d410dc7e5f38ee579f39e5589c62a2123799ba36586939a5a6ad1a701650a5b169f657fd24687687bf08f4827b0099bc75
-  languageName: node
-  linkType: hard
-
 "@tanstack/table-core@npm:8.9.1":
   version: 8.9.1
   resolution: "@tanstack/table-core@npm:8.9.1"
   checksum: b9a514cfeb78b2ebece5116188ab929d0b0b72b6abfe6144c2b1dd68e32faafba5295b2b5dfefa9d3a0cf78dd0f20e7c313ff2dbdf013ee98232e856a549654f
-  languageName: node
-  linkType: hard
-
-"@tanstack/virtual-core@npm:3.0.0-beta.54, @tanstack/virtual-core@npm:^3.0.0-alpha.1":
-  version: 3.0.0-beta.54
-  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.54"
-  checksum: a58cb30e1bbf8a0420caea8693df11c909c1190908163fef75aeddfa11bba621ca993ab218f4e7537c05c1651f9398e61016f3e3d374093c87029b52c868f0e7
   languageName: node
   linkType: hard
 
@@ -3931,13 +3908,6 @@ __metadata:
     "@tsed/common":
       optional: false
   checksum: 3c2e0b9d20d0ee0413d2e05fb78ead840f9a5c78377a22e6c8d3aa37b035220ca3774a607cc0a8c36d62dbf90a59fe55e7e5dc3348e6425ce82926b110b713dd
-  languageName: node
-  linkType: hard
-
-"@types/accept-language-parser@npm:^1.5.3":
-  version: 1.5.3
-  resolution: "@types/accept-language-parser@npm:1.5.3"
-  checksum: ceecd89b2f5ce85c44fa2dd8b8b729c6871ed068b5137afbcaca5469eb7cfea0bc87ad2204ad89cbcc5df3abe2b7c005cf5f29b75150aa9086a52e097a53d944
   languageName: node
   linkType: hard
 
@@ -4589,13 +4559,6 @@ __metadata:
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
   checksum: a4a97ec07d7ea112c517036882b2ac22f3109b7b19077dc656316d07d308438aac28e4d9746dc4d84bf6b1e75b4a7b0a5f3cb30592419f128ca9a8cee3bcfa17
-  languageName: node
-  linkType: hard
-
-"accept-language-parser@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "accept-language-parser@npm:1.5.0"
-  checksum: e32124e500f67d30da7dd15462b3ff7a718df327ff8bd1c97ae02d8ee5cf0917a3f600bf3b171965b1f95fef480b96d36752f674eff2cb0069c276d9783d32f6
   languageName: node
   linkType: hard
 
@@ -10550,16 +10513,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nookies@npm:^2.5.2":
-  version: 2.5.2
-  resolution: "nookies@npm:2.5.2"
-  dependencies:
-    cookie: ^0.4.1
-    set-cookie-parser: ^2.4.6
-  checksum: 4cc6fd8d0ab9fce840ccdb161eefe9dee581f441429fc729f279924491ebd1c12c220f889b6e315d66f8ea00bef944966969c966c957a6b9918ced7d7f9cc8a8
-  languageName: node
-  linkType: hard
-
 "nopt@npm:^5.0.0":
   version: 5.0.0
   resolution: "nopt@npm:5.0.0"
@@ -12378,13 +12331,6 @@ __metadata:
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
   checksum: 6e65a05f7cf7ebdf8b7c75b101e18c0b7e3dff4940d480efed8aad3a36a4005140b660fa1d804cb8bce911cac290441dc728084a30504d3516ac2ff7ad607b02
-  languageName: node
-  linkType: hard
-
-"set-cookie-parser@npm:^2.4.6":
-  version: 2.6.0
-  resolution: "set-cookie-parser@npm:2.6.0"
-  checksum: bf11ebc594c53d84588f1b4c04f1b8ce14e0498b1c011b3d76b5c6d5aac481bbc3f7c5260ec4ce99bdc1d9aed19f9fc315e73166a36ca74d0f12349a73f6bdc9
   languageName: node
   linkType: hard
 
