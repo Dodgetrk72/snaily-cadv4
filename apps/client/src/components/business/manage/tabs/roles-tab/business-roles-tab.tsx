@@ -134,6 +134,7 @@ export function BusinessRolesTab() {
         id={ModalIds.AlertDeleteBusinessRole}
         title={t("deleteBusinessRole")}
         description={t.rich("alert_deleteBusinessRole", {
+          span: (children) => <span className="font-semibold">{children}</span>,
           role: tempRole?.value.value,
         })}
         onDeleteClick={handleDeleteRole}

@@ -12,7 +12,7 @@ import { ValueType } from "@snailycad/types";
 import { BreadcrumbItem, Breadcrumbs, SelectValue } from "@snailycad/ui";
 import { Title } from "~/components/shared/Title";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
 import { ManageCitizenForm } from "~/components/citizen/manage-citizen-form";
 

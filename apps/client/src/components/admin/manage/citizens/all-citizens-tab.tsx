@@ -185,6 +185,7 @@ export function AllCitizensTab({ citizens: initialData, totalCount }: Props) {
         id={ModalIds.AlertDeleteCitizen}
         title={tCitizen("deleteCitizen")}
         description={tCitizen.rich("alert_deleteCitizen", {
+          span: (children) => <span className="font-semibold">{children}</span>,
           citizen: tempValue && `${tempValue.name} ${tempValue.surname}`,
         })}
         onDeleteClick={handleDelete}

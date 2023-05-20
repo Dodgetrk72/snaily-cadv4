@@ -12,7 +12,7 @@ interface InnerManageCitizenByIdPageProps {
 }
 
 export function InnerManageCitizenByIdPage(props: InnerManageCitizenByIdPageProps) {
-  const t = useTranslations();
+  const t = useTranslations("Management");
 
   return (
     <>
