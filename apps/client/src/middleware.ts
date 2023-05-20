@@ -1,5 +1,5 @@
 import createMiddleware from "next-intl/middleware";
-import { i18n } from "../i18n.config.mjs";
+import { i18n } from "i18n.config.mjs";
 
 export default createMiddleware({
   locales: i18n.locales,
@@ -8,6 +8,5 @@ export default createMiddleware({
 });
 
 export const config = {
-  // skip all paths that should not be internationalized
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)"],
 };

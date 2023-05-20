@@ -136,6 +136,7 @@ export function ManageBusinessTab() {
         id={ModalIds.AlertDeleteBusiness}
         title={t("deleteBusiness")}
         description={t.rich("alert_deleteBusiness", {
+          span: (children) => <span className="font-semibold">{children}</span>,
           business: currentBusiness.name,
         })}
         deleteText={t("deleteBusiness")}

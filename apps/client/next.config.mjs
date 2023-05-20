@@ -1,5 +1,4 @@
 import { withSentryConfig } from "@sentry/nextjs";
-import { i18n } from "./i18n.config.mjs";
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
@@ -10,7 +9,6 @@ const json = require("./package.json");
  * @type {T}
  */
 const nextConfig = {
-  i18n,
   cleanDistDir: true,
   eslint: {
     ignoreDuringBuilds: true,
