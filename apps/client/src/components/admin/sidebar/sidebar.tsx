@@ -19,7 +19,8 @@ export type AdminNotificationKeys =
   | "pendingBusinesses"
   | "pendingNameChangeRequests"
   | "pendingExpungementRequests"
-  | "pendingWarrants";
+  | "pendingWarrants"
+  | "pendingUsers";
 
 export function AdminSidebar() {
   const [menuOpen, setMenuOpen] = React.useState(false);
