@@ -7,6 +7,7 @@ import { InnerManageNameChangeRequestsTabPage } from "./component";
 export default async function ManageCourthouseNameChangeRequests() {
   const { data } = await handleServerRequest<GetManageNameChangeRequests>({
     path: "/admin/manage/name-change-requests",
+    defaultData: { pendingNameChangeRequests: [], totalCount: 0 },
   });
 
   return (
@@ -15,9 +16,7 @@ export default async function ManageCourthouseNameChangeRequests() {
         permissions: [Permissions.ViewNameChangeRequests, Permissions.ManageNameChangeRequests],
       }}
     >
-      <InnerManageNameChangeRequestsTabPage
-        defaultData={data ?? { pendingNameChangeRequests: [], totalCount: 0 }}
-      />
+      <InnerManageNameChangeRequestsTabPage defaultData={data} />
     </RequiredPermissions>
   );
 }

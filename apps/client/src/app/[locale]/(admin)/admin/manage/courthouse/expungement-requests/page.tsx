@@ -7,6 +7,7 @@ import { InnerManageExpungementRequestsTabPage } from "./component";
 export default async function ManageCourthouseExpungementRequests() {
   const { data } = await handleServerRequest<GetManageExpungementRequests>({
     path: "/admin/manage/expungement-requests",
+    defaultData: { pendingExpungementRequests: [], totalCount: 0 },
   });
 
   return (
@@ -15,9 +16,7 @@ export default async function ManageCourthouseExpungementRequests() {
         permissions: [Permissions.ViewExpungementRequests, Permissions.ManageExpungementRequests],
       }}
     >
-      <InnerManageExpungementRequestsTabPage
-        defaultData={data ?? { pendingExpungementRequests: [], totalCount: 0 }}
-      />
+      <InnerManageExpungementRequestsTabPage defaultData={data} />
     </RequiredPermissions>
   );
 }

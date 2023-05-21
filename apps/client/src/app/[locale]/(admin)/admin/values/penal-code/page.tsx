@@ -16,9 +16,7 @@ export default async function ManagePenalCodeGroupsPage() {
         permissions: [Permissions.ManageValuePenalCode],
       }}
     >
-      <InnerManagePenalCodeGroupsPage
-        groups={penalCodeGroupsData ?? { groups: [], totalCount: 0 }}
-      />
+      <InnerManagePenalCodeGroupsPage groups={penalCodeGroupsData} />
     </RequiredPermissions>
   );
 }

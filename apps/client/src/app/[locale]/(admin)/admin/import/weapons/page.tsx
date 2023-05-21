@@ -7,6 +7,7 @@ import { GetImportWeaponsData } from "@snailycad/types/api";
 export default async function ImportWeaponsPage() {
   const { data } = await handleServerRequest<GetImportWeaponsData>({
     path: "/admin/import/weapons",
+    defaultData: { totalCount: 0, weapons: [] },
   });
 
   return (
@@ -15,7 +16,7 @@ export default async function ImportWeaponsPage() {
         permissions: [Permissions.ImportRegisteredWeapons],
       }}
     >
-      <InnerImportWeaponsPage defaultData={data ?? { totalCount: 0, weapons: [] }} />
+      <InnerImportWeaponsPage defaultData={data} />
     </RequiredPermissions>
   );
 }

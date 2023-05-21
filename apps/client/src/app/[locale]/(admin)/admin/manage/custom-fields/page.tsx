@@ -6,6 +6,7 @@ import { InnerManageCustomFieldsPage } from "./component";
 export default async function ManageCustomFieldsPage() {
   const { data } = await handleServerRequest({
     path: "/admin/manage/custom-fields",
+    defaultData: { customFields: [], totalCount: 0 },
   });
 
   return (
@@ -14,7 +15,7 @@ export default async function ManageCustomFieldsPage() {
         permissions: [Permissions.ManageCustomFields, Permissions.ViewCustomFields],
       }}
     >
-      <InnerManageCustomFieldsPage defaultData={data ?? { customFields: [], totalCount: 0 }} />
+      <InnerManageCustomFieldsPage defaultData={data} />
     </RequiredPermissions>
   );
 }

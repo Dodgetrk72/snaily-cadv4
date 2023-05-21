@@ -6,6 +6,7 @@ import { InnerManageCustomRolesPage } from "./component";
 export default async function ManageCustomRolesPage() {
   const { data } = await handleServerRequest({
     path: "/admin/manage/custom-roles",
+    defaultData: { customRoles: [], totalCount: 0 },
   });
 
   return (
@@ -14,7 +15,7 @@ export default async function ManageCustomRolesPage() {
         permissions: [Permissions.ManageCustomRoles, Permissions.ViewCustomRoles],
       }}
     >
-      <InnerManageCustomRolesPage defaultData={data ?? { customRoles: [], totalCount: 0 }} />
+      <InnerManageCustomRolesPage defaultData={data} />
     </RequiredPermissions>
   );
 }

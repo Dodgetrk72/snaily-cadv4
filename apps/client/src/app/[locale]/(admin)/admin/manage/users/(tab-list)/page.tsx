@@ -6,6 +6,7 @@ import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 export default async function ManageUsersPage() {
   const { data } = await handleServerRequest({
     path: "/admin/manage/users",
+    defaultData: { pendingCount: 0, totalCount: 0, users: [] },
   });
 
   return (
@@ -19,7 +20,7 @@ export default async function ManageUsersPage() {
         ],
       }}
     >
-      <InnerManageUsersPage defaultData={data ?? { pendingCount: 0, totalCount: 0, users: [] }} />
+      <InnerManageUsersPage defaultData={data} />
     </RequiredPermissions>
   );
 }

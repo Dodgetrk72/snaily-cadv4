@@ -7,6 +7,7 @@ import { GetManageUnitsData } from "@snailycad/types/api";
 export default async function ManageUnitsPage() {
   const { data } = await handleServerRequest<GetManageUnitsData>({
     path: "/admin/manage/units",
+    defaultData: { pendingCount: 0, totalCount: 0, units: [] },
   });
 
   return (
@@ -21,7 +22,7 @@ export default async function ManageUnitsPage() {
         ],
       }}
     >
-      <InnerManageUnitsPage defaultData={data ?? { pendingCount: 0, totalCount: 0, units: [] }} />
+      <InnerManageUnitsPage defaultData={data} />
     </RequiredPermissions>
   );
 }

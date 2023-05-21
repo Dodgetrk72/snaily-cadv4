@@ -7,6 +7,7 @@ import { InnerManagePendingBusinessesPage } from "./component";
 export default async function ManagePendingBusinessesPage() {
   const { data } = await handleServerRequest<GetManageBusinessesData>({
     path: "/admin/manage/businesses?pendingOnly=true",
+    defaultData: { businesses: [], totalCount: 0 },
   });
 
   return (
@@ -15,7 +16,7 @@ export default async function ManagePendingBusinessesPage() {
         permissions: [Permissions.ManageBusinesses],
       }}
     >
-      <InnerManagePendingBusinessesPage defaultData={data ?? { businesses: [], totalCount: 0 }} />
+      <InnerManagePendingBusinessesPage defaultData={data} />
     </RequiredPermissions>
   );
 }

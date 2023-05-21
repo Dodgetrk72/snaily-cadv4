@@ -7,6 +7,7 @@ import { Permissions } from "@snailycad/permissions";
 export default async function ManageUnitsDepartmentWhitelistingPageTab() {
   const { data } = await handleServerRequest<GetManageUnitsData>({
     path: "/admin/manage/units?pendingOnly=true",
+    defaultData: { pendingCount: 0, totalCount: 0, units: [] },
   });
 
   return (
@@ -15,9 +16,7 @@ export default async function ManageUnitsDepartmentWhitelistingPageTab() {
         permissions: [Permissions.ManageUnits],
       }}
     >
-      <InnerManageUnitsDepartmentWhitelistingPageTab
-        defaultData={data ?? { pendingCount: 0, totalCount: 0, units: [] }}
-      />
+      <InnerManageUnitsDepartmentWhitelistingPageTab defaultData={data} />
     </RequiredPermissions>
   );
 }

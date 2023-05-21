@@ -7,6 +7,7 @@ import { Permissions } from "@snailycad/permissions";
 export default async function ManageUnitsCallsignsPageTab() {
   const { data } = await handleServerRequest<GetManageUnitsData>({
     path: "/admin/manage/units",
+    defaultData: { pendingCount: 0, totalCount: 0, units: [] },
   });
 
   return (
@@ -15,9 +16,7 @@ export default async function ManageUnitsCallsignsPageTab() {
         permissions: [Permissions.ManageUnitCallsigns],
       }}
     >
-      <InnerManageUnitsCallsignsPageTab
-        defaultData={data ?? { pendingCount: 0, totalCount: 0, units: [] }}
-      />
+      <InnerManageUnitsCallsignsPageTab defaultData={data} />
     </RequiredPermissions>
   );
 }

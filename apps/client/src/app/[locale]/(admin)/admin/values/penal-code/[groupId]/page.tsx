@@ -11,6 +11,7 @@ interface ManagePenalCodesByGroupPageProps {
 export default async function ManagePenalCodesByGroupPage(props: ManagePenalCodesByGroupPageProps) {
   const { data: penalCodesData } = await handleServerRequest<GetValuesPenalCodesData[number]>({
     path: `/admin/values/penal_code?groupId=${props.params.groupId}&includeAll=false&cache=false`,
+    defaultData: { values: [], type: "PENAL_CODE", totalCount: 0 },
   });
 
   return (
@@ -19,9 +20,7 @@ export default async function ManagePenalCodesByGroupPage(props: ManagePenalCode
         permissions: [Permissions.ManageValuePenalCode],
       }}
     >
-      <InnerPenalCodePage
-        penalCodes={penalCodesData ?? { values: [], type: "PENAL_CODE", totalCount: 0 }}
-      />
+      <InnerPenalCodePage penalCodes={penalCodesData} />
     </RequiredPermissions>
   );
 }

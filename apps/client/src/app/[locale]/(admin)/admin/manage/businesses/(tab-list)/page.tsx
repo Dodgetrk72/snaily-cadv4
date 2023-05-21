@@ -7,6 +7,7 @@ import { InnerManageBusinessesPage } from "./component";
 export default async function ManageBusinessesPage() {
   const { data } = await handleServerRequest<GetManageBusinessesData>({
     path: "/admin/manage/businesses",
+    defaultData: { businesses: [], totalCount: 0 },
   });
 
   return (
@@ -19,7 +20,7 @@ export default async function ManageBusinessesPage() {
         ],
       }}
     >
-      <InnerManageBusinessesPage defaultData={data ?? { businesses: [], totalCount: 0 }} />
+      <InnerManageBusinessesPage defaultData={data} />
     </RequiredPermissions>
   );
 }

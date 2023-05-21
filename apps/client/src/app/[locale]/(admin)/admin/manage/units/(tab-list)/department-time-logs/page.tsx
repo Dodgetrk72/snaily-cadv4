@@ -7,6 +7,7 @@ import { Permissions } from "@snailycad/permissions";
 export default async function ManageUnitsDepartmentWhitelistingPageTab() {
   const { data } = await handleServerRequest<GetDepartmentTimeLogsDepartmentsData>({
     path: "/admin/manage/units/department-time-logs/departments",
+    defaultData: { logs: [], totalCount: 0 },
   });
 
   return (
@@ -20,9 +21,7 @@ export default async function ManageUnitsDepartmentWhitelistingPageTab() {
         ],
       }}
     >
-      <InnerManageUnitsDepartmentTimeLogsPageTab
-        defaultData={data ?? { logs: [], totalCount: 0 }}
-      />
+      <InnerManageUnitsDepartmentTimeLogsPageTab defaultData={data} />
     </RequiredPermissions>
   );
 }

@@ -5,11 +5,8 @@ import { InnerMyBusinessesPage } from "./component";
 export default async function MyBusinessesPage() {
   const { data } = await handleServerRequest<GetBusinessesData>({
     path: "/businesses",
+    defaultData: { joinableBusinesses: [], joinedBusinesses: [], ownedBusinesses: [] },
   });
 
-  return (
-    <InnerMyBusinessesPage
-      defaultData={data ?? { joinableBusinesses: [], joinedBusinesses: [], ownedBusinesses: [] }}
-    />
-  );
+  return <InnerMyBusinessesPage defaultData={data} />;
 }

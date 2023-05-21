@@ -7,6 +7,7 @@ import { GetAuditLogsData } from "@snailycad/types/api";
 export default async function AuditLogsPage() {
   const { data } = await handleServerRequest<GetAuditLogsData>({
     path: "/admin/manage/cad-settings/audit-logs",
+    defaultData: { logs: [], totalCount: 0 },
   });
 
   return (
@@ -15,7 +16,7 @@ export default async function AuditLogsPage() {
         permissions: defaultPermissions.allDefaultAdminPermissions,
       }}
     >
-      <InnerAuditLogsPage defaultData={data ?? { logs: [], totalCount: 0 }} />
+      <InnerAuditLogsPage defaultData={data} />
     </RequiredPermissions>
   );
 }

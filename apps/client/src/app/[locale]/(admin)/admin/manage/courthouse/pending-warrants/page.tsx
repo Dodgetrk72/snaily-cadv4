@@ -7,6 +7,7 @@ import { InnerManagePendingWarrantsTabPage } from "./component";
 export default async function ManageCourthouseNameChangeRequests() {
   const { data } = await handleServerRequest<GetManagePendingWarrants>({
     path: "/admin/manage/pending-warrants",
+    defaultData: { pendingWarrants: [], totalCount: 0 },
   });
 
   return (
@@ -15,9 +16,7 @@ export default async function ManageCourthouseNameChangeRequests() {
         permissions: [Permissions.ManagePendingWarrants],
       }}
     >
-      <InnerManagePendingWarrantsTabPage
-        defaultData={data ?? { pendingWarrants: [], totalCount: 0 }}
-      />
+      <InnerManagePendingWarrantsTabPage defaultData={data} />
     </RequiredPermissions>
   );
 }
