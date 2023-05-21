@@ -27,7 +27,7 @@ const AlertModal = dynamic(async () => {
 });
 
 interface IncidentsTableProps<T extends EmsFdIncident | LeoIncident> {
-  type: T extends EmsFdIncident ? "ems-fd" : T extends LeoIncident ? "leo" : "ems-fd" | "leo";
+  type: "ems-fd" | "leo";
   initialData: { incidents: T[]; totalCount: number };
   isUnitOnDuty?: boolean;
 }
