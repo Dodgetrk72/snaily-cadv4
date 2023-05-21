@@ -8,10 +8,10 @@ import type { EmsFdDeputy, Officer, OfficerLog } from "@snailycad/types";
 import { useGenerateCallsign } from "hooks/useGenerateCallsign";
 import type { GetMyDeputiesLogsData, GetMyOfficersLogsData } from "@snailycad/types/api";
 import { ImageWrapper } from "components/shared/image-wrapper";
-import { OfficerLogWithDeputy } from "~/____pages/ems-fd/my-deputy-logs";
-import { OfficerLogWithOfficer } from "~/____pages/officer/my-officer-logs";
 
 type OfficerLogData = GetMyOfficersLogsData["logs"][number] | GetMyDeputiesLogsData["logs"][number];
+export type OfficerLogWithDeputy = OfficerLog & { emsFdDeputy: EmsFdDeputy };
+export type OfficerLogWithOfficer = OfficerLog & { officer: Officer };
 
 type Props =
   | {

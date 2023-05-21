@@ -1,32 +1,25 @@
-import { Layout } from "components/Layout";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import { requestAll } from "lib/utils";
-import type { GetServerSideProps } from "next";
-import { useTranslations } from "use-intl";
-import { useModal } from "state/modalState";
-import { Button } from "@snailycad/ui";
-import { ModalIds } from "types/ModalIds";
-import { Title } from "components/shared/Title";
-import { usePermission, Permissions } from "hooks/usePermission";
-import type {
-  GetDispatchData,
-  GetDeadCitizensData,
-  PostEmsFdDeclareCitizenById,
-} from "@snailycad/types/api";
-import { Table, useAsyncTable, useTableState } from "components/shared/Table";
-import { Citizen } from "@snailycad/types";
-import { FullDate } from "components/shared/FullDate";
-import { AlertModal } from "components/modal/AlertModal";
-import useFetch from "lib/useFetch";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { toastMessage } from "lib/toastMessage";
+"use client";
 
-interface Props extends GetDispatchData {
-  deadCitizens: GetDeadCitizensData;
+import { Citizen } from "@snailycad/types";
+import { GetDeadCitizensData, PostEmsFdDeclareCitizenById } from "@snailycad/types/api";
+import { Button } from "@snailycad/ui";
+import { useTranslations } from "use-intl";
+import { AlertModal } from "~/components/modal/AlertModal";
+import { FullDate } from "~/components/shared/FullDate";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { Title } from "~/components/shared/Title";
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import { Permissions, usePermission } from "~/hooks/usePermission";
+import { toastMessage } from "~/lib/toastMessage";
+import useFetch from "~/lib/useFetch";
+import { useModal } from "~/state/modalState";
+import { ModalIds } from "~/types/ModalIds";
+
+interface InnerHospitalServicesPageProps {
+  defaultData: GetDeadCitizensData;
 }
 
-export default function EmsFdIncidents({ deadCitizens }: Props) {
+export function InnerHospitalServicesPage(props: InnerHospitalServicesPageProps) {
   const t = useTranslations();
   const common = useTranslations("Common");
 
@@ -45,6 +38,7 @@ export default function EmsFdIncidents({ deadCitizens }: Props) {
 
     if (json) {
       toastMessage({
+        icon: "success",
         title: t("HospitalServices.citizenDeclaredAlive"),
         message: t("HospitalServices.citizenDeclaredAliveMessage", {
           name: `${tempCitizen.name} ${tempCitizen.surname}`,
@@ -68,19 +62,14 @@ export default function EmsFdIncidents({ deadCitizens }: Props) {
       }),
       path: "/ems-fd/dead-citizens",
     },
-    initialData: deadCitizens.citizens,
-    totalCount: deadCitizens.totalCount,
+    initialData: props.defaultData.citizens,
+    totalCount: props.defaultData.totalCount,
   });
   const tableState = useTableState(asyncTable);
   const [tempCitizen, tempCitizenState] = useTemporaryItem(asyncTable.items);
 
   return (
-    <Layout
-      permissions={{
-        permissions: [Permissions.ViewDeadCitizens, Permissions.ManageDeadCitizens],
-      }}
-      className="dark:text-white"
-    >
+    <>
       <Title className="mb-3">{t("HospitalServices.hospitalServices")}</Title>
 
       {asyncTable.items.length <= 0 ? (
@@ -133,6 +122,7 @@ export default function EmsFdIncidents({ deadCitizens }: Props) {
           title={t("HospitalServices.declareAlive")}
           description={t.rich("HospitalServices.alert_declareAlive", {
             citizen: `${tempCitizen?.name} ${tempCitizen?.surname}`,
+            span: (children) => <span className="font-semibold">{children}</span>,
           })}
           id={ModalIds.AlertDeclareCitizenAlive}
           state={state}
@@ -140,23 +130,6 @@ export default function EmsFdIncidents({ deadCitizens }: Props) {
           deleteText={t("HospitalServices.declareAlive")}
         />
       ) : null}
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ req, locale }) => {
-  const user = await getSessionUser(req);
-  const [deadCitizens] = await requestAll(req, [
-    ["/ems-fd/dead-citizens", { citizens: [], totalCount: 0 }],
-  ]);
-
-  return {
-    props: {
-      session: user,
-      deadCitizens,
-      messages: {
-        ...(await getTranslations(["ems-fd", "citizen", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};

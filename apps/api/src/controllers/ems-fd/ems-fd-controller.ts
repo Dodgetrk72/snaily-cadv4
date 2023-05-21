@@ -53,16 +53,25 @@ export class EmsFdController {
   @UsePermissions({
     permissions: [Permissions.EmsFd],
   })
-  async getUserDeputies(@Context("user") user: User): Promise<APITypes.GetMyDeputiesData> {
-    const deputies = await prisma.emsFdDeputy.findMany({
-      where: { userId: user.id },
-      include: {
-        ...unitProperties,
-        qualifications: { include: { qualification: { include: { value: true } } } },
-      },
-    });
+  async getUserDeputies(
+    @Context("user") user: User,
+    @QueryParams("skip", Number) skip = 0,
+    @QueryParams("includeAll", Boolean) includeAll = false,
+  ): Promise<APITypes.GetMyDeputiesData> {
+    const [userDeputies, userDeputiesCount] = await prisma.$transaction([
+      prisma.emsFdDeputy.findMany({
+        take: includeAll ? undefined : 35,
+        skip: includeAll ? undefined : skip,
+        where: { userId: user.id },
+        include: {
+          ...unitProperties,
+          qualifications: { include: { qualification: { include: { value: true } } } },
+        },
+      }),
+      prisma.emsFdDeputy.count({ where: { userId: user.id } }),
+    ]);
 
-    return { deputies };
+    return { deputies: userDeputies, totalCount: userDeputiesCount };
   }
 
   @Get("/logs")

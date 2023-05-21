@@ -1,6 +1,6 @@
 import { Button } from "@snailycad/ui";
 import { ModalIds } from "types/ModalIds";
-import { ActiveToneType, ShouldDoType } from "@snailycad/types";
+import { ActiveToneType, ShouldDoType, StatusValue } from "@snailycad/types";
 import { useModal } from "state/modalState";
 import { useTranslations } from "use-intl";
 import { ActiveDeputy, useEmsFdState } from "state/ems-fd-state";
@@ -49,8 +49,10 @@ const buttons: MButton[] = [
 
 export function ModalButtons({
   initialActiveDeputy,
+  initialCodes10,
 }: {
   initialActiveDeputy: ActiveDeputy | null;
+  initialCodes10: StatusValue[];
 }) {
   const _activeDeputy = useEmsFdState((s) => s.activeDeputy);
   const isMounted = useMounted();
@@ -62,10 +64,11 @@ export function ModalButtons({
   const { PANIC_BUTTON, TONES } = useFeatureEnabled();
   const activeDeputy = isMounted ? _activeDeputy : initialActiveDeputy;
 
-  const { codes10 } = useValues();
-  const panicButtonCode = codes10.values.find(
-    (code) => code.shouldDo === ShouldDoType.PANIC_BUTTON,
-  );
+  const values = useValues();
+
+  const hasCodes10InStore = values.codes10.values.length > 0;
+  const codes10 = hasCodes10InStore ? values.codes10.values : initialCodes10;
+  const panicButtonCode = codes10.find((code) => code.shouldDo === ShouldDoType.PANIC_BUTTON);
 
   const { hasPermissions } = usePermission();
   const isAdmin = hasPermissions(defaultPermissions.allDefaultAdminPermissions);

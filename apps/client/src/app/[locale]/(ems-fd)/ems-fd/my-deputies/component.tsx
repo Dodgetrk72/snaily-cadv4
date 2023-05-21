@@ -1,37 +1,39 @@
-import * as React from "react";
-import { useTranslations } from "use-intl";
-import dynamic from "next/dynamic";
+"use client";
+
+import { ValueType } from "@snailycad/types";
+import { DeleteMyDeputyByIdData, GetMyDeputiesData } from "@snailycad/types/api";
 import { Button } from "@snailycad/ui";
-import { Layout } from "components/Layout";
-import { useModal } from "state/modalState";
-import { getSessionUser } from "lib/auth";
-import { getTranslations } from "lib/getTranslation";
-import type { GetServerSideProps } from "next";
-import { ModalIds } from "types/ModalIds";
-import useFetch from "lib/useFetch";
-import { formatOfficerDepartment, makeUnitName, requestAll } from "lib/utils";
-import { useGenerateCallsign } from "hooks/useGenerateCallsign";
-import { useImageUrl } from "hooks/useImageUrl";
-import { Table, useTableState } from "components/shared/Table";
-import { Title } from "components/shared/Title";
-import { Permissions } from "@snailycad/permissions";
-import { useFeatureEnabled } from "hooks/use-feature-enabled";
-import { OfficerRank } from "components/leo/OfficerRank";
-import { UnitDepartmentStatus } from "components/leo/UnitDepartmentStatus";
-import type { DeleteMyDeputyByIdData, GetMyDeputiesData } from "@snailycad/types/api";
-import { useTemporaryItem } from "hooks/shared/useTemporaryItem";
-import { ImageWrapper } from "components/shared/image-wrapper";
+import dynamic from "next/dynamic";
+import { useTranslations } from "use-intl";
+import { OfficerRank } from "~/components/leo/OfficerRank";
+import { UnitDepartmentStatus } from "~/components/leo/UnitDepartmentStatus";
+import { Table, useAsyncTable, useTableState } from "~/components/shared/Table";
+import { Title } from "~/components/shared/Title";
+import { ImageWrapper } from "~/components/shared/image-wrapper";
+import { useTemporaryItem } from "~/hooks/shared/useTemporaryItem";
+import { useFeatureEnabled } from "~/hooks/use-feature-enabled";
+import { useGenerateCallsign } from "~/hooks/useGenerateCallsign";
+import { useImageUrl } from "~/hooks/useImageUrl";
+import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
+import useFetch from "~/lib/useFetch";
+import { formatOfficerDepartment, makeUnitName } from "~/lib/utils";
+import { useModal } from "~/state/modalState";
+import { ModalIds } from "~/types/ModalIds";
 
-const AlertModal = dynamic(async () => (await import("components/modal/AlertModal")).AlertModal);
-const ManageDeputyModal = dynamic(
-  async () => (await import("components/ems-fd/modals/ManageDeputyModal")).ManageDeputyModal,
-);
-
-interface Props {
-  deputies: GetMyDeputiesData["deputies"];
+interface InnerMyDeputiesPageProps {
+  defaultData: GetMyDeputiesData;
 }
 
-export default function MyDeputies({ deputies: data }: Props) {
+const AlertModal = dynamic(async () => (await import("~/components/modal/AlertModal")).AlertModal);
+const ManageDeputyModal = dynamic(
+  async () => (await import("~/components/ems-fd/modals/ManageDeputyModal")).ManageDeputyModal,
+);
+
+export function InnerMyDeputiesPage(props: InnerMyDeputiesPageProps) {
+  useLoadValuesClientSide({
+    valueTypes: [ValueType.DEPARTMENT, ValueType.DIVISION],
+  });
+
   const common = useTranslations("Common");
   const t = useTranslations();
   const { openModal, closeModal } = useModal();
@@ -41,8 +43,18 @@ export default function MyDeputies({ deputies: data }: Props) {
   const { DIVISIONS, BADGE_NUMBERS } = useFeatureEnabled();
   const tableState = useTableState();
 
-  const [deputies, setDeputies] = React.useState(data);
-  const [tempDeputy, deputyState] = useTemporaryItem(deputies);
+  const asyncTable = useAsyncTable({
+    initialData: props.defaultData.deputies,
+    totalCount: props.defaultData.totalCount,
+    fetchOptions: {
+      path: "/ems-fd",
+      onResponse(json: GetMyDeputiesData) {
+        return { data: json.deputies, totalCount: json.totalCount };
+      },
+    },
+  });
+
+  const [tempDeputy, deputyState] = useTemporaryItem(asyncTable.items);
 
   async function handleDeleteDeputy() {
     if (!tempDeputy) return;
@@ -54,7 +66,9 @@ export default function MyDeputies({ deputies: data }: Props) {
 
     if (json) {
       closeModal(ModalIds.AlertDeleteDeputy);
-      setDeputies((p) => p.filter((v) => v.id !== tempDeputy.id));
+
+      asyncTable.remove(tempDeputy.id);
+      deputyState.setTempId(null);
     }
   }
 
@@ -69,19 +83,19 @@ export default function MyDeputies({ deputies: data }: Props) {
   }
 
   return (
-    <Layout permissions={{ permissions: [Permissions.EmsFd] }} className="dark:text-white">
+    <>
       <header className="flex items-center justify-between">
         <Title className="!mb-0">{t("Ems.myDeputies")}</Title>
 
         <Button onPress={() => openModal(ModalIds.ManageDeputy)}>{t("Ems.createDeputy")}</Button>
       </header>
 
-      {deputies.length <= 0 ? (
+      {asyncTable.totalCount <= 0 ? (
         <p className="mt-5">{t("Ems.noDeputies")}</p>
       ) : (
         <Table
           tableState={tableState}
-          data={deputies.map((deputy) => ({
+          data={asyncTable.items.map((deputy) => ({
             id: deputy.id,
             deputy: (
               <span className="flex items-center">
@@ -138,14 +152,9 @@ export default function MyDeputies({ deputies: data }: Props) {
       )}
 
       <ManageDeputyModal
-        onCreate={(deputy) => setDeputies((p) => [deputy, ...p])}
-        onUpdate={(old, newO) => {
-          setDeputies((p) => {
-            const idx = p.indexOf(old);
-            p[idx] = newO;
-
-            return p;
-          });
+        onCreate={(deputy) => asyncTable.prepend(deputy)}
+        onUpdate={(previousDeputy, updatedDeputy) => {
+          asyncTable.update(previousDeputy.id, updatedDeputy);
         }}
         deputy={tempDeputy}
         onClose={() => deputyState.setTempId(null)}
@@ -155,31 +164,13 @@ export default function MyDeputies({ deputies: data }: Props) {
         title={t("Ems.deleteDeputy")}
         description={t.rich("Ems.alert_deleteDeputy", {
           deputy: tempDeputy && makeUnitName(tempDeputy),
+          span: (children) => <span className="font-semibold">{children}</span>,
         })}
         id={ModalIds.AlertDeleteDeputy}
         onDeleteClick={handleDeleteDeputy}
         onClose={() => deputyState.setTempId(null)}
         state={state}
       />
-    </Layout>
+    </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ req, locale }) => {
-  const user = await getSessionUser(req);
-  const [{ deputies }, values] = await requestAll(req, [
-    ["/ems-fd", { deputies: [] }],
-    ["/admin/values/department?paths=division", []],
-  ]);
-
-  return {
-    props: {
-      session: user,
-      deputies,
-      values,
-      messages: {
-        ...(await getTranslations(["ems-fd", "leo", "common"], user?.locale ?? locale)),
-      },
-    },
-  };
-};

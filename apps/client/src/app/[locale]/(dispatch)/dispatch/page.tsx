@@ -28,7 +28,12 @@ export async function getDispatchData() {
       { path: "/bolos", defaultData: { bolos: [], totalCount: 0 } },
       {
         path: "/dispatch",
-        defaultData: { activeDispatchersCount: 0, userActiveDispatcher: null, activeIncidents: [] },
+        defaultData: {
+          areaOfPlay: "San Andreas",
+          activeDispatchersCount: 0,
+          userActiveDispatcher: null,
+          activeIncidents: [],
+        },
       },
       { path: "/leo/active-officers", defaultData: [] },
       { path: "/ems-fd/active-deputies", defaultData: [] },

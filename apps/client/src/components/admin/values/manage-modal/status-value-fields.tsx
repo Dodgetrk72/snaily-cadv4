@@ -144,7 +144,7 @@ export function StatusValueFields() {
       </FormField>
 
       <RadioGroupField
-        value={values.type}
+        value={values.type as StatusValueType}
         onChange={(value) => setFieldValue("type", value)}
         label="Code Type"
       >

@@ -6,6 +6,7 @@ import type * as Types from "../index.js";
  * @route /ems-fd
  */
 export interface GetMyDeputiesData {
+  totalCount: number;
   deputies: (Types.EmsFdDeputy & {
     qualifications: Types.UnitQualification[];
   })[];

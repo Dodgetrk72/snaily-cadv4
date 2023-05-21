@@ -5,14 +5,18 @@ import axios, { AxiosResponse } from "axios";
 import { headers } from "next/headers";
 import { getErrorObj } from "./errors";
 
-interface HandleServerRequestOptions<T> {
+export function handleServerRequest<T = any>(options: {
   path: string;
-  defaultData?: T;
-}
-
-export async function handleServerRequest<T = any>(
-  options: HandleServerRequestOptions<T>,
-): Promise<AxiosResponse<T | undefined>> {
+  defaultData: T;
+}): Promise<AxiosResponse<T>>;
+export function handleServerRequest<T = any>(options: {
+  path: string;
+  defaultData?: undefined;
+}): Promise<AxiosResponse<T | undefined>>;
+export async function handleServerRequest<T = any>(options: {
+  path: string;
+  defaultData?: T | undefined;
+}): Promise<AxiosResponse<T | undefined>> {
   const apiUrl = getAPIUrl();
   const isDispatchUrl = ["/dispatch", "/dispatch/map"].includes(String());
 
@@ -41,9 +45,17 @@ export async function handleServerRequest<T = any>(
   }
 }
 
-export async function handleMultiServerRequest<T = any>(
-  config: { path: string; defaultData?: unknown }[],
-): Promise<T> {
+type Config<T extends [...any[]]> = {
+  [Index in keyof T]: { path: string; defaultData?: T[Index] };
+} & { length: T["length"] };
+
+type Response<T extends [...any[]]> = {
+  [Index in keyof T]: T[Index];
+};
+
+export async function handleMultiServerRequest<T extends any[]>(
+  config: Config<T>,
+): Promise<Response<T>> {
   return Promise.all(
     config.map(async ({ path, defaultData = {} }) => {
       return handleServerRequest<T>({
@@ -52,7 +64,7 @@ export async function handleMultiServerRequest<T = any>(
         .then((v) => (typeof v.data === "undefined" ? defaultData : v.data))
         .catch(() => defaultData);
     }),
-  ) as T;
+  ) as Response<T>;
 }
 
 function makeReturn<T>(v: any): Omit<AxiosResponse<T, T>, "request"> {

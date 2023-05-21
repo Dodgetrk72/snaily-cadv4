@@ -26,7 +26,7 @@ export function DepartmentFields() {
         options={DEPARTMENT_TYPES}
         name="type"
         onSelectionChange={(key) => setFieldValue("type", key)}
-        selectedKey={values.type}
+        selectedKey={values.type as DepartmentType}
       />
 
       <TextField
