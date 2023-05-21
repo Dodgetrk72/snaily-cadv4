@@ -6,7 +6,7 @@ import { type cad as CAD, type User, WhitelistStatus } from "@snailycad/types";
 import { useIsRouteFeatureEnabled } from "../hooks/auth/useIsRouteFeatureEnabled";
 import { useListener } from "@casper124578/use-socket.io";
 import { SocketEvents } from "@snailycad/config";
-import { GetUserData } from "@snailycad/types/api";
+import { GetCADSettingsData, GetUserData } from "@snailycad/types/api";
 
 interface Context {
   user: User | null;
@@ -22,8 +22,8 @@ interface ProviderProps {
   children: React.ReactNode;
   initialData: {
     userSavedIsDarkTheme?: "false" | "true";
-    session?: (Omit<GetUserData, "cad"> & { cad?: CAD | null }) | null;
-    cad?: CAD | null;
+    session?: GetUserData | null;
+    cad?: GetCADSettingsData | null;
   };
 }
 
@@ -44,9 +44,7 @@ function isExcludedLoadingRoute(pathname: string) {
 
 export function AuthProvider({ initialData, children }: ProviderProps) {
   const [user, setUser] = React.useState<User | null>(initialData.session ?? null);
-  const [cad, setCad] = React.useState<CAD | null>(
-    initialData.cad ?? initialData.session?.cad ?? null,
-  );
+  const [cad, setCad] = React.useState<CAD | null>(initialData.cad ?? null);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -111,8 +109,8 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
       setUser(initialData.session);
     }
 
-    if (initialData.cad || initialData.session?.cad) {
-      setCad(initialData.cad ?? initialData.session?.cad ?? null);
+    if (initialData.cad) {
+      setCad(initialData.cad);
     }
   }, [initialData]);
 

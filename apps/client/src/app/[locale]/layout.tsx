@@ -68,7 +68,7 @@ export default async function RootLayout(props: RootLayoutProps) {
       <body
         className={classNames("antialiased", darkMode && "min-h-screen bg-primary text-white dark")}
       >
-        <Providers messages={defaultMessages} user={user ? { ...user, cad } : null}>
+        <Providers messages={defaultMessages} cad={cad} user={user}>
           {props.children}
         </Providers>
       </body>

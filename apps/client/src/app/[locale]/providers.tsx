@@ -12,16 +12,16 @@ import { Toaster } from "react-hot-toast";
 import { SocketProvider } from "@casper124578/use-socket.io";
 import { ErrorFallback } from "~/components/error-fallback";
 import { getAPIUrl } from "@snailycad/utils/api-url";
-import { GetUserData } from "@snailycad/types/api";
-import { cad } from "@snailycad/types";
+import { GetCADSettingsData, GetUserData } from "@snailycad/types/api";
 
 interface ProvidersProps {
   messages: Record<string, string>;
   children: React.ReactNode;
-  user: (Omit<GetUserData, "cad"> & { cad: cad | null }) | null;
+  user: GetUserData | null;
+  cad: GetCADSettingsData | null;
 }
 
-export function Providers({ messages, children, user }: ProvidersProps) {
+export function Providers(props: ProvidersProps) {
   const [queryClient] = React.useState(() => new QueryClient());
 
   const { protocol, host } = new URL(getAPIUrl());
@@ -36,12 +36,14 @@ export function Providers({ messages, children, user }: ProvidersProps) {
               <NextIntlClientProvider
                 now={new Date()}
                 onError={console.warn}
-                messages={messages}
-                locale={user?.locale ?? "en"}
+                messages={props.messages}
+                locale={props.user?.locale ?? "en"}
               >
                 <Toaster position="top-right" />
 
-                <AuthProvider initialData={{ session: user }}>{children}</AuthProvider>
+                <AuthProvider initialData={{ cad: props.cad, session: props.user }}>
+                  {props.children}
+                </AuthProvider>
               </NextIntlClientProvider>
             </SocketProvider>
           </QueryClientProvider>

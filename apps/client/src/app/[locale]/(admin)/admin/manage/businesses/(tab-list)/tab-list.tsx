@@ -1,14 +1,17 @@
 "use client";
 
 import { TabList } from "@snailycad/ui";
+import { useQuery } from "@tanstack/react-query";
 import { Permissions, usePermission } from "hooks/usePermission";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "use-intl";
+import { AdminNotificationKeys } from "~/components/admin/sidebar/sidebar";
 import { Title } from "~/components/shared/Title";
 import { useAuth } from "~/context/auth-context";
 
 interface ManageBusinessesTabListProps {
   children: React.ReactNode;
+  notifications?: Record<AdminNotificationKeys, number>;
 }
 
 export function ManageBusinessesTabList(props: ManageBusinessesTabListProps) {
@@ -20,12 +23,17 @@ export function ManageBusinessesTabList(props: ManageBusinessesTabListProps) {
   const hasManagePermissions = hasPermissions([Permissions.ManageBusinesses]);
   const isWhitelistedEnabled = (cad?.businessWhitelisted ?? false) && hasManagePermissions;
 
+  const { data } = useQuery({
+    initialData: props.notifications,
+    queryKey: ["admin", "notifications"],
+  });
+
+  const pendingBusinessesCount = data?.pendingBusinesses ?? 0;
   const TABS_TITLES = [
     { name: t("allBusinesses"), value: "allBusinesses", href: "/admin/manage/businesses" },
     {
-      // todo: add count
       isHidden: !isWhitelistedEnabled,
-      name: t("pendingBusinesses"),
+      name: `${t("pendingBusinesses")} (${pendingBusinessesCount})`,
       value: "pendingBusinesses",
       href: "/admin/manage/businesses/pending",
     },

@@ -16,17 +16,20 @@ type LinkProps = Omit<ComponentProps<typeof NextLink>, "href"> & {
 export function Link({ href, locale, ...rest }: PropsWithChildren<LinkProps>) {
   const routerLocale = useLocale();
   const pathname = usePathname();
+  const isExternalUrl = href.toString().startsWith("http");
+
+  React.useEffect(() => {
+    NProgress.done();
+  }, [pathname]);
 
   const localizedHref = React.useMemo(
     () => transformHrefWithLocale(href, locale || routerLocale),
     [routerLocale, href, locale],
   );
 
-  // todo: check if URL is external
-
-  React.useEffect(() => {
-    NProgress.done();
-  }, [pathname]);
+  if (isExternalUrl) {
+    return <a href={href.toString()} {...rest} />;
+  }
 
   return (
     <NextLink
