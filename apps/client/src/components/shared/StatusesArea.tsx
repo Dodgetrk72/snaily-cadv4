@@ -27,6 +27,7 @@ interface Props<T extends ActiveOfficer | ActiveDeputy> {
   initialData: T | null;
   activeUnit: T | null;
   units: T[];
+  initialCodes10: StatusValue[];
   setActiveUnit(unit: T | null): void;
   setUnits(units: T[]): void;
 }
@@ -36,11 +37,12 @@ export function StatusesArea<T extends ActiveOfficer | ActiveDeputy>({
   initialData,
   activeUnit: _activeUnit,
   units,
+  initialCodes10,
   setActiveUnit,
   setUnits,
 }: Props<T>) {
   const isMounted = useMounted();
-  const { codes10 } = useValues();
+  const values = useValues();
   const { openModal } = useModal();
   const { execute } = useFetch();
   const { user } = useAuth();
@@ -135,7 +137,10 @@ export function StatusesArea<T extends ActiveOfficer | ActiveDeputy>({
     }
   }
 
-  const filteredCodes = codes10.values.filter((v) => handleWhatPagesFilter(v, whatPagesType));
+  const hasCodes10InStore = values.codes10.values.length > 0;
+  const codes10 = hasCodes10InStore ? values.codes10.values : initialCodes10;
+
+  const filteredCodes = codes10.filter((v) => handleWhatPagesFilter(v, whatPagesType));
   const onDutyCode = filteredCodes.find((v) => v.shouldDo === ShouldDoType.SET_ON_DUTY);
   const isOnDutyActive = !isUnitOffDuty && onDutyCode?.id === activeUnit.status?.id;
 

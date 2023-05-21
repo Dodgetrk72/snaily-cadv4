@@ -88,8 +88,6 @@ export function InnerEmsFdDashboard(props: InnerEmsFdDashboardProps) {
 
   const t = useTranslations();
 
-  console.log(props.data.values);
-
   const initialCodes10 =
     (props.data.values.find((v) => v.type === ValueType.CODES_10)?.values as
       | StatusValue[]
@@ -117,6 +115,7 @@ export function InnerEmsFdDashboard(props: InnerEmsFdDashboardProps) {
           setActiveUnit={state.setActiveDeputy}
           activeUnit={state.activeDeputy}
           initialData={props.data.activeDeputy}
+          initialCodes10={initialCodes10}
         />
       </UtilityPanel>
 
