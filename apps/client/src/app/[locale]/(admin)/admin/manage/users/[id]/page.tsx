@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { InnerManageUserByIdPage } from "./component";
-import { handleMultiServerRequest } from "~/lib/fetch/server";
+import { handleMultiServerRequest } from "~/lib/fetch/handle-server-request";
 import { GetCustomRolesData, GetManageUserByIdData } from "@snailycad/types/api";
 import { notFound } from "next/navigation";
 

@@ -1,5 +1,5 @@
 import { InnerManagePendingUsersPage } from "./component";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 
 export default async function ManagePendingUsersTabPage() {
   const { data } = await handleServerRequest({

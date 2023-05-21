@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { InnerTaxiPage } from "./component";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { GetTaxiCallsData } from "@snailycad/types/api";
 
 export async function TaxiPage() {

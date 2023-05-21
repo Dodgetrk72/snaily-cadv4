@@ -2,7 +2,7 @@ import { Permissions } from "@snailycad/permissions";
 import { GetManageBusinessByIdEmployeesData } from "@snailycad/types/api";
 import { notFound } from "next/navigation";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerManageBusinessByIdPage } from "./component";
 
 interface ManageBusinessByIdPageProps {

@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { InnerManageCitizenByIdPage } from "./component";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { GetManageCitizensData } from "@snailycad/types/api";
 
 export default async function ManageCitizenByIdPage() {

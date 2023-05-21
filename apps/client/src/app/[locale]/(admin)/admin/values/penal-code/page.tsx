@@ -1,4 +1,4 @@
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerManagePenalCodeGroupsPage } from "./component";
 import { GetPenalCodeGroupsData } from "@snailycad/types/api";
 import { RequiredPermissions } from "~/components/admin/required-permissions";

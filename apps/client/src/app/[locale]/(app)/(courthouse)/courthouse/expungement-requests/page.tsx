@@ -1,4 +1,4 @@
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerExpungementRequestsPage } from "./component";
 
 export default async function ExpungementRequestsTabPage() {

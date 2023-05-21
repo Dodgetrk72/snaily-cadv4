@@ -1,5 +1,5 @@
 import { GetBleeterData } from "@snailycad/types/api";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerBleeterPage } from "./component";
 
 export default async function BleeterPage() {

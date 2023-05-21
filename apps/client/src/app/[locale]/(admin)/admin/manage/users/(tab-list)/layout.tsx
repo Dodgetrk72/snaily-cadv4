@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { ManageUsersTabList } from "./tab-list";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { AdminNotificationKeys } from "~/components/admin/sidebar/sidebar";
 
 interface ManageUsersLayoutProps {

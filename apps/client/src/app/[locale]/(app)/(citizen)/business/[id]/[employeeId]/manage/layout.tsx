@@ -1,4 +1,4 @@
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { ManageBusinessByIdTabList } from "./tab-list";
 import { GetBusinessByIdData } from "@snailycad/types/api";
 import { notFound } from "next/navigation";

@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { GetEmsFdActiveDeputy, GetIncidentsData } from "@snailycad/types/api";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
-import { handleMultiServerRequest } from "~/lib/fetch/server";
+import { handleMultiServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerEmsFdIncidentsPage } from "./component";
 
 type GetEmsFdIncidentsDataTuple = [GetIncidentsData<"ems-fd">, GetEmsFdActiveDeputy | null];

@@ -1,4 +1,4 @@
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { ManageCourthouseTabList } from "./tab-list";
 import { AdminNotificationKeys } from "~/components/admin/sidebar/sidebar";
 

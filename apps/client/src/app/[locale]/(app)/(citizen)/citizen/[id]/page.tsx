@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CitizenProvider } from "~/context/citizen-context";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerUserCitizenPage } from "./component";
 
 interface UserCitizenPageProps {

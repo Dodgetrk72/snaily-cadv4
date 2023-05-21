@@ -1,6 +1,6 @@
 import { GetBusinessByIdData } from "@snailycad/types/api";
 import { notFound } from "next/navigation";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerBusinessByIdPage } from "./component";
 
 interface BusinessByIdPageProps {

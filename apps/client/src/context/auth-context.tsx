@@ -6,6 +6,7 @@ import { type cad as CAD, type User, WhitelistStatus } from "@snailycad/types";
 import { useIsRouteFeatureEnabled } from "../hooks/auth/useIsRouteFeatureEnabled";
 import { useListener } from "@casper124578/use-socket.io";
 import { SocketEvents } from "@snailycad/config";
+import { GetUserData } from "@snailycad/types/api";
 
 interface Context {
   user: User | null;
@@ -21,21 +22,25 @@ interface ProviderProps {
   children: React.ReactNode;
   initialData: {
     userSavedIsDarkTheme?: "false" | "true";
-    session?: (User & { cad: CAD | null }) | null;
+    session?: (Omit<GetUserData, "cad"> & { cad?: CAD | null }) | null;
     cad?: CAD | null;
   };
 }
 
-const NO_LOADING_ROUTES = [
-  "/en/forbidden",
-  "/en/404",
-  "/en/auth/login",
-  "/en/auth/register",
-  "/en/auth/pending",
-  "/en/auth/temp-password",
-  "/en/auth/connections",
-  "/en/auth/account-password",
+const EXCLUDED_LOADING_ROUTES = [
+  "/forbidden",
+  "/404",
+  "/auth/login",
+  "/auth/register",
+  "/auth/pending",
+  "/auth/temp-password",
+  "/auth/connections",
+  "/auth/account-password",
 ];
+
+function isExcludedLoadingRoute(pathname: string) {
+  return EXCLUDED_LOADING_ROUTES.some((route) => pathname.endsWith(route));
+}
 
 export function AuthProvider({ initialData, children }: ProviderProps) {
   const [user, setUser] = React.useState<User | null>(initialData.session ?? null);
@@ -50,23 +55,19 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
   const handleGetUser = React.useCallback(async () => {
     const { getSessionUser } = await import("lib/auth");
     const { doesUserHaveAllRequiredConnections } = await import(
-      "lib/validation/does-user-have-required-connections"
+      "~/lib/validation/does-user-have-required-connections"
     );
 
     const user = await getSessionUser();
 
-    if (
-      user?.whitelistStatus === WhitelistStatus.PENDING &&
-      pathname &&
-      !NO_LOADING_ROUTES.includes(pathname)
-    ) {
+    if (user?.whitelistStatus === WhitelistStatus.PENDING && !isExcludedLoadingRoute(pathname)) {
       router.push("/auth/pending");
 
       setUser(user);
       return;
     }
 
-    if (!user && pathname && !NO_LOADING_ROUTES.includes(pathname)) {
+    if (!user && !isExcludedLoadingRoute(pathname)) {
       const from = pathname;
       router.push(`/auth/login?from=${from}`);
     }
@@ -74,7 +75,7 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
     const isForceAccountPassword =
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       (cad?.features?.FORCE_ACCOUNT_PASSWORD ?? false) && !user?.hasPassword;
-    if (user && pathname && !NO_LOADING_ROUTES.includes(pathname) && isForceAccountPassword) {
+    if (user && !isExcludedLoadingRoute(pathname) && isForceAccountPassword) {
       const from = pathname;
       router.push(`/auth/account-password?from=${from}`);
     }
@@ -82,7 +83,7 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
     if (
       user &&
       pathname &&
-      !NO_LOADING_ROUTES.includes(pathname) &&
+      !EXCLUDED_LOADING_ROUTES.includes(pathname) &&
       !doesUserHaveAllRequiredConnections({ user, features: cad?.features })
     ) {
       const from = pathname;
@@ -135,7 +136,7 @@ export function AuthProvider({ initialData, children }: ProviderProps) {
 
   const value = { user, cad, setCad, setUser };
 
-  if (pathname && !NO_LOADING_ROUTES.includes(pathname) && !user) {
+  if (!isExcludedLoadingRoute(pathname) && !user) {
     return (
       <div id="unauthorized" className="fixed inset-0 grid bg-transparent place-items-center">
         <span aria-label="loading...">{/* <Loader className="w-14 h-14 border-[3px]" /> */}</span>

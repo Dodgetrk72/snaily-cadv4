@@ -8,13 +8,20 @@ import { ErrorBoundary } from "@sentry/nextjs";
 import { ValuesProvider } from "~/context/values-context";
 import { SSRProvider } from "@react-aria/ssr";
 
-// todo: only load in client
 import { Toaster } from "react-hot-toast";
 import { SocketProvider } from "@casper124578/use-socket.io";
 import { ErrorFallback } from "~/components/error-fallback";
 import { getAPIUrl } from "@snailycad/utils/api-url";
+import { GetUserData } from "@snailycad/types/api";
+import { cad } from "@snailycad/types";
 
-export function Providers({ messages, children, user }: any) {
+interface ProvidersProps {
+  messages: Record<string, string>;
+  children: React.ReactNode;
+  user: (Omit<GetUserData, "cad"> & { cad: cad | null }) | null;
+}
+
+export function Providers({ messages, children, user }: ProvidersProps) {
   const [queryClient] = React.useState(() => new QueryClient());
 
   const { protocol, host } = new URL(getAPIUrl());
@@ -25,7 +32,6 @@ export function Providers({ messages, children, user }: any) {
       <ValuesProvider initialData={{ values: [] }}>
         <ErrorBoundary fallback={ErrorFallback}>
           <QueryClientProvider client={queryClient}>
-            {/* todo: API url */}
             <SocketProvider uri={url}>
               <NextIntlClientProvider
                 now={new Date()}

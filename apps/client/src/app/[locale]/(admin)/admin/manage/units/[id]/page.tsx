@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { InnerManageUnitByIdPage } from "./component";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import type { GetManageUnitByIdData } from "@snailycad/types/api";
 import { notFound } from "next/navigation";
 

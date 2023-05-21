@@ -1,4 +1,4 @@
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerAdminDashboardPage } from "./component";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { defaultPermissions } from "@snailycad/permissions";

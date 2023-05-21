@@ -1,5 +1,5 @@
 import { GetBleeterByIdData } from "@snailycad/types/api";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerBleetPage } from "./component";
 import { notFound } from "next/navigation";
 

@@ -1,4 +1,4 @@
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerCourtEntriesPage } from "./component";
 import { GetCourtEntriesData } from "@snailycad/types/api";
 

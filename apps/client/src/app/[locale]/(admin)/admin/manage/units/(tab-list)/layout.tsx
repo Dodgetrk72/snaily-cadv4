@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { ManageUnitsTabList } from "./tab-list";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { GetManageUnitsData } from "@snailycad/types/api";
 
 export type Unit = GetManageUnitsData["units"][number];

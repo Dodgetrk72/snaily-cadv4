@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CitizenProvider } from "~/context/citizen-context";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerEditUserCitizenPage } from "./component";
 import { GetCitizenByIdData } from "@snailycad/types/api";
 

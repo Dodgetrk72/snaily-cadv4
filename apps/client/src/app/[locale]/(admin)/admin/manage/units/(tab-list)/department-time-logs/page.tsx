@@ -1,6 +1,6 @@
 import { GetDepartmentTimeLogsDepartmentsData } from "@snailycad/types/api";
 import { InnerManageUnitsDepartmentTimeLogsPageTab } from "./component";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { Permissions } from "@snailycad/permissions";
 

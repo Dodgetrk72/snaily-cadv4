@@ -1,4 +1,4 @@
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerTruckLogsPage } from "./component";
 import { GetTruckLogsData } from "@snailycad/types/api";
 

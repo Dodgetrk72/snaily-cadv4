@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { GetManageNameChangeRequests } from "@snailycad/types/api";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerManageNameChangeRequestsTabPage } from "./component";
 
 export default async function ManageCourthouseNameChangeRequests() {

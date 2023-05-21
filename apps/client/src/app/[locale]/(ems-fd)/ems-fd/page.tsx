@@ -6,7 +6,7 @@ import {
   GetValuesData,
 } from "@snailycad/types/api";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
-import { handleMultiServerRequest } from "~/lib/fetch/server";
+import { handleMultiServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerEmsFdDashboard } from "./component";
 
 type GetEmsFdDashboardDataTuple = [

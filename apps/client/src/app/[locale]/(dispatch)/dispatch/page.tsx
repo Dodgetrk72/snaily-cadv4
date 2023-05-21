@@ -1,7 +1,7 @@
 import { Permissions } from "@snailycad/permissions";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
 import { InnerDispatchPage } from "./component";
-import { handleMultiServerRequest } from "~/lib/fetch/server";
+import { handleMultiServerRequest } from "~/lib/fetch/handle-server-request";
 import {
   Get911CallsData,
   GetActiveOfficersData,

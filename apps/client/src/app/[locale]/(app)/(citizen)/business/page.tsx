@@ -1,5 +1,5 @@
 import { GetBusinessesData } from "@snailycad/types/api";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerMyBusinessesPage } from "./component";
 
 export default async function MyBusinessesPage() {

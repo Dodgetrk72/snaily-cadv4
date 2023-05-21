@@ -1,5 +1,5 @@
 import { ValueType } from "@snailycad/types";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerManageValuesPathPage } from "./component";
 import { GetValuesData } from "@snailycad/types/api";
 import { RequiredPermissions } from "~/components/admin/required-permissions";

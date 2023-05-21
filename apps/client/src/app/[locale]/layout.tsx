@@ -2,32 +2,61 @@ import "styles/fonts.scss";
 import "styles/globals.scss";
 import "styles/nprogress.scss";
 
-import { getSessionUser } from "lib/auth";
 import { classNames } from "lib/classNames";
 import { getTranslations } from "lib/getTranslation";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { Providers } from "./providers";
+import { getAuthenticatedUserServer } from "~/lib/auth/get-authenticated-user-server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
+import { GetCADSettingsData } from "@snailycad/types/api";
+import { cad } from "@snailycad/types";
+import { Metadata } from "next";
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-// fetch CAD configuration
-export const metadata = {
-  title: "SnailyCAD",
-  description: "Welcome to Next.js",
-};
+async function getCADSettings() {
+  const { data: cadSettings } = await handleServerRequest<GetCADSettingsData | null>({
+    path: "/admin/manage/cad-settings",
+  });
+
+  return cadSettings;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cadSettings = await getCADSettings();
+
+  const description =
+    cadSettings?.miscCadSettings?.cadOGDescription ?? "Get started with SnailyCAD";
+
+  return {
+    title: {
+      default: `${cadSettings?.name ?? "SnailyCAD"} - SnailyCAD`,
+      template: `%s - ${cadSettings?.name ?? "SnailyCAD"}`,
+    },
+    description,
+    openGraph: {
+      description,
+      title: {
+        default: `${cadSettings?.name ?? "SnailyCAD"} - SnailyCAD`,
+        template: `%s - ${cadSettings?.name ?? "SnailyCAD"}`,
+      },
+    },
+  };
+}
 
 export default async function RootLayout(props: RootLayoutProps) {
-  const _headers = headers();
   const _cookies = cookies();
 
-  // todo: new function for getting user from session (headers)
-  // todo: get CAD settings (headers)
+  const user = await getAuthenticatedUserServer();
+  const { data: cadSettings } = await handleServerRequest<GetCADSettingsData | null>({
+    path: "/admin/manage/cad-settings",
+  });
 
-  const user = await getSessionUser({ headers: Object.fromEntries(_headers.entries()) } as any);
+  const cad = (user?.cad ?? cadSettings ?? null) as cad | null;
 
-  const userSavedLocale = user?.locale || _cookies.get("sn_locale")?.value || "en";
+  const userSavedLocale = _cookies.get("sn_locale")?.value || "en";
   const userSavedIsDarkTheme = parseIsDarkTheme(_cookies.get("sna_isDarkTheme")?.value);
 
   const darkMode = user?.isDarkTheme ?? userSavedIsDarkTheme ?? true;
@@ -39,7 +68,7 @@ export default async function RootLayout(props: RootLayoutProps) {
       <body
         className={classNames("antialiased", darkMode && "min-h-screen bg-primary text-white dark")}
       >
-        <Providers messages={defaultMessages} user={user}>
+        <Providers messages={defaultMessages} user={user ? { ...user, cad } : null}>
           {props.children}
         </Providers>
       </body>

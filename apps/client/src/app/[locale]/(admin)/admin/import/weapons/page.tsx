@@ -1,6 +1,6 @@
 import { Permissions } from "@snailycad/permissions";
 import { RequiredPermissions } from "~/components/admin/required-permissions";
-import { handleServerRequest } from "~/lib/fetch/server";
+import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { InnerImportWeaponsPage } from "./component";
 import { GetImportWeaponsData } from "@snailycad/types/api";
 
