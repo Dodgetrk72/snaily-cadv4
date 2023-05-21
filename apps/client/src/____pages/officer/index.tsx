@@ -188,6 +188,7 @@ export default function OfficerDashboard({
         </div>
 
         <StatusesArea
+          initialCodes10={[]}
           setUnits={dispatchState.setActiveOfficers}
           units={dispatchState.activeOfficers}
           activeUnit={leoState.activeOfficer}
