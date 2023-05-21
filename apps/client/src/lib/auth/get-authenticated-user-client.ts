@@ -5,7 +5,6 @@ import { WhitelistStatus } from "@snailycad/types";
 export async function getAuthenticatedUserServer() {
   try {
     const response = await handleRequest<GetUserData | null>({
-      defaultData: null,
       path: "/user",
     });
 
