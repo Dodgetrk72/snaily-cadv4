@@ -3,9 +3,8 @@
 import * as React from "react";
 import type { UrlObject } from "node:url";
 import type { ComponentProps, PropsWithChildren } from "react";
-import NextLink from "next/link";
+import NextLink from "next-intl/link";
 import { useLocale } from "use-intl";
-import { transformHrefWithLocale } from "~/lib/i18n/transform-href-with-locale";
 import { usePathname } from "next/navigation";
 import NProgress from "nprogress";
 
@@ -22,18 +21,13 @@ export function Link({ href, locale, ...rest }: PropsWithChildren<LinkProps>) {
     NProgress.done();
   }, [pathname]);
 
-  const localizedHref = React.useMemo(
-    () => transformHrefWithLocale(href, locale || routerLocale),
-    [routerLocale, href, locale],
-  );
-
   if (isExternalUrl) {
     return <a href={href.toString()} {...rest} />;
   }
 
   return (
     <NextLink
-      href={localizedHref}
+      href={href}
       locale={routerLocale}
       {...rest}
       onClick={(event) => {

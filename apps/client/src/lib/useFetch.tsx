@@ -39,7 +39,7 @@ interface Return<Data> {
 }
 
 let config: Awaited<ReturnType<typeof getNextI18nConfig>> | undefined;
-let handleRequest: typeof import("./fetch").handleRequest | undefined;
+let handleRequest: typeof import("./fetch/handle-request").handleRequest | undefined;
 
 export default function useFetch({ overwriteState }: UseFetchOptions = { overwriteState: null }) {
   const [state, setState] = React.useState<State | null>(null);
@@ -61,7 +61,7 @@ export default function useFetch({ overwriteState }: UseFetchOptions = { overwri
     }
 
     if (!handleRequest) {
-      handleRequest = (await import("./fetch")).handleRequest;
+      handleRequest = (await import("./fetch/handle-request")).handleRequest;
     }
 
     setState("loading");
@@ -75,7 +75,7 @@ export default function useFetch({ overwriteState }: UseFetchOptions = { overwri
       signal: restOptions.signal ?? abortControllerRef.current.signal,
     };
 
-    const response = await handleRequest(path, { ...mergedOptions }).catch((e) => {
+    const response = await handleRequest({ path, ...mergedOptions }).catch((e) => {
       setState("error");
       return e;
     });

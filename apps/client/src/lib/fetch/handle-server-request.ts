@@ -20,7 +20,7 @@ export async function handleServerRequest<T = any>(options: {
   return handleRequest({
     path: options.path,
     defaultData: options.defaultData,
-    headers: headers(),
+    headers: Object.fromEntries(headers().entries()),
   });
 }
 

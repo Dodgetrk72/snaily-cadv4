@@ -1,29 +1,38 @@
 import { getAPIUrl } from "@snailycad/utils/api-url";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { getErrorObj } from "./errors";
 
-export function handleRequest<T = any>(options: {
-  path: string;
-  defaultData: T;
-  headers?: Headers;
-}): Promise<AxiosResponse<T>>;
-export function handleRequest<T = any>(options: {
-  path: string;
-  defaultData?: undefined;
-  headers?: Headers;
-}): Promise<AxiosResponse<T | undefined>>;
-export async function handleRequest<T = any>(options: {
-  path: string;
-  defaultData?: T | undefined;
-  headers?: Headers;
-}): Promise<AxiosResponse<T | undefined>> {
-  const apiUrl = getAPIUrl();
-  const isDispatchUrl = ["/dispatch", "/dispatch/map"].includes(String());
+interface BaseOptions extends AxiosRequestConfig {
+  data?: unknown;
+}
 
-  const cookieHeader = options.headers?.get("cookie");
+export function handleRequest<T = any>(
+  options: BaseOptions & {
+    path: string;
+    defaultData: T;
+  },
+): Promise<AxiosResponse<T>>;
+export function handleRequest<T = any>(
+  options: BaseOptions & {
+    path: string;
+    defaultData?: undefined;
+  },
+): Promise<AxiosResponse<T | undefined>>;
+export async function handleRequest<T = any>(
+  options: BaseOptions & {
+    path: string;
+    defaultData?: T | undefined;
+  },
+): Promise<AxiosResponse<T | undefined>> {
+  const apiUrl = getAPIUrl();
+  // todo:
+  const isDispatchUrl = ["/dispatch", "/dispatch/map"].includes(String());
+  const cookieHeader = options.headers?.cookie;
 
   try {
     const response = await axios({
+      method: options.method,
+      data: options.data,
       url: `${apiUrl}${options.path}`,
       withCredentials: true,
       headers: {
