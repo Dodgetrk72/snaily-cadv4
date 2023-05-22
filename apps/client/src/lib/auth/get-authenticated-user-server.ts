@@ -7,6 +7,7 @@ export async function getAuthenticatedUserServer() {
     const response = await handleServerRequest<GetUserData | null>({
       path: "/user",
       defaultData: null,
+      method: "POST",
     });
 
     if (response.data) {

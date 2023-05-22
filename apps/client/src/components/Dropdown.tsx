@@ -2,7 +2,6 @@ import * as React from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { classNames } from "lib/classNames";
 import { Button, ButtonProps, buttonSizes, buttonVariants } from "@snailycad/ui";
-import { useLocale } from "use-intl";
 import { Link } from "./shared/link";
 
 interface Props extends DropdownMenu.MenuContentProps, DropdownMenu.DropdownMenuProps {
@@ -76,13 +75,10 @@ Dropdown.LinkItem = function LinkItem({
   children,
   ...rest
 }: Omit<JSX.IntrinsicElements["a"], "ref">) {
-  const locale = useLocale();
-
   return (
     <DropdownMenu.Item className="hover:outline-none">
       <Link
         {...rest}
-        locale={locale}
         className={classNames(
           "outline-none block rounded-md transition-colors w-full text-left bg-transparent",
           "dark:hover:bg-secondary hover:bg-gray-400 focus:bg-gray-400 dark:focus:bg-secondary",
@@ -90,7 +86,7 @@ Dropdown.LinkItem = function LinkItem({
           buttonVariants.transparent,
           rest.className,
         )}
-        href={`/${locale}${rest.href}`}
+        href={rest.href as string}
       >
         {children}
       </Link>

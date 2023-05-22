@@ -59,7 +59,7 @@ export async function handleRequest<T = any>(
 }
 
 function makeReturn<T>(v: any, defaultData?: unknown): Omit<AxiosResponse<T, T>, "request"> {
-  const errorObj = getErrorObj(v);
+  const errorObj = getErrorObj(v, defaultData);
 
   return {
     data: v.data ?? defaultData,

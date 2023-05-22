@@ -14,6 +14,7 @@ import { Metadata } from "next";
 
 interface RootLayoutProps {
   children: React.ReactNode;
+  params: { locale: string };
 }
 
 async function getCADSettings() {

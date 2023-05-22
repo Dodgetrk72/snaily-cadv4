@@ -13,6 +13,8 @@ import { SocketProvider } from "@casper124578/use-socket.io";
 import { ErrorFallback } from "~/components/error-fallback";
 import { getAPIUrl } from "@snailycad/utils/api-url";
 import { GetCADSettingsData, GetUserData } from "@snailycad/types/api";
+import type { GetErrorMapOptions } from "lib/validation/zod-error-map";
+import type { SetSentryTagsOptions } from "lib/set-sentry-tags";
 
 interface ProvidersProps {
   messages: Record<string, string>;
@@ -26,6 +28,15 @@ export function Providers(props: ProvidersProps) {
 
   const { protocol, host } = new URL(getAPIUrl());
   const url = `${protocol}//${host}`;
+  const locale = props.user?.locale ?? "en";
+
+  React.useEffect(() => {
+    // set error map for localized form error messages
+    setErrorMap({ messages: props.messages, locale });
+
+    // set extra sentry tags
+    _setSentryTags({ cad: props.cad, locale });
+  }, [locale, props.cad, props.messages]);
 
   return (
     <SSRProvider>
@@ -37,7 +48,10 @@ export function Providers(props: ProvidersProps) {
                 now={new Date()}
                 onError={console.warn}
                 messages={props.messages}
-                locale={props.user?.locale ?? "en"}
+                locale={locale}
+                defaultTranslationValues={{
+                  span: (children) => <span className="font-semibold">{children}</span>,
+                }}
               >
                 <Toaster position="top-right" />
 
@@ -51,4 +65,15 @@ export function Providers(props: ProvidersProps) {
       </ValuesProvider>
     </SSRProvider>
   );
+}
+
+async function setErrorMap(options: GetErrorMapOptions) {
+  const getErrorMap = await import("lib/validation/zod-error-map").then((mod) => mod.getErrorMap);
+  const setZodErrorMap = await import("zod").then((mod) => mod.setErrorMap);
+
+  setZodErrorMap(getErrorMap(options));
+}
+
+async function _setSentryTags(options: SetSentryTagsOptions) {
+  (await import("lib/set-sentry-tags")).setSentryTags(options);
 }

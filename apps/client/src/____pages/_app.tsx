@@ -16,9 +16,6 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import type { GetErrorMapOptions } from "lib/validation/zod-error-map";
-import type { SetSentryTagsOptions } from "lib/set-sentry-tags";
-
 const ReauthorizeSessionModal = dynamic(
   async () =>
     (await import("components/auth/login/ReauthorizeSessionModal")).ReauthorizeSessionModal,
@@ -58,19 +55,6 @@ export default function App({ Component, router, pageProps, ...rest }: AppProps)
       router.events.off("routeChangeError", handleRouteDone);
     };
   }, [router.events]);
-
-  React.useEffect(() => {
-    // set error map for localized form error messages
-    setErrorMap({ messages: pageProps.messages, locale });
-  }, [locale, pageProps.messages]);
-
-  React.useEffect(() => {
-    _setSentryTags({
-      cad: pageProps.cad,
-      locale,
-      isMounted,
-    });
-  }, [isMounted, pageProps.cad, locale]);
 
   const isServer = typeof window === "undefined";
 
@@ -113,15 +97,4 @@ export default function App({ Component, router, pageProps, ...rest }: AppProps)
       </SSRProvider>
     </QueryClientProvider>
   );
-}
-
-async function setErrorMap(options: GetErrorMapOptions) {
-  const getErrorMap = await import("lib/validation/zod-error-map").then((mod) => mod.getErrorMap);
-  const setZodErrorMap = await import("zod").then((mod) => mod.setErrorMap);
-
-  setZodErrorMap(getErrorMap(options));
-}
-
-async function _setSentryTags(options: SetSentryTagsOptions) {
-  (await import("lib/set-sentry-tags")).setSentryTags(options);
 }

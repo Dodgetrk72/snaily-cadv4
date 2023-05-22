@@ -4,7 +4,7 @@ import { InnerTaxiPage } from "./component";
 import { handleServerRequest } from "~/lib/fetch/handle-server-request";
 import { GetTaxiCallsData } from "@snailycad/types/api";
 
-export async function TaxiPage() {
+export default async function TaxiPage() {
   const { data } = await handleServerRequest<GetTaxiCallsData>({ path: "/taxi" });
 
   return (

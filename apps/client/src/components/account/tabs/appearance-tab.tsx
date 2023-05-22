@@ -79,7 +79,7 @@ export function AppearanceTab({ availableSounds }: Props) {
     });
 
     if (data.locale !== user?.locale) {
-      return router.refresh();
+      return router.push(`/${data.locale}/account/appearance`);
     }
 
     if (json.id) {

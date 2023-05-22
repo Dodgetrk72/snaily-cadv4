@@ -5,7 +5,7 @@ import { ImageWrapper } from "components/shared/image-wrapper";
 import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { useImageUrl } from "hooks/useImageUrl";
 import { usePermission } from "hooks/usePermission";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { PersonFill } from "react-bootstrap-icons";
 import { Link } from "~/components/shared/link";
 
@@ -14,7 +14,6 @@ interface Props {
 }
 
 export function CitizenListItem({ citizen }: Props) {
-  const locale = useLocale();
   const common = useTranslations("Common");
   const t = useTranslations("Citizen");
   const { SOCIAL_SECURITY_NUMBERS, COMMON_CITIZEN_CARDS } = useFeatureEnabled();
@@ -62,7 +61,7 @@ export function CitizenListItem({ citizen }: Props) {
       </div>
 
       <Link
-        href={`/${locale}/citizen/${citizen.id}`}
+        href={`/citizen/${citizen.id}`}
         className={`rounded-md transition-all p-1 px-3 ${buttonVariants.default}`}
       >
         {t("viewCitizen")}

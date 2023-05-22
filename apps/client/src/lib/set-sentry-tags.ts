@@ -4,11 +4,10 @@ import type { cad } from "@snailycad/types";
 export interface SetSentryTagsOptions {
   cad: cad | null;
   locale?: string;
-  isMounted: boolean;
 }
 
 export function setSentryTags(options: SetSentryTagsOptions) {
-  const timeZone = options.isMounted && tryToGetUserTimezone();
+  const timeZone = tryToGetUserTimezone();
 
   if (timeZone) {
     setTag("snailycad.timezone", timeZone);

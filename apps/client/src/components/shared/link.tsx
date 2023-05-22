@@ -11,7 +11,7 @@ type LinkProps = Omit<ComponentProps<typeof NextLink>, "href"> & {
   href: string | UrlObject;
 };
 
-export function Link({ href, locale, ...rest }: PropsWithChildren<LinkProps>) {
+export function Link({ href, ...rest }: PropsWithChildren<LinkProps>) {
   const pathname = usePathname();
   const isExternalUrl = href.toString().startsWith("http");
 

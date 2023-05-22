@@ -72,7 +72,7 @@ export function isErrorKey(
   return Object.keys(errorMessages).includes(key);
 }
 
-export function getErrorObj(error: unknown) {
+export function getErrorObj(error: unknown, defaultData?: unknown) {
   let errorObj = {};
 
   if (error instanceof Error) {
@@ -91,7 +91,7 @@ export function getErrorObj(error: unknown) {
       status: error.response?.status,
       response: error.response,
       method: error.config?.method,
-      data: error.config?.data,
+      data: error.config?.data ?? defaultData,
       url: error.config?.url,
     };
   }

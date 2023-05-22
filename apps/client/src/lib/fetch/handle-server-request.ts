@@ -1,23 +1,30 @@
 "server only";
 
-import type { AxiosResponse } from "axios";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import { headers } from "next/headers";
 import { handleRequest } from "./handle-request";
 
 // wrapper function for `handleRequest`. This function will automatically add the `headers` to the request.
-export function handleServerRequest<T = any>(options: {
-  path: string;
-  defaultData: T;
-}): Promise<AxiosResponse<T>>;
-export function handleServerRequest<T = any>(options: {
-  path: string;
-  defaultData?: undefined;
-}): Promise<AxiosResponse<T | undefined>>;
-export async function handleServerRequest<T = any>(options: {
-  path: string;
-  defaultData?: T | undefined;
-}): Promise<AxiosResponse<T | undefined>> {
+export function handleServerRequest<T = any>(
+  options: {
+    path: string;
+    defaultData: T;
+  } & AxiosRequestConfig,
+): Promise<AxiosResponse<T>>;
+export function handleServerRequest<T = any>(
+  options: {
+    path: string;
+    defaultData?: undefined;
+  } & AxiosRequestConfig,
+): Promise<AxiosResponse<T | undefined>>;
+export async function handleServerRequest<T = any>(
+  options: {
+    path: string;
+    defaultData?: T | undefined;
+  } & AxiosRequestConfig,
+): Promise<AxiosResponse<T | undefined>> {
   return handleRequest({
+    ...options,
     path: options.path,
     defaultData: options.defaultData,
     headers: Object.fromEntries(headers().entries()),
