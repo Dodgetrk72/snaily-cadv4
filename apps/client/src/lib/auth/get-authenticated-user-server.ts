@@ -6,7 +6,12 @@ export async function getAuthenticatedUserServer() {
   try {
     const response = await handleServerRequest<GetUserData | null>({
       path: "/user",
+      defaultData: null,
     });
+
+    if (response.data) {
+      return response.data ?? null;
+    }
 
     // @ts-expect-error `response` only exists on the object if an error occurred.
     if (response.response?.data?.message === "whitelistPending") {
