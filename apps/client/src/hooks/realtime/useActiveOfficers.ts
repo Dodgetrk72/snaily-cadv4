@@ -11,7 +11,6 @@ import type { GetActiveOfficersData } from "@snailycad/types/api";
 import { useCall911State } from "state/dispatch/call-911-state";
 import { shallow } from "zustand/shallow";
 import { useMapPlayersStore } from "./use-map-players";
-import { useActiveIncidents } from "./useActiveIncidents";
 
 let ran = false;
 export function useActiveOfficers() {
@@ -20,7 +19,10 @@ export function useActiveOfficers() {
   const { state, execute } = useFetch();
   const setActiveOfficer = useLeoState((state) => state.setActiveOfficer);
   const playerState = useMapPlayersStore();
-  const incidentsState = useActiveIncidents();
+  const incidentsState = useDispatchState((state) => ({
+    activeIncidents: state.activeIncidents,
+    setActiveIncidents: state.setActiveIncidents,
+  }));
 
   const call911State = useCall911State(
     (state) => ({

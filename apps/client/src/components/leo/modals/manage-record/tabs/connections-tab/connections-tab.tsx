@@ -2,7 +2,6 @@ import { Button, TabsContent } from "@snailycad/ui";
 import { FormField } from "components/form/FormField";
 import { Select } from "components/form/Select";
 import { useFormikContext } from "formik";
-import { useActiveIncidents } from "hooks/realtime/useActiveIncidents";
 import { useCall911State } from "state/dispatch/call-911-state";
 import { useModal } from "state/modalState";
 import { ModalIds } from "types/ModalIds";
@@ -11,6 +10,7 @@ import { useTranslations } from "use-intl";
 import dynamic from "next/dynamic";
 import { shallow } from "zustand/shallow";
 import type { Record } from "@snailycad/types";
+import { useDispatchState } from "~/state/dispatch/dispatch-state";
 
 const ManageIncidentModal = dynamic(
   async () => (await import("components/leo/incidents/manage-incident-modal")).ManageIncidentModal,
@@ -42,7 +42,8 @@ export function ConnectionsTab({
     }),
     shallow,
   );
-  const { activeIncidents } = useActiveIncidents();
+  const activeIncidents = useDispatchState((state) => state.activeIncidents);
+
   const { openModal } = useModal();
 
   const incident =

@@ -13,7 +13,6 @@ import { usePathname } from "next/navigation";
 import { dataToSlate, Editor } from "components/editor/editor";
 import { IncidentEventsArea } from "./IncidentEventsArea";
 import { classNames } from "lib/classNames";
-import { useActiveIncidents } from "hooks/realtime/useActiveIncidents";
 import { EmsFdIncident, LeoIncident, StatusValueType, ValueType } from "@snailycad/types";
 import { useValues } from "~/context/values-context";
 import type { PostIncidentsData, PutIncidentByIdData } from "@snailycad/types/api";
@@ -23,6 +22,8 @@ import { ValueSelectField } from "components/form/inputs/value-select-field";
 import { Infofield } from "components/shared/Infofield";
 import { useAuth } from "~/context/auth-context";
 import { FullDate } from "components/shared/FullDate";
+import { useDispatchState } from "~/state/dispatch/dispatch-state";
+import { shallow } from "zustand/shallow";
 
 interface Props<T extends LeoIncident | EmsFdIncident> {
   incident?: T | null;
@@ -39,7 +40,14 @@ export function ManageIncidentModal<T extends LeoIncident | EmsFdIncident>({
   incident: tempIncident,
   type,
 }: Props<T>) {
-  const { activeIncidents, setActiveIncidents } = useActiveIncidents();
+  const { activeIncidents, setActiveIncidents } = useDispatchState(
+    (state) => ({
+      activeIncidents: state.activeIncidents,
+      setActiveIncidents: state.setActiveIncidents,
+    }),
+    shallow,
+  );
+
   const foundIncident = activeIncidents.find((v) => v.id === tempIncident?.id);
   const incident = foundIncident ?? tempIncident ?? null;
 

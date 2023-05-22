@@ -100,7 +100,6 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
     state.setBolos(props.bolos.bolos);
 
     setUserActiveDispatcher(props.userActiveDispatcher, props.activeDispatchersCount);
-    state.setActiveIncidents(props.activeIncidents);
 
     state.setActiveDeputies(props.activeDeputies);
     state.setActiveOfficers(props.activeOfficers);

@@ -28,12 +28,7 @@ export async function getDispatchData() {
       { path: "/bolos", defaultData: { bolos: [], totalCount: 0 } },
       {
         path: "/dispatch",
-        defaultData: {
-          areaOfPlay: "San Andreas",
-          activeDispatchersCount: 0,
-          userActiveDispatcher: null,
-          activeIncidents: [],
-        },
+        defaultData: { areaOfPlay: null, activeDispatchersCount: 0, userActiveDispatcher: null },
       },
       { path: "/leo/active-officers", defaultData: [] },
       { path: "/ems-fd/active-deputies", defaultData: [] },
@@ -62,7 +57,6 @@ export default async function DispatchPage() {
         <InnerDispatchPage
           activeDeputies={dispatchData.activeDeputies}
           activeDispatchersCount={dispatchData.activeDispatcherData.activeDispatchersCount}
-          activeIncidents={dispatchData.activeDispatcherData.activeIncidents}
           activeOfficers={dispatchData.activeOfficers}
           bolos={dispatchData.bolos}
           calls={dispatchData.calls}

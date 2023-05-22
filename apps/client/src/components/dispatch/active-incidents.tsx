@@ -19,8 +19,8 @@ import type { PostIncidentsData, PutIncidentByIdData } from "@snailycad/types/ap
 import { CallDescription } from "./active-calls/CallDescription";
 
 import dynamic from "next/dynamic";
-import { useActiveIncidents } from "hooks/realtime/useActiveIncidents";
 import compareDesc from "date-fns/compareDesc";
+import { shallow } from "zustand/shallow";
 
 const ManageIncidentModal = dynamic(
   async () => (await import("components/leo/incidents/manage-incident-modal")).ManageIncidentModal,
@@ -38,10 +38,15 @@ export function ActiveIncidents() {
   const { hasActiveDispatchers } = useActiveDispatchers();
   const { openModal, closeModal } = useModal();
   const { state, execute } = useFetch();
-  const draggingUnit = useDispatchState((state) => state.draggingUnit);
+  const { draggingUnit, activeIncidents } = useDispatchState(
+    (state) => ({
+      draggingUnit: state.draggingUnit,
+      activeIncidents: state.activeIncidents,
+    }),
+    shallow,
+  );
 
   const asyncTable = useActiveIncidentsTable();
-  const { activeIncidents } = useActiveIncidents();
 
   const tableState = useTableState({
     tableId: "active-incidents",

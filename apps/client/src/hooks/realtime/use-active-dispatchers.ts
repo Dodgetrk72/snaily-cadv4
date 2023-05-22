@@ -1,7 +1,6 @@
 import { useListener } from "@casper124578/use-socket.io";
 import { SocketEvents } from "@snailycad/config";
 import useFetch from "lib/useFetch";
-import { useDispatchState } from "state/dispatch/dispatch-state";
 import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import { usePathname } from "next/navigation";
 import type { GetDispatchData } from "@snailycad/types/api";
@@ -16,8 +15,6 @@ export function useActiveDispatchers() {
 
   const pathname = usePathname();
   const isCitizen = pathname.includes("/citizen");
-
-  const dispatchState = useDispatchState();
   const activeDispatcherState = useActiveDispatcherState();
 
   useQuery({
@@ -31,10 +28,6 @@ export function useActiveDispatchers() {
       path: "/dispatch",
       noToast: true,
     });
-
-    if (Array.isArray(json.activeIncidents)) {
-      dispatchState.setActiveIncidents(json.activeIncidents);
-    }
 
     if (typeof json.activeDispatchersCount === "number") {
       activeDispatcherState.setActiveDispatchersCount(json.activeDispatchersCount);
