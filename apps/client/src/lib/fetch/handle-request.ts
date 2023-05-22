@@ -50,15 +50,19 @@ export async function handleRequest<T = any>(
 
     return responseObj;
   } catch (e) {
-    return makeReturn<T>(e);
+    if (process.env.NODE_ENV === "development") {
+      console.error(e);
+    }
+
+    return makeReturn<T>(e, options.defaultData);
   }
 }
 
-function makeReturn<T>(v: any): Omit<AxiosResponse<T, T>, "request"> {
+function makeReturn<T>(v: any, defaultData?: unknown): Omit<AxiosResponse<T, T>, "request"> {
   const errorObj = getErrorObj(v);
 
   return {
-    data: v.data,
+    data: v.data ?? defaultData,
     status: v.status,
     statusText: v.statusText,
     headers: v.headers,

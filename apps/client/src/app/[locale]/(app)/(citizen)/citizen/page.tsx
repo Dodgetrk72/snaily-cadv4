@@ -13,5 +13,7 @@ export default async function UserCitizensPage() {
     defaultData: { citizens: [], totalCount: 0 },
   });
 
+  console.log({ citizens });
+
   return <UserCitizensPageInner data={citizens.data} />;
 }
