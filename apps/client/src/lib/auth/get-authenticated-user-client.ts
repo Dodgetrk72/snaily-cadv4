@@ -10,7 +10,7 @@ export async function getAuthenticatedUserServer() {
     });
 
     if (response.data) {
-      return response.data ?? null;
+      return response.data;
     }
 
     // @ts-expect-error `response` only exists on the object if an error occurred.
