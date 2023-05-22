@@ -17,7 +17,15 @@ interface InnerManageUnitByIdPageProps {
 }
 
 export function InnerManageUnitByIdPage(props: InnerManageUnitByIdPageProps) {
-  useLoadValuesClientSide({ valueTypes: [ValueType.QUALIFICATION] });
+  useLoadValuesClientSide({
+    valueTypes: [
+      ValueType.QUALIFICATION,
+      ValueType.CODES_10,
+      ValueType.DEPARTMENT,
+      ValueType.DIVISION,
+      ValueType.OFFICER_RANK,
+    ],
+  });
 
   const { generateCallsign } = useGenerateCallsign();
   const tAdmin = useTranslations("Management");
