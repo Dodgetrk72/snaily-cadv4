@@ -59,7 +59,7 @@ export function ActiveIncidents(props: ActiveIncidentsProps) {
   const asyncTable = useActiveIncidentsTable(props);
   // use server state if client state doesn't own the server state yet
   const _activeIncidents =
-    activeIncidents.length <= 0 ? props.initialIncidents.incidents : asyncTable.items;
+    activeIncidents.length <= 0 ? props.initialIncidents.incidents : activeIncidents;
 
   const tableState = useTableState({
     tableId: "active-incidents",
