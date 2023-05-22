@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { useModal } from "state/modalState";
 import { useBolos } from "hooks/realtime/useBolos";

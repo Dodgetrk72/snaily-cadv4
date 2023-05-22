@@ -5,11 +5,9 @@ import { ValueType } from "@snailycad/types";
 import dynamic from "next/dynamic";
 import { useTranslations } from "use-intl";
 import { shallow } from "zustand/shallow";
-import { ActiveBolos } from "~/components/active-bolos/active-bolos";
 import { DispatchModalButtons } from "~/components/dispatch/ModalButtons";
 import { ActiveCalls } from "~/components/dispatch/active-calls/active-calls";
 import { ActiveDeputies } from "~/components/dispatch/active-deputies";
-import { ActiveIncidents } from "~/components/dispatch/active-incidents";
 import { ActiveOfficers } from "~/components/dispatch/active-officers";
 import { Infofield } from "~/components/shared/Infofield";
 import { Title } from "~/components/shared/Title";
@@ -26,7 +24,6 @@ import { ModalIds } from "~/types/ModalIds";
 import {
   Get911CallsData,
   GetActiveOfficersData,
-  GetBolosData,
   GetDispatchData,
   GetEmsFdActiveDeputies,
 } from "@snailycad/types/api";
@@ -57,7 +54,6 @@ interface InnerDispatchPageProps extends GetDispatchData {
   activeDeputies: GetEmsFdActiveDeputies;
   activeOfficers: GetActiveOfficersData;
   calls: Get911CallsData;
-  bolos: GetBolosData;
 }
 
 export function InnerDispatchPage(props: InnerDispatchPageProps) {
@@ -78,7 +74,7 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
 
   const t = useTranslations("Leo");
   const { isOpen } = useModal();
-  const { CALLS_911, ACTIVE_INCIDENTS } = useFeatureEnabled();
+  const { CALLS_911 } = useFeatureEnabled();
   const state = useDispatchState();
   const set911Calls = useCall911State((state) => state.setCalls);
   const signal100 = useSignal100();
@@ -97,7 +93,7 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
 
   React.useEffect(() => {
     set911Calls(props.calls.calls);
-    state.setBolos(props.bolos.bolos);
+    // state.setBolos(props.bolos.bolos);
 
     setUserActiveDispatcher(props.userActiveDispatcher, props.activeDispatchersCount);
 
@@ -129,11 +125,7 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
           <ActiveDeputies initialDeputies={props.activeDeputies} />
         </div>
       </div>
-      <div className="mt-3">
-        {CALLS_911 ? <ActiveCalls initialData={props.calls} /> : null}
-        {ACTIVE_INCIDENTS ? <ActiveIncidents /> : null}
-        <ActiveBolos initialBolos={props.bolos} />
-      </div>
+      <div className="mt-3">{CALLS_911 ? <ActiveCalls initialData={props.calls} /> : null}</div>
 
       <Modals.NotepadModal />
       {/* name search have their own vehicle/weapon search modal */}

@@ -6,10 +6,16 @@ import { useAsyncTable } from "components/shared/Table";
 import { LeoIncident } from "@snailycad/types";
 import { useDispatchState } from "state/dispatch/dispatch-state";
 
-export function useActiveIncidentsTable() {
+interface Options {
+  initialIncidents: GetIncidentsData<"leo">;
+}
+
+export function useActiveIncidentsTable(options: Options) {
   const setActiveIncidents = useDispatchState((state) => state.setActiveIncidents);
 
   const asyncTable = useAsyncTable<LeoIncident>({
+    initialData: options.initialIncidents.incidents,
+    totalCount: options.initialIncidents.totalCount,
     scrollToTopOnDataChange: false,
     fetchOptions: {
       pageSize: 12,

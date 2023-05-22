@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { useTranslations } from "use-intl";
 import { Button, Droppable } from "@snailycad/ui";
@@ -15,7 +17,11 @@ import { InvolvedUnitsColumn } from "./active-incidents/InvolvedUnitsColumn";
 import { DndActions } from "types/DndActions";
 import { classNames } from "lib/classNames";
 import { useDispatchState } from "state/dispatch/dispatch-state";
-import type { PostIncidentsData, PutIncidentByIdData } from "@snailycad/types/api";
+import type {
+  GetIncidentsData,
+  PostIncidentsData,
+  PutIncidentByIdData,
+} from "@snailycad/types/api";
 import { CallDescription } from "./active-calls/CallDescription";
 
 import dynamic from "next/dynamic";
@@ -27,7 +33,11 @@ const ManageIncidentModal = dynamic(
   { ssr: false },
 );
 
-export function ActiveIncidents() {
+interface ActiveIncidentsProps {
+  initialIncidents: GetIncidentsData<"leo">;
+}
+
+export function ActiveIncidents(props: ActiveIncidentsProps) {
   /**
    * undefined = hide modal. It will otherwise open 2 modals, 1 with the incorrect data.
    */
@@ -38,15 +48,20 @@ export function ActiveIncidents() {
   const { hasActiveDispatchers } = useActiveDispatchers();
   const { openModal, closeModal } = useModal();
   const { state, execute } = useFetch();
-  const { draggingUnit, activeIncidents } = useDispatchState(
+  const { draggingUnit, activeIncidents, setActiveIncidents } = useDispatchState(
     (state) => ({
       draggingUnit: state.draggingUnit,
       activeIncidents: state.activeIncidents,
+      setActiveIncidents: state.setActiveIncidents,
     }),
     shallow,
   );
 
-  const asyncTable = useActiveIncidentsTable();
+  const asyncTable = useActiveIncidentsTable(props);
+
+  React.useEffect(() => {
+    setActiveIncidents(props.initialIncidents.incidents);
+  }, [props.initialIncidents]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const tableState = useTableState({
     tableId: "active-incidents",
