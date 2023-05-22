@@ -45,7 +45,7 @@ export function useActiveIncidentsTable(options: Options) {
         asyncTable.prepend(data);
       }
     },
-    [],
+    [isInTable],
   );
 
   useListener(

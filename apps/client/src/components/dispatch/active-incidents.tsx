@@ -48,20 +48,18 @@ export function ActiveIncidents(props: ActiveIncidentsProps) {
   const { hasActiveDispatchers } = useActiveDispatchers();
   const { openModal, closeModal } = useModal();
   const { state, execute } = useFetch();
-  const { draggingUnit, activeIncidents, setActiveIncidents } = useDispatchState(
+  const { draggingUnit, activeIncidents } = useDispatchState(
     (state) => ({
       draggingUnit: state.draggingUnit,
       activeIncidents: state.activeIncidents,
-      setActiveIncidents: state.setActiveIncidents,
     }),
     shallow,
   );
 
   const asyncTable = useActiveIncidentsTable(props);
-
-  React.useEffect(() => {
-    setActiveIncidents(props.initialIncidents.incidents);
-  }, [props.initialIncidents]); // eslint-disable-line react-hooks/exhaustive-deps
+  // use server state if client state doesn't own the server state yet
+  const _activeIncidents =
+    activeIncidents.length <= 0 ? props.initialIncidents.incidents : asyncTable.items;
 
   const tableState = useTableState({
     tableId: "active-incidents",
@@ -145,7 +143,7 @@ export function ActiveIncidents(props: ActiveIncidentsProps) {
           tableState={tableState}
           features={{ isWithinCardOrModal: true }}
           containerProps={{ className: "mb-3 mx-4" }}
-          data={activeIncidents
+          data={_activeIncidents
             .sort((a, b) => compareDesc(new Date(a.updatedAt), new Date(b.updatedAt)))
             .map((incident) => {
               return {
