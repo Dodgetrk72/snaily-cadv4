@@ -40,7 +40,7 @@ export function ActiveCallsActionsColumn({
   const common = useTranslations("Common");
 
   const hasDispatchPermissions = hasPermissions(defaultPermissions.defaultDispatchPermissions);
-  const isDispatch = pathname === "/dispatch" && hasDispatchPermissions;
+  const isDispatch = pathname.includes("/dispatch") && hasDispatchPermissions;
 
   const isUnitActive = unit?.status && unit.status.shouldDo !== ShouldDoType.SET_OFF_DUTY;
 

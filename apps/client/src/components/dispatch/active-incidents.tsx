@@ -56,6 +56,8 @@ export function ActiveIncidents(props: ActiveIncidentsProps) {
     shallow,
   );
 
+  console.log({ isDisabled: !hasActiveDispatchers });
+
   const asyncTable = useActiveIncidentsTable(props);
   // use server state if client state doesn't own the server state yet
   const _activeIncidents =
@@ -128,7 +130,7 @@ export function ActiveIncidents(props: ActiveIncidentsProps) {
             variant={null}
             className="bg-gray-500 hover:bg-gray-600 dark:border dark:border-quinary dark:bg-tertiary dark:hover:brightness-125 text-white"
             onPress={handleCreateIncident}
-            disabled={!hasActiveDispatchers}
+            isDisabled={!hasActiveDispatchers}
           >
             {t("createIncident")}
           </Button>
@@ -165,7 +167,7 @@ export function ActiveIncidents(props: ActiveIncidentsProps) {
                   <>
                     <Button
                       onPress={() => onEditClick(incident)}
-                      disabled={!hasActiveDispatchers}
+                      isDisabled={!hasActiveDispatchers}
                       size="xs"
                       variant="success"
                     >
@@ -174,7 +176,7 @@ export function ActiveIncidents(props: ActiveIncidentsProps) {
 
                     <Button
                       onPress={() => onEndClick(incident)}
-                      disabled={!hasActiveDispatchers}
+                      isDisabled={!hasActiveDispatchers}
                       size="xs"
                       variant="danger"
                       className="ml-2"

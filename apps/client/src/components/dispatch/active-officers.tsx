@@ -75,7 +75,7 @@ function ActiveOfficers({ initialOfficers }: Props) {
   const isMounted = useMounted();
 
   const activeOfficers = isMounted ? _activeOfficers : initialOfficers;
-  const isDispatch = pathname === "/dispatch";
+  const isDispatch = pathname.includes("/dispatch");
 
   const hasDispatchPerms = hasPermissions([Permissions.Dispatch]);
   const showCreateTemporaryUnitButton = isDispatch && hasDispatchPerms;

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { AriaButtonProps, useButton } from "@react-aria/button";
-import { mergeProps } from "@react-aria/utils";
 import { twMerge } from "tailwind-merge";
 
 type BaseButtonProps = Omit<JSX.IntrinsicElements["button"], "onPress"> & AriaButtonProps;
@@ -54,7 +53,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onPressStart,
         onPressEnd,
         onPressUp,
-        isDisabled: isDisabled ?? disabled,
+        isDisabled,
+
         excludeFromTabOrder,
         ...rest,
       },
@@ -69,9 +69,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           variant && buttonVariants[variant],
           className,
         )}
-        {...mergeProps(rest, buttonProps)}
+        {...buttonProps}
         ref={ref}
-      />
+      >
+        {rest.children}
+      </button>
     );
   },
 );

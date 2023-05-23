@@ -1,4 +1,5 @@
 import { withSentryConfig } from "@sentry/nextjs";
+import withNextIntl from "next-intl/plugin";
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
@@ -19,14 +20,6 @@ const nextConfig = {
     domains: ["i.imgur.com", "cdn.discordapp.com", "localhost"]
   }, // end images
   // prettier-enable
-  webpack(config, { webpack }) {
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        __SENTRY_DEBUG__: false,
-      }),
-    );
-    return config;
-  },
   sentry: {
     hideSourceMaps: false,
     widenClientFileUpload: true,
@@ -39,7 +32,7 @@ const nextConfig = {
 /** @type {typeof nextConfig} */
 export default (phase, defaultConfig) => {
   const plugins = [
-    // presume I have other plugins
+    withNextIntl("./src/i18n.ts"),
     (config) =>
       withSentryConfig(config, {
         org: "snailycad",

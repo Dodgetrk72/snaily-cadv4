@@ -13,7 +13,7 @@ export async function getTranslations(types: string[], locale = "en") {
       locale = i18n.defaultLocale;
     }
 
-    let data = {};
+    let data: Record<string, string> = {};
 
     await Promise.all(
       paths.map(async (path) => {
@@ -24,7 +24,7 @@ export async function getTranslations(types: string[], locale = "en") {
 
     return data;
   } catch (error) {
-    return {};
+    return {} as Record<string, string>;
   }
 }
 

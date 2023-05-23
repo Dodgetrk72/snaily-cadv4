@@ -62,7 +62,7 @@ export function ActiveBolos({ initialBolos }: Props) {
   const { hasPermissions } = usePermission();
   const isAdmin = hasPermissions(defaultPermissions.allDefaultAdminPermissions);
 
-  const isDispatchRoute = pathname === "/dispatch";
+  const isDispatchRoute = pathname.includes("/dispatch");
   const isDisabled = isAdmin
     ? false
     : isDispatchRoute
@@ -130,7 +130,7 @@ export function ActiveBolos({ initialBolos }: Props) {
             )}
             onPress={() => setShowFilters(!showFilters)}
             title={t("Bolos.filters")}
-            disabled={asyncTable.noItemsAvailable}
+            isDisabled={asyncTable.noItemsAvailable}
           >
             <Filter
               className={classNames("group-hover:fill-white", showFilters && "text-white")}
@@ -171,7 +171,7 @@ export function ActiveBolos({ initialBolos }: Props) {
                   <>
                     <Button
                       size="xs"
-                      disabled={isDisabled}
+                      isDisabled={isDisabled}
                       onPress={() => handleEditClick(bolo)}
                       variant="success"
                     >
@@ -180,7 +180,7 @@ export function ActiveBolos({ initialBolos }: Props) {
                     <Button
                       size="xs"
                       className="ml-2"
-                      disabled={isDisabled}
+                      isDisabled={isDisabled}
                       onPress={() => handleDeleteClick(bolo)}
                       variant="danger"
                     >

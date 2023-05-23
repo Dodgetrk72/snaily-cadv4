@@ -23,7 +23,7 @@ export function ModalButton({ button: buttonFn, unit, ...buttonProps }: Props) {
   const pathname = usePathname();
   const { user } = useAuth();
 
-  const isDispatch = pathname === "/dispatch";
+  const isDispatch = pathname.includes("/dispatch");
   const btnArgs = { ...features, hasActiveDispatchers, isDispatch, unit, user };
   const button = buttonFn(btnArgs as Args<any>);
   const isEnabled = button.isEnabled ?? true;

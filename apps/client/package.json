@@ -55,7 +55,7 @@
     "leaflet": "^1.9.4",
     "mdast-util-find-and-replace": "^2.2.2",
     "next": "13.4.3",
-    "next-intl": "2.14.4",
+    "next-intl": "next",
     "nprogress": "^0.2.0",
     "pretty-bytes": "^6.1.0",
     "react": "18.2.0",

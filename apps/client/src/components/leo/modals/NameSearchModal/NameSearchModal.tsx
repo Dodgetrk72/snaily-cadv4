@@ -77,8 +77,8 @@ export function NameSearchModal() {
 
   const { openModal } = useModal();
   const pathname = usePathname();
-  const isLeo = pathname === "/officer";
-  const isDispatch = pathname === "/dispatch";
+  const isLeo = pathname.includes("/officer");
+  const isDispatch = pathname.includes("/dispatch");
 
   const { results, currentResult, setCurrentResult, setResults } = useNameSearch(
     (state) => ({

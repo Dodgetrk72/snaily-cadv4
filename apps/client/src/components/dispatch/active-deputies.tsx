@@ -55,7 +55,7 @@ function ActiveDeputies({ initialDeputies }: Props) {
   const tableState = useTableState({ tableId: "active-deputies", pagination: { pageSize: 12 } });
 
   const activeDeputies = isMounted ? _activeDeputies : initialDeputies;
-  const isDispatch = pathname === "/dispatch";
+  const isDispatch = pathname.includes("/dispatch");
 
   const hasDispatchPerms = hasPermissions([Permissions.Dispatch]);
   const showCreateTemporaryUnitButton = isDispatch && hasDispatchPerms;

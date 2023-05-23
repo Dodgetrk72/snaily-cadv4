@@ -16,6 +16,10 @@ export type GetDispatchDataTuple = [
   GetEmsFdActiveDeputies,
 ];
 
+export const metadata = {
+  title: "Dispatch",
+};
+
 export async function getDispatchData() {
   const [values, calls, activeDispatcherData, activeOfficers, activeDeputies] =
     await handleMultiServerRequest<GetDispatchDataTuple>([

@@ -26,9 +26,7 @@
       "outputs": []
     },
     "watch": {
-      "persistent": true,
-      "cache": false,
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "cache": false
     }
   },
   "globalDependencies": ["**/.env"]

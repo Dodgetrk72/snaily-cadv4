@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Manage911CallModal } from "components/dispatch/modals/Manage911CallModal";
 import { usePathname } from "next/navigation";
@@ -88,9 +90,12 @@ function _ActiveCalls({ initialData }: Props) {
   });
 
   const hasDispatchPermissions = hasPermissions(defaultPermissions.defaultDispatchPermissions);
-  const isDispatch = pathname === "/dispatch" && hasDispatchPermissions;
-  const unit =
-    pathname === "/officer" ? activeOfficer : pathname === "/ems-fd" ? activeDeputy : null;
+  const isDispatch = pathname.includes("/dispatch") && hasDispatchPermissions;
+  const unit = pathname.includes("/officer")
+    ? activeOfficer
+    : pathname.includes("/ems-fd")
+    ? activeDeputy
+    : null;
 
   const { audio } = useActiveCalls({ calls, unit });
   const isUnitAssignedToCall = (call: Full911Call) =>

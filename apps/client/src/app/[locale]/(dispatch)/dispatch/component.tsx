@@ -6,23 +6,18 @@ import dynamic from "next/dynamic";
 import { useTranslations } from "use-intl";
 import { shallow } from "zustand/shallow";
 import { DispatchModalButtons } from "~/components/dispatch/ModalButtons";
-import { ActiveCalls } from "~/components/dispatch/active-calls/active-calls";
 import { ActiveDeputies } from "~/components/dispatch/active-deputies";
 import { ActiveOfficers } from "~/components/dispatch/active-officers";
 import { Infofield } from "~/components/shared/Infofield";
-import { Title } from "~/components/shared/Title";
 import { UtilityPanel } from "~/components/shared/UtilityPanel";
 import { usePanicButton } from "~/hooks/shared/usePanicButton";
 import { useSignal100 } from "~/hooks/shared/useSignal100";
-import { useFeatureEnabled } from "~/hooks/use-feature-enabled";
 import { useLoadValuesClientSide } from "~/hooks/useLoadValuesClientSide";
 import { useActiveDispatcherState } from "~/state/dispatch/active-dispatcher-state";
-import { useCall911State } from "~/state/dispatch/call-911-state";
 import { useDispatchState } from "~/state/dispatch/dispatch-state";
 import { useModal } from "~/state/modalState";
 import { ModalIds } from "~/types/ModalIds";
 import {
-  Get911CallsData,
   GetActiveOfficersData,
   GetDispatchData,
   GetEmsFdActiveDeputies,
@@ -53,7 +48,6 @@ const Modals = {
 interface InnerDispatchPageProps extends GetDispatchData {
   activeDeputies: GetEmsFdActiveDeputies;
   activeOfficers: GetActiveOfficersData;
-  calls: Get911CallsData;
 }
 
 export function InnerDispatchPage(props: InnerDispatchPageProps) {
@@ -74,9 +68,7 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
 
   const t = useTranslations("Leo");
   const { isOpen } = useModal();
-  const { CALLS_911 } = useFeatureEnabled();
   const state = useDispatchState();
-  const set911Calls = useCall911State((state) => state.setCalls);
   const signal100 = useSignal100();
   const panic = usePanicButton();
 
@@ -92,9 +84,6 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
     userActiveDispatcher?.department ?? props.userActiveDispatcher?.department;
 
   React.useEffect(() => {
-    set911Calls(props.calls.calls);
-    // state.setBolos(props.bolos.bolos);
-
     setUserActiveDispatcher(props.userActiveDispatcher, props.activeDispatchersCount);
 
     state.setActiveDeputies(props.activeDeputies);
@@ -104,8 +93,6 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
 
   return (
     <>
-      <Title renderLayoutTitle={false}>{t("dispatch")}</Title>
-
       <signal100.Component enabled={signal100.enabled} audio={signal100.audio} />
       <panic.Component audio={panic.audio} unit={panic.unit} />
 
@@ -125,7 +112,6 @@ export function InnerDispatchPage(props: InnerDispatchPageProps) {
           <ActiveDeputies initialDeputies={props.activeDeputies} />
         </div>
       </div>
-      <div className="mt-3">{CALLS_911 ? <ActiveCalls initialData={props.calls} /> : null}</div>
 
       <Modals.NotepadModal />
       {/* name search have their own vehicle/weapon search modal */}

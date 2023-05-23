@@ -3081,7 +3081,7 @@ __metadata:
     leaflet: ^1.9.4
     mdast-util-find-and-replace: ^2.2.2
     next: 13.4.3
-    next-intl: 2.14.4
+    next-intl: next
     nprogress: ^0.2.0
     postcss: ^8.4.23
     pretty-bytes: ^6.1.0
@@ -10405,17 +10405,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-intl@npm:2.14.4":
-  version: 2.14.4
-  resolution: "next-intl@npm:2.14.4"
+"next-intl@npm:next":
+  version: 2.15.0-beta.4
+  resolution: "next-intl@npm:2.15.0-beta.4"
   dependencies:
     "@formatjs/intl-localematcher": ^0.2.32
     negotiator: ^0.6.3
+    server-only: 0.0.1
     use-intl: ^2.14.3
   peerDependencies:
     next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 598abea20d51b2ce23d700b0e5332a71dc8b6683b130474b5cf5860e828387192c6f8913e8aff56ff257a831f1749978feabbfd05995b8a0c5f2049a8dc227e4
+  checksum: ba5c3a53dce7bb2697e666ba06bae81ed21a85e9b23a0ee8c56c0ba3ce2923ca079bd39e7f501761544fb86729f8c9cd7ffdb76be817e6c517b66e4ac8037108
   languageName: node
   linkType: hard
 
@@ -12409,6 +12410,13 @@ __metadata:
     parseurl: ~1.3.3
     send: 0.18.0
   checksum: af57fc13be40d90a12562e98c0b7855cf6e8bd4c107fe9a45c212bf023058d54a1871b1c89511c3958f70626fff47faeb795f5d83f8cf88514dbaeb2b724464d
+  languageName: node
+  linkType: hard
+
+"server-only@npm:0.0.1":
+  version: 0.0.1
+  resolution: "server-only@npm:0.0.1"
+  checksum: c432348956641ea3f460af8dc3765f3a1bdbcf7a1e0205b0756d868e6e6fe8934cdee6bff68401a1dd49ba4a831c75916517a877446d54b334f7de36fa273e53
   languageName: node
   linkType: hard
 
