@@ -26,7 +26,8 @@
       "outputs": []
     },
     "watch": {
-      "cache": false
+      "cache": false,
+      "persistent": true
     }
   },
   "globalDependencies": ["**/.env"]
