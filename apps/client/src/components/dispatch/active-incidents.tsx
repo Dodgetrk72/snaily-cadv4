@@ -56,8 +56,6 @@ export function ActiveIncidents(props: ActiveIncidentsProps) {
     shallow,
   );
 
-  console.log({ isDisabled: !hasActiveDispatchers });
-
   const asyncTable = useActiveIncidentsTable(props);
   // use server state if client state doesn't own the server state yet
   const _activeIncidents =

@@ -58,7 +58,7 @@ export function ActiveCallsActionsColumn({
   return (
     <>
       <Button
-        disabled={isDispatch ? !hasActiveDispatchers : !isUnitActive}
+        isDisabled={isDispatch ? !hasActiveDispatchers : !isUnitActive}
         size="xs"
         variant="success"
         onPress={() => handleManageClick(call)}
@@ -69,7 +69,7 @@ export function ActiveCallsActionsColumn({
       {isDispatch ? null : isUnitAssigned ? (
         <Button
           className="ml-2"
-          disabled={!isUnitActive}
+          isDisabled={!isUnitActive}
           size="xs"
           onPress={() => handleAssignUnassignToCall(call, "unassign")}
         >
@@ -78,7 +78,7 @@ export function ActiveCallsActionsColumn({
       ) : (
         <Button
           className="ml-2"
-          disabled={!isUnitActive}
+          isDisabled={!isUnitActive}
           size="xs"
           onPress={() => handleAssignUnassignToCall(call, "assign")}
         >
@@ -88,7 +88,7 @@ export function ActiveCallsActionsColumn({
 
       {TOW ? (
         <Button
-          disabled={isDispatch ? !hasActiveDispatchers : !isUnitActive}
+          isDisabled={isDispatch ? !hasActiveDispatchers : !isUnitActive}
           size="xs"
           className="ml-2"
           onPress={() => handleCallTow(call)}
