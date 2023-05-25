@@ -24,3 +24,5 @@ export { MultiForm, MultiFormStep } from "./components/multi-form/multi-form";
 export { DndProvider, Draggable, Droppable } from "./components/dnd/index";
 export { TabList, TabsContent } from "./components/tab-list";
 export { SwitchField } from "./components/fields/switch-field";
+export { DropdownMenu, DropdownMenuItem } from "./components/dropdown/dropdown";
+export { DropdownMenuButton } from "./components/dropdown/menu-button";

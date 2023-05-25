@@ -3,8 +3,8 @@ import { ChevronDown } from "react-bootstrap-icons";
 import { useFeatureEnabled } from "hooks/use-feature-enabled";
 import type { Feature } from "@snailycad/types";
 import { useTranslations } from "next-intl";
-import { Dropdown } from "components/Dropdown";
-import { Button } from "@snailycad/ui";
+// import { Dropdown } from "components/Dropdown";
+import { Button, Item, DropdownMenuButton } from "@snailycad/ui";
 import { classNames } from "lib/classNames";
 import { useAuth } from "~/context/auth-context";
 import { usePermission, Permissions } from "hooks/usePermission";
@@ -18,15 +18,16 @@ export function CitizenDropdown() {
   const { hasPermissions } = usePermission();
 
   const items = [
-    { name: t("citizens"), href: "/citizens" },
+    { key: "citizens", name: t("citizens"), href: "/citizens" },
     {
+      key: "taxi",
       name: t("taxi"),
       href: "/taxi",
       show: hasPermissions([Permissions.ViewTaxiCalls, Permissions.ManageTaxiCalls]),
     },
-    { name: t("bleeter"), href: "/bleeter" },
-    { name: t("truckLogs"), href: "/truck-logs" },
-    { name: t("business"), href: "/business" },
+    { key: "bleeter", name: t("bleeter"), href: "/bleeter" },
+    { key: "truckLogs", name: t("truckLogs"), href: "/truck-logs" },
+    { key: "business", name: t("business"), href: "/business" },
   ];
 
   if (!user) {
@@ -34,8 +35,8 @@ export function CitizenDropdown() {
   }
 
   return (
-    <Dropdown
-      trigger={
+    <DropdownMenuButton
+      triggerElement={
         <Button
           role="listitem"
           className={classNames(isActive("/citizen") && "font-semibold")}
@@ -47,7 +48,14 @@ export function CitizenDropdown() {
           </span>
         </Button>
       }
+      items={items}
     >
+      {(item) => <Item>{item.name}</Item>}
+    </DropdownMenuButton>
+  );
+
+  return (
+    <Dropdown>
       <Dropdown.LinkItem href="/citizen">{t("citizens")}</Dropdown.LinkItem>
 
       {items.map((item) => {
