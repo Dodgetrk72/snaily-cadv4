@@ -1,9 +1,7 @@
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "react-bootstrap-icons";
 import { useFeatureEnabled } from "hooks/use-feature-enabled";
-import type { Feature } from "@snailycad/types";
 import { useTranslations } from "next-intl";
-// import { Dropdown } from "components/Dropdown";
 import { Button, Item, DropdownMenuButton } from "@snailycad/ui";
 import { classNames } from "lib/classNames";
 import { useAuth } from "~/context/auth-context";
@@ -18,16 +16,17 @@ export function CitizenDropdown() {
   const { hasPermissions } = usePermission();
 
   const items = [
-    { key: "citizens", name: t("citizens"), href: "/citizens" },
+    { key: "citizens", name: t("citizens"), href: "/citizens", show: true },
     {
       key: "taxi",
       name: t("taxi"),
       href: "/taxi",
-      show: hasPermissions([Permissions.ViewTaxiCalls, Permissions.ManageTaxiCalls]),
+      show:
+        enabled.TAXI && hasPermissions([Permissions.ViewTaxiCalls, Permissions.ManageTaxiCalls]),
     },
-    { key: "bleeter", name: t("bleeter"), href: "/bleeter" },
-    { key: "truckLogs", name: t("truckLogs"), href: "/truck-logs" },
-    { key: "business", name: t("business"), href: "/business" },
+    { key: "bleeter", name: t("bleeter"), href: "/bleeter", show: enabled.BLEETER },
+    { key: "truckLogs", name: t("truckLogs"), href: "/truck-logs", show: enabled.TRUCK_LOGS },
+    { key: "business", name: t("business"), href: "/business", show: enabled.BUSINESS },
   ];
 
   if (!user) {
@@ -48,29 +47,9 @@ export function CitizenDropdown() {
           </span>
         </Button>
       }
-      items={items}
+      items={items.filter((v) => v.show)}
     >
       {(item) => <Item>{item.name}</Item>}
     </DropdownMenuButton>
-  );
-
-  return (
-    <Dropdown>
-      <Dropdown.LinkItem href="/citizen">{t("citizens")}</Dropdown.LinkItem>
-
-      {items.map((item) => {
-        const upperCase = item.href.replace(/-/g, "_").replace("/", "").toUpperCase() as Feature;
-
-        if (!enabled[upperCase]) {
-          return null;
-        }
-
-        return (
-          <Dropdown.LinkItem key={item.href} href={item.href}>
-            {item.name}
-          </Dropdown.LinkItem>
-        );
-      })}
-    </Dropdown>
   );
 }
