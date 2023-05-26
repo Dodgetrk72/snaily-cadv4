@@ -25,8 +25,8 @@ export async function handleRequest<T = any>(
   },
 ): Promise<AxiosResponse<T | undefined>> {
   const apiUrl = getAPIUrl();
-  // todo:
-  const isDispatchUrl = ["/dispatch", "/dispatch/map"].includes(String());
+  const windowLocation = typeof window !== "undefined" && window.location.href;
+  const isDispatchUrl = /\/dispatch|\/dispatch\/map/.test(String(windowLocation));
   const cookieHeader = options.headers?.cookie;
 
   try {

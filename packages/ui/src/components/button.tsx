@@ -37,6 +37,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className = "",
       disabled,
       isDisabled,
+      onClick,
       onPress,
       onPressChange,
       onPressStart,
@@ -71,6 +72,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         disabled={disabled || isDisabled}
         {...mergeProps(rest, buttonProps)}
+        onClick={onClick}
         ref={ref}
       >
         {rest.children}
